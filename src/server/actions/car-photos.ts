@@ -8,6 +8,7 @@ import { getDb } from "@/lib/db";
 import { carPhotos } from "@/db/schema";
 import { getPhotosBucket, getPhotosPublicUrl } from "@/lib/r2";
 
+const MAX_FOTOS_POR_AUTO = 10;
 const TIPOS_PERMITIDOS = new Set(["image/jpeg", "image/png", "image/webp"]);
 const MAX_BYTES = 8 * 1024 * 1024; // 8 MB
 
@@ -54,6 +55,10 @@ export async function uploadFotos(
     .select({ total: count() })
     .from(carPhotos)
     .where(eq(carPhotos.carId, carId));
+
+  if (actuales + archivos.length > MAX_FOTOS_POR_AUTO) {
+    return `Máximo ${MAX_FOTOS_POR_AUTO} fotos por auto (ya hay ${actuales}).`;
+  }
 
   const bucket = await getPhotosBucket();
   const publicUrl = await getPhotosPublicUrl();

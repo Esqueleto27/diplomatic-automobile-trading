@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { siteConfig } from "@/lib/site";
+import { siteConfig, heroImageUrl } from "@/lib/site";
 
 export function Hero() {
   return (
     <section className="relative isolate min-h-[clamp(30rem,72vh,46rem)] overflow-hidden">
       <Image
-        src="/img/hero.webp"
+        src={heroImageUrl}
         alt=""
         fill
         priority

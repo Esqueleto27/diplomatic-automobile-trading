@@ -47,9 +47,10 @@ export const cars = sqliteTable("Car", {
     .default(sql`CURRENT_TIMESTAMP`),
 });
 
-// Sin límite de fotos por auto (la cantidad no se valida en el schema).
-// `key` guarda el object key en R2 para poder borrarla ahí cuando se borra
-// la foto o el auto.
+// Hasta 10 fotos por auto (regla de negocio validada en la capa de
+// aplicación — MAX_FOTOS_POR_AUTO en src/server/actions/car-photos.ts —
+// no en el schema). `key` guarda el object key en R2 para poder borrarla
+// ahí cuando se borra la foto o el auto.
 export const carPhotos = sqliteTable("CarPhoto", {
   id: text("id").primaryKey(),
   carId: text("carId")

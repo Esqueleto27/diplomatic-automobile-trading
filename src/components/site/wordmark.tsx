@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { logoUrl } from "@/lib/site";
 
 export function Wordmark({
   className,
@@ -11,7 +12,7 @@ export function Wordmark({
   return (
     <span className={cn("inline-flex items-center leading-none", className)}>
       <Image
-        src="/img/logo/logo-300x74.png"
+        src={logoUrl}
         alt="Diplomatic Automobile Trading"
         width={300}
         height={74}

@@ -37,7 +37,8 @@ Ver stack global del vault: `Matheo Flores/Tecnologias/Stack Tecnológico.md`. S
 - **`getDb()` no es un singleton de módulo.** El binding D1 (`env.DB`) sólo existe dentro del contexto de request de Workers, no como variable de entorno estática — por eso `src/lib/db.ts` exporta `getDb()` (async, resuelve el binding vía `getCloudflareContext()`) en vez de un `export const db = ...` de nivel de módulo. **Todo código que toque la base de datos debe hacer `const db = await getDb()` primero.** A diferencia del viejo `getPrisma()`, no hace falta cachear la instancia (envolver `env.DB` con `drizzle()` es liviano, no arranca un motor aparte).
 - **JWT + cookies httpOnly a mano** (`jose` + `bcryptjs`), no Auth.js/next-auth — sin adapter de sesión, un solo admin sembrado por `scripts/seed-admin.ts` desde `ADMIN_EMAIL`/`ADMIN_PASSWORD`. Sin registro público, sin OAuth. Ver `src/lib/auth.ts` (primitivas edge-safe) + `src/lib/session.ts` (wrapper con `cookies()` de Next).
 - Zod para validación
-- **Cloudflare R2 para fotos de autos — implementado.** Bucket `PHOTOS_BUCKET` (binding en `wrangler.jsonc`), subida vía `src/server/actions/car-photos.ts`. Máximo 5 fotos por auto (`CarPhoto`, con `orden`/`portada`), tipos permitidos `image/jpeg|png|webp`, 8 MB máx por archivo. **Siempre `await file.arrayBuffer()`, nunca `file.stream()`** — R2 rechaza streams con `Provided readable stream must have a known length`.
+- **Cloudflare R2 para fotos de autos — implementado.** Bucket `PHOTOS_BUCKET` (binding en `wrangler.jsonc`), subida vía `src/server/actions/car-photos.ts`. Máximo 10 fotos por auto (`CarPhoto`, con `orden`/`portada`), tipos permitidos `image/jpeg|png|webp`, 8 MB máx por archivo. **Siempre `await file.arrayBuffer()`, nunca `file.stream()`** — R2 rechaza streams con `Provided readable stream must have a known length`.
+- **Assets de diseño del sitio (logos, hero, fondos de servicios) también en R2**, prefijo `sitio/` del mismo bucket `PHOTOS_BUCKET` — no viven en `public/img/` (esa carpeta no existe). Ver sección "Migración de imágenes estáticas a R2" al final de este archivo.
 - npm como package manager
 - **Cloudflare Workers en producción** (no VPS/Docker) — ver sección dedicada abajo.
 
@@ -51,7 +52,7 @@ Todos los campos opcionales salvo `nombre`:
 - `nombre` (requerido), `marca`, `año`, `precio` (null = "Precio bajo consulta"), `kilometraje`, `transmisión`, `combustible`, `color`, `descripción`
 - `tipo`: `nuevo` | `usado` | `diplomatico`
 - `destacado` (boolean), `activo` (boolean, ocultar sin borrar)
-- hasta 5 fotos por auto (R2), con `orden` y `portada`
+- hasta 10 fotos por auto (R2), con `orden` y `portada`
 
 Botón de contacto por auto = link directo a WhatsApp con mensaje prellenado (sin formulario, sin leads en BD).
 "Servicios Adicionales" = páginas estáticas informativas, sin modelo de datos.
@@ -128,7 +129,7 @@ Funcionando de punta a punta (verificado en navegador con `next dev` y con `wran
 - Estructura de carpetas: `src/app/(site)/*` (público, con `Header`/`Footer` propios), `src/app/admin/(auth)/login` y `src/app/admin/(dashboard)/*` (protegido, con sidebar).
 - JWT + cookies httpOnly: login/logout (`src/server/actions/auth.ts`), `src/middleware.ts` protege todo `/admin/*` excepto `/admin/login` (matcher `["/admin/:path*"]`). Cada server action de `src/server/actions/*` **también** valida sesión por su cuenta con `requireSession()` (`src/lib/session.ts`) — defensa en profundidad real, no redundancia: los Server Actions no pasan por el matcher del middleware si se invocan fuera de una navegación de página.
 - CRUD de autos completo: `src/app/admin/(dashboard)/autos/*` (tabla, alta, edición), `src/server/actions/cars.ts`, validación en `src/lib/validations/car.ts`. Borrado con confirmación (`AlertDialog`).
-- Subida de fotos a R2: `src/components/admin/car-photos.tsx` (grid de fotos + form de subida) en la página de edición de auto, `src/server/actions/car-photos.ts` (`subirFotos`, `eliminarFoto`, `marcarPortada`). Máximo 5 fotos, tipos `jpeg/png/webp`, 8 MB por archivo.
+- Subida de fotos a R2: `src/components/admin/car-photos.tsx` (grid de fotos + form de subida) en la página de edición de auto, `src/server/actions/car-photos.ts` (`subirFotos`, `eliminarFoto`, `marcarPortada`). Máximo 10 fotos, tipos `jpeg/png/webp`, 8 MB por archivo.
 
 ## Cloudflare Workers / despliegue
 
@@ -214,6 +215,15 @@ Cambio de infraestructura completo: de VPS + Docker + Postgres a Cloudflare Work
 - **D1 y R2 recreados con nombres completos**: `diplomatic-db` → `diplomatic-automobile-trading-db`, y se sacó el bucket de caché incremental de OpenNext (`diplomatic-automobile-trading-opennext-cache`) — no se justifica para el volumen de este sitio. **Nota:** en el camino, `wrangler d1 list`/`r2 bucket list` reportaron temporalmente los recursos originales como inexistentes (aun cuando `execute`/`create` seguían funcionando) — nunca se confirmó la causa (glitch de API vs. error humano revisando el dashboard). Se optó por recrear todo con nombres nuevos en vez de seguir investigando, ya que sólo había datos de prueba (admin sembrado + 9 autos demo) en riesgo.
 - **Confirmado que el fix funciona**: build de `wrangler dev` real (no `next dev`) contra la D1 nueva vía Drizzle — sin el error de WASM, con lecturas y escrituras (crear auto, login, subir foto) probadas de punta a punta.
 - **Prisma completamente eliminado**: `prisma/` (carpeta), `prisma.config.ts`, `src/generated/prisma`, dependencias `@prisma/*`/`prisma` en `package.json`. `next-auth` también desinstalado.
+
+### Límite de fotos a 10 + migración de imágenes estáticas a R2 (2026-08-03)
+
+- **Bugfix: límite de fotos por auto.** Un cambio local sin commitear había quitado el límite por completo en vez de subirlo de 5 a 10 como se pidió. Restaurado como `MAX_FOTOS_POR_AUTO = 10` en `src/server/actions/car-photos.ts` (validación server-side, la que realmente importa) y `src/components/admin/car-photos.tsx` (oculta el form de subida cuando ya hay 10, muestra contador "Fotos (n/10)").
+- **Migración de imágenes estáticas a R2.** Los 25 archivos que vivían en `public/img/` (logo, logo blanco, hero, 15 SVG de marcas, 6 fondos de servicios) se subieron al bucket `PHOTOS_BUCKET` real bajo el prefijo `sitio/` (`wrangler r2 object put ... --remote`, mismo bucket que usan las fotos de autos bajo `autos/` — ver convención de prefijos en `src/lib/r2.ts`). Se borró `public/img/` por completo.
+  - `src/lib/site.ts` ganó `ASSETS_BASE_URL` + los exports `heroImageUrl`/`logoUrl`/`logoBlancoUrl`, y los campos `logo`/`imagen` de `marcas`/`servicios` pasaron de rutas locales (`/img/marcas/bmw.svg`) a URLs de R2.
+  - **`ASSETS_BASE_URL` es un string literal hardcodeado, a propósito no lee `process.env.R2_PUBLIC_URL`.** `site.ts` lo importan tanto Server como Client Components (ej. `Wordmark` dentro de `Header`, que es `"use client"`), y `process.env.X` sin prefijo `NEXT_PUBLIC_` sólo existe en el bundle del servidor — en el cliente da `undefined`, produciendo `"undefined/sitio/..."` y un `TypeError: Failed to construct 'URL': Invalid URL` en runtime. Se detectó este error exacto al verificar en navegador y se corrigió hardcodeando el literal en vez de agregar el prefijo `NEXT_PUBLIC_` (la URL pública ya es estable; si algún día cambia, tocar código de todas formas).
+  - `next.config.ts` ya tenía `images.remotePatterns` para `*.r2.dev` (de la migración de fotos de autos), así que `next/image` con `heroImageUrl`/`logoUrl` funcionó sin más cambios.
+  - Reemplazar un logo/imagen a futuro: subir el archivo a R2 con el mismo key (`sitio/...`) — no hace falta tocar código ni redeployar, igual que con las fotos de autos.
 
 ## Convenciones de código
 - Sin comentarios salvo que expliquen un porqué no obvio

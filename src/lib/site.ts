@@ -10,11 +10,30 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+// Base para las imágenes "de diseño" del sitio (logos, hero, fondos de
+// servicios) — viven en R2, bajo el prefijo sitio/, NO en public/img/ (ese
+// prefijo es distinto del que usan las fotos de autos, autos/, que sube el
+// admin desde el panel).
+//
+// A propósito NO se lee de process.env.R2_PUBLIC_URL acá: este archivo lo
+// importan tanto Server como Client Components (ej. Wordmark dentro de
+// Header, que es "use client"), y process.env sólo se reemplaza en el
+// bundle del navegador para vars con prefijo NEXT_PUBLIC_ — cualquier otra
+// cosa da `undefined` en el cliente ("undefined/sitio/...", URL inválida).
+// La URL en sí es pública y estable (cambiarla ya implica editar código de
+// todos modos si algún día se pasa a un dominio propio), así que va fija acá.
+const ASSETS_BASE_URL =
+  "https://pub-2a4b20ea6c834e9d8fda32f7a54be906.r2.dev/sitio";
+
 export const siteConfig = {
   nombre: "Diplomatic",
   apellido: "Automobile Trading",
   tagline: "Exclusive Vehicles for Global Citizens.",
 };
+
+export const heroImageUrl = `${ASSETS_BASE_URL}/hero.webp`;
+export const logoUrl = `${ASSETS_BASE_URL}/logo/logo-300x74.png`;
+export const logoBlancoUrl = `${ASSETS_BASE_URL}/logo/logoblanco.png`;
 
 // Texto propio (no copiado de la competencia). A propósito NO se estructura
 // como un bloque aislado de "bienvenida + historia breve" — ese patrón
@@ -73,15 +92,15 @@ export const contacto = {
 
 // Marcas que comercializa el dealer.
 //
-// Los SVG viven en `public/img/marcas/` (blancos, viewBox 24x24); BrandStrip
+// Los SVG viven en R2 (sitio/marcas/, blancos, viewBox 24x24); BrandStrip
 // los tiñe con opacidad. Son marcas registradas de sus dueños y se usan de
 // forma nominativa para identificar lo que el concesionario comercializa.
 //
 // Sin logo todavía: Mercedes-Benz y Land/Range Rover no están en las librerías
 // abiertas de iconos porque sus titulares pidieron retirarlos. Para sumarlas
-// hay que pedirle el SVG oficial al cliente, guardarlo en esa carpeta con
-// `fill="#ffffff"` y referenciarlo acá. Mientras no haya archivo, la marca
-// cae al wordmark tipográfico.
+// hay que pedirle el SVG oficial al cliente, subirlo a sitio/marcas/ en R2
+// con `fill="#ffffff"` y referenciarlo acá. Mientras no haya archivo, la
+// marca cae al wordmark tipográfico.
 // `escala` equilibra ópticamente la fila: todos los SVG vienen en una caja de
 // 24x24, pero los logos anchos y bajos (los aros de Audi, las alas de Bentley)
 // llenan poca altura y se ven diminutos junto a un escudo como el de Porsche.
@@ -89,28 +108,28 @@ export const contacto = {
 // PENDIENTE: confirmar con el cliente la lista real de marcas que comercializa.
 // Esta selección es una propuesta coherente con el posicionamiento de lujo.
 export const marcas: { nombre: string; logo?: string; escala?: number }[] = [
-  { nombre: "BMW", logo: "/img/marcas/bmw.svg" },
-  { nombre: "Audi", logo: "/img/marcas/audi.svg", escala: 1.4 },
-  { nombre: "Porsche", logo: "/img/marcas/porsche.svg" },
-  { nombre: "Bentley", logo: "/img/marcas/bentley.svg", escala: 1.55 },
-  { nombre: "Rolls-Royce", logo: "/img/marcas/rollsroyce.svg", escala: 0.92 },
-  { nombre: "Ferrari", logo: "/img/marcas/ferrari.svg", escala: 1.05 },
-  { nombre: "Lamborghini", logo: "/img/marcas/lamborghini.svg", escala: 1.05 },
-  { nombre: "Aston Martin", logo: "/img/marcas/astonmartin.svg", escala: 1.7 },
-  { nombre: "Maserati", logo: "/img/marcas/maserati.svg", escala: 1.05 },
-  { nombre: "McLaren", logo: "/img/marcas/mclaren.svg", escala: 1.75 },
-  { nombre: "Volvo", logo: "/img/marcas/volvo.svg", escala: 1.05 },
-  { nombre: "Cadillac", logo: "/img/marcas/cadillac.svg", escala: 1.3 },
-  { nombre: "Toyota", logo: "/img/marcas/toyota.svg", escala: 1.35 },
-  { nombre: "Mazda", logo: "/img/marcas/mazda.svg", escala: 1.15 },
-  { nombre: "Kia", logo: "/img/marcas/kia.svg", escala: 1.35 },
+  { nombre: "BMW", logo: `${ASSETS_BASE_URL}/marcas/bmw.svg` },
+  { nombre: "Audi", logo: `${ASSETS_BASE_URL}/marcas/audi.svg`, escala: 1.4 },
+  { nombre: "Porsche", logo: `${ASSETS_BASE_URL}/marcas/porsche.svg` },
+  { nombre: "Bentley", logo: `${ASSETS_BASE_URL}/marcas/bentley.svg`, escala: 1.55 },
+  { nombre: "Rolls-Royce", logo: `${ASSETS_BASE_URL}/marcas/rollsroyce.svg`, escala: 0.92 },
+  { nombre: "Ferrari", logo: `${ASSETS_BASE_URL}/marcas/ferrari.svg`, escala: 1.05 },
+  { nombre: "Lamborghini", logo: `${ASSETS_BASE_URL}/marcas/lamborghini.svg`, escala: 1.05 },
+  { nombre: "Aston Martin", logo: `${ASSETS_BASE_URL}/marcas/astonmartin.svg`, escala: 1.7 },
+  { nombre: "Maserati", logo: `${ASSETS_BASE_URL}/marcas/maserati.svg`, escala: 1.05 },
+  { nombre: "McLaren", logo: `${ASSETS_BASE_URL}/marcas/mclaren.svg`, escala: 1.75 },
+  { nombre: "Volvo", logo: `${ASSETS_BASE_URL}/marcas/volvo.svg`, escala: 1.05 },
+  { nombre: "Cadillac", logo: `${ASSETS_BASE_URL}/marcas/cadillac.svg`, escala: 1.3 },
+  { nombre: "Toyota", logo: `${ASSETS_BASE_URL}/marcas/toyota.svg`, escala: 1.35 },
+  { nombre: "Mazda", logo: `${ASSETS_BASE_URL}/marcas/mazda.svg`, escala: 1.15 },
+  { nombre: "Kia", logo: `${ASSETS_BASE_URL}/marcas/kia.svg`, escala: 1.35 },
   // Mercedes-Benz no está en simple-icons (su titular la hizo retirar de esa
   // librería). `mercedes.svg` no viene de ahí: es una estrella de tres
   // puntas redibujada a mano como forma geométrica simple — uso nominativo
   // para identificar que se comercializa la marca, igual que el resto de
   // estos logos. Si el cliente consigue el asset oficial del fabricante,
-  // reemplazar el archivo (mismo nombre) para que quede pixel-perfect.
-  { nombre: "Mercedes-Benz", logo: "/img/marcas/mercedes.svg", escala: 1.05 },
+  // reemplazar el archivo en R2 (mismo nombre) para que quede pixel-perfect.
+  { nombre: "Mercedes-Benz", logo: `${ASSETS_BASE_URL}/marcas/mercedes.svg`, escala: 1.05 },
 ];
 
 export type Servicio = {
@@ -118,11 +137,11 @@ export type Servicio = {
   titulo: string;
   descripcion: string;
   icono: LucideIcon;
-  // Foto de fondo de la tarjeta (webp, en public/img/servicios/). Generadas
+  // Foto de fondo de la tarjeta (webp, en R2 sitio/servicios/). Generadas
   // con IA (Higgsfield/z_image) como placeholder distintivo por servicio —
   // genéricas a propósito (sin autos de marca reconocible, sin texto legible,
   // sin logos) para evitar cualquier problema de marca registrada. Cuando el
-  // cliente entregue fotos propias, reemplazar el archivo con el mismo
+  // cliente entregue fotos propias, reemplazar el archivo en R2 con el mismo
   // nombre y no hace falta tocar este archivo.
   imagen?: string;
 };
@@ -134,7 +153,7 @@ export const servicios: Servicio[] = [
     descripcion:
       "Contamos con el servicio de un gestor que le ayuda con los procesos requeridos por nuestras autoridades para regularizar la matriculación de su vehículo, usted despreocúpese que nosotros somos su soporte.",
     icono: BadgeCheck,
-    imagen: "/img/servicios/matriculacion-vehicular.webp",
+    imagen: `${ASSETS_BASE_URL}/servicios/matriculacion-vehicular.webp`,
   },
   {
     slug: "importacion-mercaderias",
@@ -142,7 +161,7 @@ export const servicios: Servicio[] = [
     descripcion:
       "Si usted desea hacer uso de su cupo para la importación de bienes con cargo a su cupo diplomático anual, nosotros le ayudamos con la importación de su mercadería vía aérea o marítima, así como de su menaje de casa.",
     icono: Container,
-    imagen: "/img/servicios/importacion-mercaderias.webp",
+    imagen: `${ASSETS_BASE_URL}/servicios/importacion-mercaderias.webp`,
   },
   {
     slug: "importacion-vehiculos",
@@ -150,7 +169,7 @@ export const servicios: Servicio[] = [
     descripcion:
       "¿Desea importar o exportar desde o hasta otro país su vehículo? Estamos para ayudarle en todo el proceso hasta concluir con la entrega del mismo en su destino final.",
     icono: Truck,
-    imagen: "/img/servicios/importacion-vehiculos.webp",
+    imagen: `${ASSETS_BASE_URL}/servicios/importacion-vehiculos.webp`,
   },
   {
     slug: "seguro-vehiculos",
@@ -158,7 +177,7 @@ export const servicios: Servicio[] = [
     descripcion:
       "Tenemos para usted las mejores tasas del mercado, con amplios planes de financiamiento y sin intereses hasta 12 meses plazo, para lo cual trabajamos con Aseguradoras de prestigio Nacional e Internacional que le garantizan una atención oportuna y de calidad.",
     icono: ShieldCheck,
-    imagen: "/img/servicios/seguro-vehiculos.webp",
+    imagen: `${ASSETS_BASE_URL}/servicios/seguro-vehiculos.webp`,
   },
   {
     slug: "seguro-viajes",
@@ -166,7 +185,7 @@ export const servicios: Servicio[] = [
     descripcion:
       "Por negocios o vacaciones es importante estar siempre bien protegidos, ponemos a su disposición seguro de viajes que le permitan sentirse seguro y relajado al salir del país.",
     icono: Plane,
-    imagen: "/img/servicios/seguro-viajes.webp",
+    imagen: `${ASSETS_BASE_URL}/servicios/seguro-viajes.webp`,
   },
   {
     slug: "seguro-salud",
@@ -174,6 +193,6 @@ export const servicios: Servicio[] = [
     descripcion:
       "Si usted o su familia requieren contar con un seguro médico, tenemos una gama completa de prestadores de servicios médicos que pueden ofrecerle las mejores alternativas.",
     icono: HeartPulse,
-    imagen: "/img/servicios/seguro-salud.webp",
+    imagen: `${ASSETS_BASE_URL}/servicios/seguro-salud.webp`,
   },
 ];
