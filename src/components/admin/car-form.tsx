@@ -79,7 +79,7 @@ export function CarForm({
     <form action={formAction} className="max-w-2xl space-y-6">
       {conFotos && (
         <div className="space-y-2">
-          <Label htmlFor="fotos">Fotos (máx. 5)</Label>
+          <Label htmlFor="fotos">Fotos</Label>
           <input
             id="fotos"
             name="fotos"

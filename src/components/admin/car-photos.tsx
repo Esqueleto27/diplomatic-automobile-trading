@@ -29,7 +29,7 @@ export function CarPhotos({ carId, fotos }: { carId: string; fotos: Foto[] }) {
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold tracking-tight">
-        Fotos ({fotos.length}/5)
+        Fotos ({fotos.length})
       </h2>
 
       {fotos.length > 0 && (
@@ -74,24 +74,22 @@ export function CarPhotos({ carId, fotos }: { carId: string; fotos: Foto[] }) {
         </ul>
       )}
 
-      {fotos.length < 5 && (
-        <form ref={formRef} action={formAction} className="space-y-2">
-          <input
-            type="file"
-            name="fotos"
-            accept="image/jpeg,image/png,image/webp"
-            multiple
-            required
-            className="block w-full text-sm text-muted-foreground file:mr-3 file:rounded-md file:border-0 file:bg-secondary file:px-3 file:py-1.5 file:text-sm file:font-medium"
-          />
-          {state?.error && (
-            <p className="text-sm text-destructive">{state.error}</p>
-          )}
-          <Button type="submit" variant="outline" disabled={isPending}>
-            {isPending ? "Subiendo..." : "Subir fotos"}
-          </Button>
-        </form>
-      )}
+      <form ref={formRef} action={formAction} className="space-y-2">
+        <input
+          type="file"
+          name="fotos"
+          accept="image/jpeg,image/png,image/webp"
+          multiple
+          required
+          className="block w-full text-sm text-muted-foreground file:mr-3 file:rounded-md file:border-0 file:bg-secondary file:px-3 file:py-1.5 file:text-sm file:font-medium"
+        />
+        {state?.error && (
+          <p className="text-sm text-destructive">{state.error}</p>
+        )}
+        <Button type="submit" variant="outline" disabled={isPending}>
+          {isPending ? "Subiendo..." : "Subir fotos"}
+        </Button>
+      </form>
     </div>
   );
 }
