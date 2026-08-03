@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum TipoAuto {
+  NUEVO
+  USADO
+  DIPLOMATICO
+}
+
+// Admin único de la plataforma. Sin roles: cualquier usuario en esta tabla
+// puede administrar todo el inventario. Se crea vía seed, no hay registro público.
+model User {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  hashedPassword String
+  name           String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+// Todos los campos son opcionales salvo `nombre`: el admin puede publicar un
+// auto con datos incompletos y completarlos después.
+model Car {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  nombre      String
+  marca       String?
+  anio        Int?
+  precio      Int?
+  kilometraje Int?
+  transmision String?
+  combustible String?
+  color       String?
+  descripcion String?
+  tipo        TipoAuto?
+  destacado   Boolean   @default(false)
+  activo      Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  fotos CarPhoto[]
+
+  @@index([tipo])
+  @@index([destacado])
+}
+
+// Hasta 5 fotos por auto (regla de negocio validada en la capa de aplicación,
+// no en el schema). `key` guarda el object key en R2 para poder borrarla ahí
+// cuando se borra la foto o el auto.
+model CarPhoto {
+  id      String  @id @default(cuid())
+  carId   String
+  car     Car     @relation(fields: [carId], references: [id], onDelete: Cascade)
+  url     String
+  key     String
+  orden   Int     @default(0)
+  portada Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@index([carId])
+}
+
+// Mensajes del formulario de /contacto. A diferencia del botón "Agendar Test
+// Drive" (que va directo a WhatsApp sin tocar la base de datos), este
+// formulario sí se guarda para que el admin lo revise desde el panel.
+model ContactMessage {
+  id        String   @id @default(cuid())
+  nombre    String
+  apellido  String
+  email     String
+  asunto    String
+  mensaje   String
+  leido     Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([leido])
+}

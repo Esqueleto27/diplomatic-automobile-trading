@@ -1,0 +1,40 @@
+name: diplomatic-automobile-trading
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+      AUTH_TRUST_HOST: "true"
+    depends_on:
+      db:
+        condition: service_healthy
+    # Solo loopback: el VPS aloja varios proyectos detrás de un Nginx del
+    # host, así que este contenedor no toma los puertos 80/443. Nginx hace
+    # proxy_pass a 127.0.0.1:${APP_PORT}. Definir APP_PORT en .env (un
+    # puerto distinto por proyecto en el VPS).
+    ports:
+      - "127.0.0.1:${APP_PORT}:3000"
+
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - diplomatic_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  diplomatic_db_data:
