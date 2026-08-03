@@ -21,6 +21,28 @@ const TIPO_OPTIONS = [
   { value: "DIPLOMATICO", label: "Diplomático" },
 ];
 
+const TRANSMISION_OPTIONS = [
+  { value: "Automática", label: "Automática" },
+  { value: "Manual", label: "Manual" },
+];
+
+const COMBUSTIBLE_OPTIONS = [
+  { value: "Gasolina", label: "Gasolina" },
+  { value: "Diésel", label: "Diésel" },
+  { value: "Híbrido", label: "Híbrido" },
+  { value: "Eléctrico", label: "Eléctrico" },
+];
+
+const ANIO_ACTUAL = new Date().getFullYear();
+const MIN_ANIO = 1995;
+const ANIOS_OPTIONS = Array.from(
+  { length: ANIO_ACTUAL - MIN_ANIO + 1 },
+  (_, i) => {
+    const value = String(ANIO_ACTUAL - i);
+    return { value, label: value };
+  },
+);
+
 type CarFormValues = {
   nombre?: string;
   marca?: string | null;
@@ -40,6 +62,7 @@ export function CarForm({
   action,
   defaultValues,
   submitLabel,
+  conFotos = false,
 }: {
   action: (
     state: CarActionState,
@@ -47,12 +70,30 @@ export function CarForm({
   ) => Promise<CarActionState>;
   defaultValues?: CarFormValues;
   submitLabel: string;
+  conFotos?: boolean;
 }) {
   const [state, formAction, isPending] = useActionState(action, undefined);
   const errors = state?.errors ?? {};
 
   return (
     <form action={formAction} className="max-w-2xl space-y-6">
+      {conFotos && (
+        <div className="space-y-2">
+          <Label htmlFor="fotos">Fotos (máx. 5)</Label>
+          <input
+            id="fotos"
+            name="fotos"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            multiple
+            className="block w-full text-sm text-muted-foreground file:mr-3 file:rounded-md file:border-0 file:bg-secondary file:px-3 file:py-1.5 file:text-sm file:font-medium"
+          />
+          <p className="text-xs text-muted-foreground">
+            JPG, PNG o WebP, hasta 8 MB cada una. Se pueden subir también
+            después desde el panel.
+          </p>
+        </div>
+      )}
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-2 sm:col-span-2">
           <Label htmlFor="nombre">Nombre / modelo *</Label>
@@ -78,12 +119,26 @@ export function CarForm({
 
         <div className="space-y-2">
           <Label htmlFor="anio">Año</Label>
-          <Input
-            id="anio"
+          <Select
             name="anio"
-            type="number"
-            defaultValue={defaultValues?.anio ?? undefined}
-          />
+            items={ANIOS_OPTIONS}
+            defaultValue={
+              defaultValues?.anio != null
+                ? String(defaultValues.anio)
+                : undefined
+            }
+          >
+            <SelectTrigger id="anio" className="w-full">
+              <SelectValue placeholder="Sin definir" />
+            </SelectTrigger>
+            <SelectContent>
+              {ANIOS_OPTIONS.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.value}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="space-y-2">
@@ -113,20 +168,42 @@ export function CarForm({
 
         <div className="space-y-2">
           <Label htmlFor="transmision">Transmisión</Label>
-          <Input
-            id="transmision"
+          <Select
             name="transmision"
+            items={TRANSMISION_OPTIONS}
             defaultValue={defaultValues?.transmision ?? undefined}
-          />
+          >
+            <SelectTrigger id="transmision" className="w-full">
+              <SelectValue placeholder="Sin definir" />
+            </SelectTrigger>
+            <SelectContent>
+              {TRANSMISION_OPTIONS.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="combustible">Combustible</Label>
-          <Input
-            id="combustible"
+          <Select
             name="combustible"
+            items={COMBUSTIBLE_OPTIONS}
             defaultValue={defaultValues?.combustible ?? undefined}
-          />
+          >
+            <SelectTrigger id="combustible" className="w-full">
+              <SelectValue placeholder="Sin definir" />
+            </SelectTrigger>
+            <SelectContent>
+              {COMBUSTIBLE_OPTIONS.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="space-y-2">

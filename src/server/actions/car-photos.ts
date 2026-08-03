@@ -25,19 +25,29 @@ function extensionDe(mimeType: string): string {
 
 export type SubirFotosState = { error?: string } | undefined;
 
-export async function subirFotos(
-  carId: string,
-  _prevState: SubirFotosState,
-  formData: FormData,
-): Promise<SubirFotosState> {
-  await requireSession();
-
-  const archivos = formData
+function extraerArchivos(formData: FormData): File[] {
+  return formData
     .getAll("fotos")
     .filter((valor): valor is File => valor instanceof File && valor.size > 0);
+}
+
+export async function uploadFotos(
+  carId: string,
+  archivos: File[],
+): Promise<string | null> {
+  await requireSession();
 
   if (archivos.length === 0) {
-    return { error: "Seleccioná al menos una foto." };
+    return null;
+  }
+
+  for (const archivo of archivos) {
+    if (!TIPOS_PERMITIDOS.has(archivo.type)) {
+      return `Formato no soportado: ${archivo.type || archivo.name}`;
+    }
+    if (archivo.size > MAX_BYTES) {
+      return `"${archivo.name}" pesa más de 8 MB.`;
+    }
   }
 
   const db = await getDb();
@@ -47,18 +57,7 @@ export async function subirFotos(
     .where(eq(carPhotos.carId, carId));
 
   if (actuales + archivos.length > MAX_FOTOS_POR_AUTO) {
-    return {
-      error: `Máximo ${MAX_FOTOS_POR_AUTO} fotos por auto (ya hay ${actuales}).`,
-    };
-  }
-
-  for (const archivo of archivos) {
-    if (!TIPOS_PERMITIDOS.has(archivo.type)) {
-      return { error: `Formato no soportado: ${archivo.type || archivo.name}` };
-    }
-    if (archivo.size > MAX_BYTES) {
-      return { error: `"${archivo.name}" pesa más de 8 MB.` };
-    }
+    return `Máximo ${MAX_FOTOS_POR_AUTO} fotos por auto (ya hay ${actuales}).`;
   }
 
   const bucket = await getPhotosBucket();
@@ -82,6 +81,24 @@ export async function subirFotos(
       portada: actuales === 0 && i === 0,
     });
   }
+
+  return null;
+}
+
+export async function subirFotos(
+  carId: string,
+  _prevState: SubirFotosState,
+  formData: FormData,
+): Promise<SubirFotosState> {
+  await requireSession();
+
+  const archivos = extraerArchivos(formData);
+  if (archivos.length === 0) {
+    return { error: "Seleccioná al menos una foto." };
+  }
+
+  const error = await uploadFotos(carId, archivos);
+  if (error) return { error };
 
   revalidatePath(`/admin/autos/${carId}`);
   return undefined;

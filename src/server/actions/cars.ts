@@ -9,6 +9,7 @@ import { getDb } from "@/lib/db";
 import { cars } from "@/db/schema";
 import { carSchema } from "@/lib/validations/car";
 import { slugify } from "@/lib/slug";
+import { uploadFotos } from "@/server/actions/car-photos";
 
 export type CarActionState =
   | {
@@ -48,10 +49,19 @@ export async function createCar(
   const slug = `${slugify(parsed.data.nombre)}-${Math.random().toString(36).slice(2, 8)}`;
 
   const db = await getDb();
-  await db.insert(cars).values({ id: randomUUID(), ...parsed.data, slug });
+  const id = randomUUID();
+  await db.insert(cars).values({ id, ...parsed.data, slug });
+
+  const fotos = formData
+    .getAll("fotos")
+    .filter((valor): valor is File => valor instanceof File && valor.size > 0);
+  const errorFotos = await uploadFotos(id, fotos);
+  if (errorFotos) {
+    return { message: `El auto se creó pero falló la subida de fotos: ${errorFotos}` };
+  }
 
   revalidatePath("/admin/autos");
-  redirect("/admin/autos");
+  redirect(`/admin/autos/${id}`);
 }
 
 export async function updateCar(
