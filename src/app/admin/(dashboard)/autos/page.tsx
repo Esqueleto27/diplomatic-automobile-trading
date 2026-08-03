@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
+import { desc } from "drizzle-orm";
+import { getDb } from "@/lib/db";
+import { cars } from "@/db/schema";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -19,9 +21,10 @@ const TIPO_LABELS: Record<string, string> = {
 };
 
 export default async function AdminAutosPage() {
-  const autos = await prisma.car.findMany({
-    orderBy: { createdAt: "desc" },
-    include: { _count: { select: { fotos: true } } },
+  const db = await getDb();
+  const autos = await db.query.cars.findMany({
+    orderBy: desc(cars.createdAt),
+    with: { fotos: { columns: { id: true } } },
   });
 
   return (
@@ -68,7 +71,7 @@ export default async function AdminAutosPage() {
                     ? `$${auto.precio.toLocaleString("es-EC")}`
                     : "Consultar"}
                 </TableCell>
-                <TableCell>{auto._count.fotos} / 5</TableCell>
+                <TableCell>{auto.fotos.length} / 5</TableCell>
                 <TableCell className="space-x-1">
                   {auto.destacado && (
                     <Badge variant="secondary">Destacado</Badge>

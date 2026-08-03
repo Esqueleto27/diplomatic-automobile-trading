@@ -1,8 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { randomUUID } from "node:crypto";
+import { eq } from "drizzle-orm";
+import { requireSession } from "@/lib/session";
+import { getDb } from "@/lib/db";
+import { contactMessages } from "@/db/schema";
 import { contactoSchema } from "@/lib/validations/contacto";
 
 export type ContactoActionState =
@@ -12,13 +15,6 @@ export type ContactoActionState =
       ok?: boolean;
     }
   | undefined;
-
-async function requireAdmin() {
-  const session = await auth();
-  if (!session?.user) {
-    throw new Error("No autorizado");
-  }
-}
 
 export async function enviarMensajeContacto(
   _prevState: ContactoActionState,
@@ -42,20 +38,23 @@ export async function enviarMensajeContacto(
     return { errors: parsed.error.flatten().fieldErrors };
   }
 
-  await prisma.contactMessage.create({ data: parsed.data });
+  const db = await getDb();
+  await db.insert(contactMessages).values({ id: randomUUID(), ...parsed.data });
 
   revalidatePath("/admin/mensajes");
   return { ok: true };
 }
 
 export async function marcarMensajeLeido(id: string, leido: boolean) {
-  await requireAdmin();
-  await prisma.contactMessage.update({ where: { id }, data: { leido } });
+  await requireSession();
+  const db = await getDb();
+  await db.update(contactMessages).set({ leido }).where(eq(contactMessages.id, id));
   revalidatePath("/admin/mensajes");
 }
 
 export async function eliminarMensaje(id: string) {
-  await requireAdmin();
-  await prisma.contactMessage.delete({ where: { id } });
+  await requireSession();
+  const db = await getDb();
+  await db.delete(contactMessages).where(eq(contactMessages.id, id));
   revalidatePath("/admin/mensajes");
 }

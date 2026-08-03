@@ -1,37 +1,52 @@
-import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
+import { SignJWT, jwtVerify } from "jose";
 import bcrypt from "bcryptjs";
-import { prisma } from "@/lib/prisma";
-import { loginSchema } from "@/lib/validations/auth";
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
-  session: { strategy: "jwt" },
-  pages: {
-    signIn: "/admin/login",
-  },
-  providers: [
-    Credentials({
-      credentials: {
-        email: {},
-        password: {},
-      },
-      authorize: async (credentials) => {
-        const parsed = loginSchema.safeParse(credentials);
-        if (!parsed.success) return null;
+// Primitivas puras JWT/hash — sin Next.js, sin DB, 100% edge-safe (jose usa
+// Web Crypto, no APIs de Node). src/middleware.ts y src/lib/session.ts se
+// apoyan en este archivo.
 
-        const user = await prisma.user.findUnique({
-          where: { email: parsed.data.email },
-        });
-        if (!user) return null;
+const encoder = new TextEncoder();
 
-        const isValidPassword = await bcrypt.compare(
-          parsed.data.password,
-          user.hashedPassword,
-        );
-        if (!isValidPassword) return null;
+export const SESSION_COOKIE_NAME = "session";
 
-        return { id: user.id, email: user.email, name: user.name };
-      },
-    }),
-  ],
-});
+export type SessionPayload = {
+  userId: string;
+  email: string;
+};
+
+export async function hashPassword(password: string): Promise<string> {
+  return bcrypt.hash(password, 10);
+}
+
+export async function verifyPassword(
+  password: string,
+  hash: string,
+): Promise<boolean> {
+  return bcrypt.compare(password, hash);
+}
+
+export async function createToken(
+  payload: SessionPayload,
+  secret: string,
+): Promise<string> {
+  return new SignJWT(payload)
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime("7d")
+    .sign(encoder.encode(secret));
+}
+
+export async function verifyToken(
+  token: string,
+  secret: string,
+): Promise<SessionPayload | null> {
+  try {
+    const { payload } = await jwtVerify(token, encoder.encode(secret));
+    if (typeof payload.userId !== "string" || typeof payload.email !== "string") {
+      return null;
+    }
+    return { userId: payload.userId, email: payload.email };
+  } catch {
+    return null;
+  }
+}

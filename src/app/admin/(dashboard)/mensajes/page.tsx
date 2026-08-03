@@ -1,5 +1,8 @@
-import { prisma } from "@/lib/prisma";
+import { asc, desc } from "drizzle-orm";
+import { getDb } from "@/lib/db";
+import { contactMessages } from "@/db/schema";
 import { cn } from "@/lib/utils";
+import { sqliteTimestampToDate } from "@/lib/date";
 import {
   EliminarMensajeButton,
   MensajeLeidoToggle,
@@ -11,8 +14,9 @@ const formatoFecha = new Intl.DateTimeFormat("es-EC", {
 });
 
 export default async function AdminMensajesPage() {
-  const mensajes = await prisma.contactMessage.findMany({
-    orderBy: [{ leido: "asc" }, { createdAt: "desc" }],
+  const db = await getDb();
+  const mensajes = await db.query.contactMessages.findMany({
+    orderBy: [asc(contactMessages.leido), desc(contactMessages.createdAt)],
   });
 
   return (
@@ -50,7 +54,7 @@ export default async function AdminMensajesPage() {
                     {m.email}
                   </a>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    {formatoFecha.format(m.createdAt)}
+                    {formatoFecha.format(sqliteTimestampToDate(m.createdAt))}
                   </p>
                 </div>
                 <div className="flex items-center gap-3">

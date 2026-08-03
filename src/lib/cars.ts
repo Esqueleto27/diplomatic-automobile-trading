@@ -1,7 +1,10 @@
-import { prisma } from "@/lib/prisma";
-import type { TipoAuto } from "@/generated/prisma/enums";
+import { getDb } from "@/lib/db";
 
-const seleccionPublica = {
+// SQLite/D1 no tiene enums nativos: "tipo" es String en el schema, validado
+// como este union en la capa de aplicación (ver src/lib/validations/car.ts).
+export type TipoAuto = "NUEVO" | "USADO" | "DIPLOMATICO";
+
+const columnasPublicas = {
   id: true,
   slug: true,
   nombre: true,
@@ -13,12 +16,7 @@ const seleccionPublica = {
   combustible: true,
   color: true,
   tipo: true,
-  fotos: {
-    orderBy: [{ portada: "desc" as const }, { orden: "asc" as const }],
-    select: { url: true },
-    take: 1,
-  },
-};
+} as const;
 
 export type AutoPublico = {
   id: string;
@@ -31,7 +29,9 @@ export type AutoPublico = {
   transmision: string | null;
   combustible: string | null;
   color: string | null;
-  tipo: TipoAuto | null;
+  // string (no TipoAuto): el schema lo guarda como texto libre en D1/SQLite;
+  // TipoAuto sólo restringe los valores que la app misma escribe.
+  tipo: string | null;
   fotos: { url: string }[];
 };
 
@@ -40,11 +40,20 @@ export async function getAutosPorTipo(
   tipos: TipoAuto[],
   limite = 12,
 ): Promise<AutoPublico[]> {
-  return prisma.car.findMany({
-    where: { activo: true, tipo: { in: tipos } },
-    orderBy: [{ destacado: "desc" }, { createdAt: "desc" }],
-    take: limite,
-    select: seleccionPublica,
+  const db = await getDb();
+  return db.query.cars.findMany({
+    where: (car, { and, eq, inArray }) =>
+      and(eq(car.activo, true), inArray(car.tipo, tipos)),
+    orderBy: (car, { desc }) => [desc(car.destacado), desc(car.createdAt)],
+    limit: limite,
+    columns: columnasPublicas,
+    with: {
+      fotos: {
+        orderBy: (foto, { desc, asc }) => [desc(foto.portada), asc(foto.orden)],
+        limit: 1,
+        columns: { url: true },
+      },
+    },
   });
 }
 
@@ -55,24 +64,33 @@ export type AutoDetalle = Omit<AutoPublico, "fotos"> & {
 
 /** Ficha completa de un auto publicado. `null` si no existe o está oculto. */
 export async function getAutoPorSlug(slug: string): Promise<AutoDetalle | null> {
-  return prisma.car.findFirst({
-    where: { slug, activo: true },
-    select: {
-      ...seleccionPublica,
-      descripcion: true,
+  const db = await getDb();
+  const auto = await db.query.cars.findFirst({
+    where: (car, { and, eq }) => and(eq(car.slug, slug), eq(car.activo, true)),
+    columns: { ...columnasPublicas, descripcion: true },
+    with: {
       fotos: {
-        orderBy: [{ portada: "desc" as const }, { orden: "asc" as const }],
-        select: { id: true, url: true },
+        orderBy: (foto, { desc, asc }) => [desc(foto.portada), asc(foto.orden)],
+        columns: { id: true, url: true },
       },
     },
   });
+  return auto ?? null;
 }
 
 export async function getAutosVisibles(limite = 60): Promise<AutoPublico[]> {
-  return prisma.car.findMany({
-    where: { activo: true },
-    orderBy: [{ destacado: "desc" }, { createdAt: "desc" }],
-    take: limite,
-    select: seleccionPublica,
+  const db = await getDb();
+  return db.query.cars.findMany({
+    where: (car, { eq }) => eq(car.activo, true),
+    orderBy: (car, { desc }) => [desc(car.destacado), desc(car.createdAt)],
+    limit: limite,
+    columns: columnasPublicas,
+    with: {
+      fotos: {
+        orderBy: (foto, { desc, asc }) => [desc(foto.portada), asc(foto.orden)],
+        limit: 1,
+        columns: { url: true },
+      },
+    },
   });
 }

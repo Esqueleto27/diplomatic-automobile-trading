@@ -1,12 +1,16 @@
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
+import { eq, count } from "drizzle-orm";
+import { getDb } from "@/lib/db";
+import { contactMessages } from "@/db/schema";
 import { Badge } from "@/components/ui/badge";
 import { LogoutButton } from "@/components/admin/logout-button";
 
 export async function AdminSidebar() {
-  const mensajesSinLeer = await prisma.contactMessage.count({
-    where: { leido: false },
-  });
+  const db = await getDb();
+  const [{ total: mensajesSinLeer }] = await db
+    .select({ total: count() })
+    .from(contactMessages)
+    .where(eq(contactMessages.leido, false));
 
   const navLinks = [
     { href: "/admin/autos", label: "Autos" },

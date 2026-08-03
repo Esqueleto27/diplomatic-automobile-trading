@@ -1,0 +1,55 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"main": ".open-next/worker.js",
+	"name": "diplomatic-automobile-trading",
+	"compatibility_date": "2026-08-01",
+	"compatibility_flags": [
+		"nodejs_compat",
+		"global_fetch_strictly_public"
+	],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	"services": [
+		{
+			// Self-reference service binding, the service name must match the worker name
+			// see https://opennext.js.org/cloudflare/caching
+			"binding": "WORKER_SELF_REFERENCE",
+			"service": "diplomatic-automobile-trading"
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "PHOTOS_BUCKET",
+			"bucket_name": "diplomatic-automobile-trading-photos"
+		}
+	],
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "diplomatic-automobile-trading-db",
+			"database_id": "2dbd3843-5030-426b-9c46-607ced93553a"
+		}
+	],
+	"vars": {
+		// URL pública desde donde se sirven las fotos de PHOTOS_BUCKET. Hoy es
+		// el *.r2.dev gratuito de Cloudflare (activado con
+		// `wrangler r2 bucket dev-url enable`) — cuando el cliente tenga
+		// dominio propio en Cloudflare, conectar un dominio custom al bucket
+		// y reemplazar este valor, sin tocar código. No es secreto, por eso
+		// va acá y no con `wrangler secret put`.
+		"R2_PUBLIC_URL": "https://pub-2a4b20ea6c834e9d8fda32f7a54be906.r2.dev"
+		// AUTH_SECRET NO va acá: si un `var` con ese nombre existe en este
+		// archivo, `wrangler deploy` lo usa y BORRA el secret real puesto con
+		// `wrangler secret put` (es al revés de lo que parece — el var pisa al
+		// secret al deployar, no al revés). El secret real vive sólo en
+		// Cloudflare (`wrangler secret put AUTH_SECRET`) y en `.dev.vars` para
+		// local. El tipo se declara a mano en cloudflare-env.d.ts.
+	},
+	"images": {
+		// Enable image optimization
+		// see https://opennext.js.org/cloudflare/howtos/image
+		"binding": "IMAGES"
+	}
+}

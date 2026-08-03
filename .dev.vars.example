@@ -1,0 +1,10 @@
+# Copiar a .dev.vars y completar. Usado por `next dev` (initOpenNextCloudflareForDev)
+# y `wrangler dev` para simular los vars/bindings de Workers en local.
+
+NEXTJS_ENV=development
+
+# URL pública desde donde se sirven las fotos de R2 (dominio custom o *.r2.dev).
+R2_PUBLIC_URL=
+
+# Generar con: node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+AUTH_SECRET=

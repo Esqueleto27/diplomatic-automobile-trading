@@ -1,16 +1,22 @@
 /**
  * Datos de DEMO para desarrollo local: sirven para ver el sitio con inventario
  * mientras el cliente no carga el suyo. NO se ejecuta en producción — el seed
- * real (`prisma/seed.ts`, que sólo crea el admin) es otro archivo.
+ * real (`scripts/seed-admin.ts`, que sólo crea el admin) es otro archivo.
  *
- *   npm run db:seed-demo
+ *   npm run db:seed-demo             (D1 local)
+ *   npm run db:seed-demo -- --remote (D1 remota — no usar con datos reales)
  */
-import "dotenv/config";
-import { PrismaClient } from "../src/generated/prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
+import { randomUUID } from "node:crypto";
+import { execFileSync } from "node:child_process";
+import { writeFileSync, unlinkSync } from "node:fs";
+import { join } from "node:path";
+import os from "node:os";
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
-const prisma = new PrismaClient({ adapter });
+const DB_NAME = "diplomatic-automobile-trading-db";
+
+function sqlEscape(value: string): string {
+  return `'${value.replace(/'/g, "''")}'`;
+}
 
 const AUTOS = [
   { nombre: "S-Class 580", marca: "Mercedes-Benz", anio: 2025, precio: 168000, tipo: "NUEVO", transmision: "Automática", combustible: "Gasolina", color: "Negro obsidiana" },
@@ -33,37 +39,43 @@ function slugify(valor: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
-async function main() {
-  for (const auto of AUTOS) {
+function main() {
+  const remote = process.argv.includes("--remote");
+
+  const values = AUTOS.map((auto) => {
     const slug = slugify(`${auto.marca} ${auto.nombre}`);
-    await prisma.car.upsert({
-      where: { slug },
-      update: {},
-      create: {
-        slug,
-        nombre: auto.nombre,
-        marca: auto.marca,
-        anio: auto.anio,
-        precio: auto.precio ?? null,
-        kilometraje: "kilometraje" in auto ? auto.kilometraje : null,
-        transmision: auto.transmision,
-        combustible: auto.combustible,
-        color: auto.color,
-        tipo: auto.tipo,
-        destacado: auto.tipo === "NUEVO",
-        activo: true,
-      },
-    });
+    const kilometraje = "kilometraje" in auto ? auto.kilometraje : null;
+    const destacado = auto.tipo === "NUEVO" ? 1 : 0;
+    return `(${sqlEscape(randomUUID())}, ${sqlEscape(slug)}, ${sqlEscape(auto.nombre)}, ${sqlEscape(auto.marca)}, ${auto.anio}, ${auto.precio ?? "NULL"}, ${kilometraje ?? "NULL"}, ${sqlEscape(auto.transmision)}, ${sqlEscape(auto.combustible)}, ${sqlEscape(auto.color)}, ${sqlEscape(auto.tipo)}, ${destacado}, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`;
+  });
+
+  const sql = `
+    INSERT INTO "Car" (id, slug, nombre, marca, anio, precio, kilometraje, transmision, combustible, color, tipo, destacado, activo, createdAt, updatedAt)
+    VALUES ${values.join(",\n           ")}
+    ON CONFLICT(slug) DO NOTHING;
+  `.trim();
+
+  const tmpFile = join(os.tmpdir(), `seed-demo-${Date.now()}.sql`);
+  writeFileSync(tmpFile, sql, "utf-8");
+
+  try {
+    execFileSync(
+      "npx",
+      [
+        "wrangler",
+        "d1",
+        "execute",
+        DB_NAME,
+        remote ? "--remote" : "--local",
+        `--file=${tmpFile}`,
+      ],
+      { stdio: "inherit", shell: true },
+    );
+  } finally {
+    unlinkSync(tmpFile);
   }
+
   console.log(`${AUTOS.length} autos de demo listos.`);
 }
 
-main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+main();

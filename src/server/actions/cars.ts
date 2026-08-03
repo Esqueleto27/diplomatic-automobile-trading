@@ -2,8 +2,11 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
+import { randomUUID } from "node:crypto";
+import { eq } from "drizzle-orm";
+import { requireSession } from "@/lib/session";
+import { getDb } from "@/lib/db";
+import { cars } from "@/db/schema";
 import { carSchema } from "@/lib/validations/car";
 import { slugify } from "@/lib/slug";
 
@@ -13,13 +16,6 @@ export type CarActionState =
       message?: string;
     }
   | undefined;
-
-async function requireAdmin() {
-  const session = await auth();
-  if (!session?.user) {
-    throw new Error("No autorizado");
-  }
-}
 
 function parseCarForm(formData: FormData) {
   return carSchema.safeParse({
@@ -42,7 +38,7 @@ export async function createCar(
   _prevState: CarActionState,
   formData: FormData,
 ): Promise<CarActionState> {
-  await requireAdmin();
+  await requireSession();
 
   const parsed = parseCarForm(formData);
   if (!parsed.success) {
@@ -51,9 +47,8 @@ export async function createCar(
 
   const slug = `${slugify(parsed.data.nombre)}-${Math.random().toString(36).slice(2, 8)}`;
 
-  await prisma.car.create({
-    data: { ...parsed.data, slug },
-  });
+  const db = await getDb();
+  await db.insert(cars).values({ id: randomUUID(), ...parsed.data, slug });
 
   revalidatePath("/admin/autos");
   redirect("/admin/autos");
@@ -64,24 +59,26 @@ export async function updateCar(
   _prevState: CarActionState,
   formData: FormData,
 ): Promise<CarActionState> {
-  await requireAdmin();
+  await requireSession();
 
   const parsed = parseCarForm(formData);
   if (!parsed.success) {
     return { errors: parsed.error.flatten().fieldErrors };
   }
 
-  await prisma.car.update({
-    where: { id },
-    data: parsed.data,
-  });
+  const db = await getDb();
+  await db
+    .update(cars)
+    .set({ ...parsed.data, updatedAt: new Date().toISOString() })
+    .where(eq(cars.id, id));
 
   revalidatePath("/admin/autos");
   redirect("/admin/autos");
 }
 
 export async function deleteCar(id: string) {
-  await requireAdmin();
-  await prisma.car.delete({ where: { id } });
+  await requireSession();
+  const db = await getDb();
+  await db.delete(cars).where(eq(cars.id, id));
   revalidatePath("/admin/autos");
 }
