@@ -1,13 +1,19 @@
+import type { Metadata } from "next";
 import { getAutosPorTipo } from "@/lib/cars";
 import { Hero } from "@/components/site/hero";
 import { BrandStrip } from "@/components/site/brand-strip";
-import { LineasNegocio } from "@/components/site/lineas-negocio";
+import { StatsBand } from "@/components/site/stats-band";
 import { VehiculosUsados } from "@/components/site/vehiculos-usados";
 import { ServiciosAdicionales } from "@/components/site/servicios-adicionales";
+import { ContactCta } from "@/components/site/contact-cta";
 
 // Lee inventario en vivo: no se prerenderiza en build (ahí no hay base de datos)
 // y el admin ve sus cambios publicados de inmediato.
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 /**
  * El inventario es sólo una parte de la portada. Si la base de datos no
@@ -29,8 +35,8 @@ async function autosOVacio(
 export default async function HomePage() {
   // El inventario es sólo de vehículos usados/diplomáticos: los nuevos se
   // consiguen por importación o compra local, es un servicio (ver
-  // LineasNegocio), no algo que se liste con fotos. Por eso no hay consulta
-  // a tipo "NUEVO".
+  // lineasNegocio en src/lib/site.ts, usado hoy sólo en /empresa), no algo
+  // que se liste con fotos. Por eso no hay consulta a tipo "NUEVO".
   const usados = await autosOVacio(["USADO", "DIPLOMATICO"], 10);
 
   // Las secciones son bloques independientes: cambiar el orden de la página
@@ -39,9 +45,10 @@ export default async function HomePage() {
     <>
       <Hero />
       <BrandStrip />
-      <LineasNegocio />
+      <StatsBand />
       {usados.length > 0 && <VehiculosUsados autos={usados} />}
       <ServiciosAdicionales />
+      <ContactCta />
     </>
   );
 }

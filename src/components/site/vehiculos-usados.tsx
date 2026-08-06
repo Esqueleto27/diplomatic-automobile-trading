@@ -1,8 +1,8 @@
-import Link from "next/link";
 import type { AutoPublico } from "@/lib/cars";
 import { CarCardDetalle } from "@/components/site/car-card";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal } from "@/components/site/reveal";
+import { SiteButton } from "@/components/site/button";
 
 export function VehiculosUsados({ autos }: { autos: AutoPublico[] }) {
   // Grilla 2x2 en vez de carrusel horizontal: con tarjetas de este tamaño
@@ -11,51 +11,35 @@ export function VehiculosUsados({ autos }: { autos: AutoPublico[] }) {
   const destacados = autos.slice(0, 4);
 
   return (
-    <section className="py-28 sm:py-36" aria-labelledby="vehiculos-usados">
-      <div className="mx-auto max-w-[1280px] px-5 sm:px-8">
+    <section
+      className="border-y border-border bg-surface py-32 sm:py-40"
+      aria-labelledby="vehiculos-usados"
+    >
+      <div className="mx-auto max-w-site px-5 sm:px-8">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,19rem)_minmax(0,1fr)] lg:gap-12">
-          <Reveal className="lg:pt-2">
+          <Reveal className="lg:pt-2" direction="left">
             <SectionHeading>
-              <span id="vehiculos-usados">
-                Vehículos
-                <br className="hidden lg:block" /> Diplomáticos
-                <br className="hidden lg:block" /> Usados
-              </span>
+              <span id="vehiculos-usados">Vehículos Usados</span>
             </SectionHeading>
 
-            <p className="mt-5 max-w-sm text-base leading-[1.8] text-muted-foreground">
-              Unidades con historial verificado, provenientes de misiones
-              diplomáticas. Cada vehículo pasa por revisión mecánica y
-              documentación al día antes de publicarse.
-            </p>
-            <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground/80">
-              ¿Tiene uno para vender? También compramos vehículos
-              diplomáticos usados, con una transacción simple y segura para
-              ambas partes.
-            </p>
-            <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground/80">
-              ¿Busca un modelo nuevo en cambio? Nuestro inventario es de
-              usados; para nuevos coordinamos la importación o compra local a
-              pedido.
+            <p className="mt-6 max-w-md text-base leading-[1.8] text-muted-foreground">
+              Unidades seleccionadas con historial comprobable y
+              documentación al día, listas para entregar. También compramos
+              su vehículo y coordinamos la importación del modelo nuevo que
+              busque.
             </p>
 
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Link
-                href="/inventario"
-                className="inline-flex h-11 items-center bg-gold px-7 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-gold-foreground outline-none transition-colors hover:bg-gold-strong focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background"
-              >
+            <div className="mt-8 flex flex-wrap gap-4">
+              <SiteButton href="/inventario" size="md">
                 Ver inventario
-              </Link>
-              <Link
-                href="/contacto"
-                className="inline-flex h-11 items-center border border-gold/40 px-7 text-[0.68rem] font-medium uppercase tracking-[0.18em] text-gold outline-none transition-colors hover:border-gold hover:bg-gold/10 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background"
-              >
+              </SiteButton>
+              <SiteButton href="/contacto" size="md" variant="outline">
                 Vender mi vehículo
-              </Link>
+              </SiteButton>
             </div>
           </Reveal>
 
-          <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {destacados.map((auto, i) => (
               <li key={auto.id}>
                 <Reveal delay={(i % 2) * 0.1}>
@@ -64,6 +48,15 @@ export function VehiculosUsados({ autos }: { autos: AutoPublico[] }) {
               </li>
             ))}
           </ul>
+        </div>
+
+        <div className="mt-20 flex flex-col items-center gap-5 text-center">
+          <p className="font-display text-2xl tracking-wide">
+            ¿Interesado en alguno de nuestros vehículos?
+          </p>
+          <SiteButton href="/contacto" size="lg">
+            Contactar a un especialista
+          </SiteButton>
         </div>
       </div>
     </section>

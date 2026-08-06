@@ -36,7 +36,7 @@ export function CarMedia({
       ) : (
         <div
           aria-hidden
-          className="absolute inset-0 grid place-items-center bg-[radial-gradient(circle_at_50%_35%,var(--surface-2),var(--background))]"
+          className="absolute inset-0 grid place-items-center bg-placeholder-centro"
         >
           <span className="font-display text-6xl font-light text-foreground/[0.12]">
             D

@@ -39,7 +39,11 @@
 		// dominio propio en Cloudflare, conectar un dominio custom al bucket
 		// y reemplazar este valor, sin tocar código. No es secreto, por eso
 		// va acá y no con `wrangler secret put`.
-		"R2_PUBLIC_URL": "https://pub-2a4b20ea6c834e9d8fda32f7a54be906.r2.dev"
+		"R2_PUBLIC_URL": "https://pub-2a4b20ea6c834e9d8fda32f7a54be906.r2.dev",
+		// Número de WhatsApp para el botón "Agendar Test Drive" / "Consultar".
+		// No es secreto (es el mismo teléfono público del sitio), por eso va
+		// acá igual que R2_PUBLIC_URL en vez de con `wrangler secret put`.
+		"WHATSAPP_NUMBER": "+593999808067"
 		// AUTH_SECRET NO va acá: si un `var` con ese nombre existe en este
 		// archivo, `wrangler deploy` lo usa y BORRA el secret real puesto con
 		// `wrangler secret put` (es al revés de lo que parece — el var pisa al

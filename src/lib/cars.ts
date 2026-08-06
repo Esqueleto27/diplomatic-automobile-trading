@@ -4,6 +4,27 @@ import { getDb } from "@/lib/db";
 // como este union en la capa de aplicación (ver src/lib/validations/car.ts).
 export type TipoAuto = "NUEVO" | "USADO" | "DIPLOMATICO";
 
+// Única fuente de verdad para las etiquetas en español de TipoAuto — antes
+// estaba copiado como TIPO_LABELS en dos páginas y como TIPO_OPTIONS en el
+// form del admin, los tres con los mismos 3 valores hardcodeados.
+export const TIPO_LABELS: Record<TipoAuto, string> = {
+  NUEVO: "Nuevo",
+  USADO: "Usado",
+  DIPLOMATICO: "Diplomático",
+};
+
+export const TIPO_OPTIONS: { value: TipoAuto; label: string }[] = (
+  Object.entries(TIPO_LABELS) as [TipoAuto, string][]
+).map(([value, label]) => ({ value, label }));
+
+/** Accesor seguro para mostrar `tipo` en UI: `Car.tipo` es texto libre en el
+ * schema (SQLite/D1 no tiene enums), así que en tiempo de ejecución puede no
+ * ser exactamente un TipoAuto — indexar TIPO_LABELS directo con ese string
+ * no compila en modo estricto. */
+export function tipoLabel(tipo: string | null): string | null {
+  return tipo && tipo in TIPO_LABELS ? TIPO_LABELS[tipo as TipoAuto] : null;
+}
+
 const columnasPublicas = {
   id: true,
   slug: true,

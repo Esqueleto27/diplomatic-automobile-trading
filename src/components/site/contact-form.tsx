@@ -4,6 +4,7 @@ import { useActionState, useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { SiteButton } from "@/components/site/button";
 import { enviarMensajeContacto } from "@/server/actions/contacto";
 
 export function ContactForm() {
@@ -41,57 +42,95 @@ export function ContactForm() {
 
       <div className="space-y-2">
         <Label htmlFor="nombre">Nombre</Label>
-        <Input id="nombre" name="nombre" required />
+        <Input
+          id="nombre"
+          name="nombre"
+          required
+          aria-invalid={Boolean(errors.nombre)}
+          aria-describedby={errors.nombre ? "nombre-error" : undefined}
+        />
         {errors.nombre && (
-          <p className="text-xs text-destructive">{errors.nombre[0]}</p>
+          <p id="nombre-error" className="text-xs text-destructive">
+            {errors.nombre[0]}
+          </p>
         )}
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="apellido">Apellido</Label>
-        <Input id="apellido" name="apellido" required />
+        <Input
+          id="apellido"
+          name="apellido"
+          required
+          aria-invalid={Boolean(errors.apellido)}
+          aria-describedby={errors.apellido ? "apellido-error" : undefined}
+        />
         {errors.apellido && (
-          <p className="text-xs text-destructive">{errors.apellido[0]}</p>
+          <p id="apellido-error" className="text-xs text-destructive">
+            {errors.apellido[0]}
+          </p>
         )}
       </div>
 
       <div className="space-y-2 sm:col-span-2">
         <Label htmlFor="email">Correo electrónico</Label>
-        <Input id="email" name="email" type="email" required />
+        <Input
+          id="email"
+          name="email"
+          type="email"
+          required
+          aria-invalid={Boolean(errors.email)}
+          aria-describedby={errors.email ? "email-error" : undefined}
+        />
         {errors.email && (
-          <p className="text-xs text-destructive">{errors.email[0]}</p>
+          <p id="email-error" className="text-xs text-destructive">
+            {errors.email[0]}
+          </p>
         )}
       </div>
 
       <div className="space-y-2 sm:col-span-2">
         <Label htmlFor="asunto">Asunto</Label>
-        <Input id="asunto" name="asunto" required />
+        <Input
+          id="asunto"
+          name="asunto"
+          required
+          aria-invalid={Boolean(errors.asunto)}
+          aria-describedby={errors.asunto ? "asunto-error" : undefined}
+        />
         {errors.asunto && (
-          <p className="text-xs text-destructive">{errors.asunto[0]}</p>
+          <p id="asunto-error" className="text-xs text-destructive">
+            {errors.asunto[0]}
+          </p>
         )}
       </div>
 
       <div className="space-y-2 sm:col-span-2">
         <Label htmlFor="mensaje">Mensaje</Label>
-        <Textarea id="mensaje" name="mensaje" rows={5} required />
+        <Textarea
+          id="mensaje"
+          name="mensaje"
+          rows={5}
+          required
+          aria-invalid={Boolean(errors.mensaje)}
+          aria-describedby={errors.mensaje ? "mensaje-error" : undefined}
+        />
         {errors.mensaje && (
-          <p className="text-xs text-destructive">{errors.mensaje[0]}</p>
+          <p id="mensaje-error" className="text-xs text-destructive">
+            {errors.mensaje[0]}
+          </p>
         )}
       </div>
 
       <div className="sm:col-span-2">
         {state?.ok && (
-          <p className="mb-4 text-sm text-gold">
+          <p role="status" className="mb-4 text-sm text-gold">
             Mensaje enviado. Le responderemos a la brevedad.
           </p>
         )}
-        <button
-          type="submit"
-          disabled={isPending}
-          className="inline-flex h-12 items-center justify-center bg-gold px-8 text-[0.7rem] font-medium uppercase tracking-[0.2em] text-gold-foreground outline-none transition-colors hover:bg-gold-strong focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background disabled:opacity-60"
-        >
+        <SiteButton type="submit" disabled={isPending} size="lg">
           {isPending ? "Enviando..." : "Enviar"}
-        </button>
+        </SiteButton>
       </div>
     </form>
   );

@@ -3,13 +3,15 @@ import Link from "next/link";
 import { getAutosVisibles } from "@/lib/cars";
 import { CarCardDetalle } from "@/components/site/car-card";
 import { SectionHeading } from "@/components/site/section-heading";
+import { Reveal } from "@/components/site/reveal";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Inventario — Diplomatic Automobile Trading",
+  title: "Inventario",
   description:
     "Vehículos usados y diplomáticos disponibles en Diplomatic Automobile Trading.",
+  alternates: { canonical: "/inventario" },
 };
 
 // Sin filtro por tipo: todo el inventario es de vehículos usados (los
@@ -20,9 +22,9 @@ export default async function InventarioPage() {
   const autos = await getAutosVisibles();
 
   return (
-    <div className="mx-auto max-w-[1280px] px-5 py-16 sm:px-8 sm:py-28">
+    <div className="mx-auto max-w-site px-5 py-20 sm:px-8 sm:py-32">
       <SectionHeading as="h1">Inventario</SectionHeading>
-      <p className="mt-3 max-w-lg text-base leading-[1.8] text-muted-foreground sm:text-lg">
+      <p className="mt-6 max-w-lg text-base leading-[1.8] text-muted-foreground sm:text-lg">
         Unidades disponibles hoy. Si busca un modelo que no aparece en la lista,
         podemos importarlo a pedido.
       </p>
@@ -36,10 +38,12 @@ export default async function InventarioPage() {
           y le avisamos apenas ingrese uno.
         </p>
       ) : (
-        <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {autos.map((auto) => (
+        <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {autos.map((auto, i) => (
             <li key={auto.id}>
-              <CarCardDetalle auto={auto} />
+              <Reveal delay={(i % 4) * 0.06}>
+                <CarCardDetalle auto={auto} />
+              </Reveal>
             </li>
           ))}
         </ul>

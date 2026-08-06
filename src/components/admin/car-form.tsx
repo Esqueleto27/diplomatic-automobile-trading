@@ -14,12 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { CarActionState } from "@/server/actions/cars";
-
-const TIPO_OPTIONS = [
-  { value: "NUEVO", label: "Nuevo" },
-  { value: "USADO", label: "Usado" },
-  { value: "DIPLOMATICO", label: "Diplomático" },
-];
+import { TIPO_OPTIONS } from "@/lib/cars";
 
 const TRANSMISION_OPTIONS = [
   { value: "Automática", label: "Automática" },

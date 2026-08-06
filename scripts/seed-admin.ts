@@ -28,8 +28,9 @@ async function main() {
     );
   }
 
-  // Cost factor 10, igual que src/lib/auth.ts (hashPassword) — validado sin
-  // problema de CPU en runtime real de Workers (~330ms por login).
+  // Cost factor 10, igual que src/lib/password.ts (verifyPassword) —
+  // validado sin problema de CPU en runtime real de Workers (~330ms por
+  // login).
   const hashedPassword = await bcrypt.hash(password, 10);
   const id = randomUUID();
 

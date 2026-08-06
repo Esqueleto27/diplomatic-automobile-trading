@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { getDb } from "@/lib/db";
 import { users } from "@/db/schema";
-import { verifyPassword } from "@/lib/auth";
+import { verifyPassword } from "@/lib/password";
 import { createSession, destroySession } from "@/lib/session";
 import { loginSchema } from "@/lib/validations/auth";
 

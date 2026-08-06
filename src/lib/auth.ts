@@ -1,9 +1,9 @@
 import { SignJWT, jwtVerify } from "jose";
-import bcrypt from "bcryptjs";
 
-// Primitivas puras JWT/hash — sin Next.js, sin DB, 100% edge-safe (jose usa
-// Web Crypto, no APIs de Node). src/middleware.ts y src/lib/session.ts se
-// apoyan en este archivo.
+// Primitivas puras de JWT — sin Next.js, sin DB, 100% edge-safe (jose usa
+// Web Crypto, no APIs de Node). src/middleware.ts corre en Edge Runtime y
+// las importa directo, por eso este archivo NO puede traer bcryptjs (usa
+// `crypto`/`setImmediate` de Node) — ver src/lib/password.ts para eso.
 
 const encoder = new TextEncoder();
 
@@ -13,17 +13,6 @@ export type SessionPayload = {
   userId: string;
   email: string;
 };
-
-export async function hashPassword(password: string): Promise<string> {
-  return bcrypt.hash(password, 10);
-}
-
-export async function verifyPassword(
-  password: string,
-  hash: string,
-): Promise<boolean> {
-  return bcrypt.compare(password, hash);
-}
 
 export async function createToken(
   payload: SessionPayload,

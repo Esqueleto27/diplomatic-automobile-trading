@@ -25,7 +25,7 @@ const iconosRed = [
 export function SiteFooter() {
   return (
     <footer className="border-t border-border bg-surface">
-      <div className="mx-auto max-w-[1280px] px-5 py-14 sm:px-8">
+      <div className="mx-auto max-w-site px-5 py-16 sm:px-8">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[auto_1fr_1fr_auto] lg:gap-16">
           <Link href="/" className="justify-self-start">
             <Wordmark />

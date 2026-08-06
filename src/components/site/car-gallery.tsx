@@ -18,7 +18,7 @@ export function CarGallery({
       <div className="relative aspect-[4/3] w-full border border-border bg-surface-2">
         <div
           aria-hidden
-          className="absolute inset-0 grid place-items-center bg-[radial-gradient(circle_at_50%_35%,var(--surface-2),var(--background))]"
+          className="absolute inset-0 grid place-items-center bg-placeholder-centro"
         >
           <span className="font-display text-8xl font-light text-foreground/[0.12]">
             D

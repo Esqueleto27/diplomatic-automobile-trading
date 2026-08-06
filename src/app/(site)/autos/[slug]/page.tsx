@@ -2,19 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
-import { getAutoPorSlug } from "@/lib/cars";
+import { getAutoPorSlug, tipoLabel } from "@/lib/cars";
 import { CarGallery } from "@/components/site/car-gallery";
+import { SiteButton } from "@/components/site/button";
 import { mensajeTestDrive, whatsappHref } from "@/lib/whatsapp";
 
 export const dynamic = "force-dynamic";
 
 const formatoNumero = new Intl.NumberFormat("es-EC");
-
-const TIPO_LABELS: Record<string, string> = {
-  NUEVO: "Nuevo",
-  USADO: "Usado",
-  DIPLOMATICO: "Diplomático",
-};
 
 export async function generateMetadata({
   params,
@@ -25,11 +20,18 @@ export async function generateMetadata({
   const auto = await getAutoPorSlug(slug);
   if (!auto) return { title: "Vehículo no encontrado" };
 
+  const descripcion =
+    auto.descripcion ??
+    `${auto.nombre}${auto.marca ? ` ${auto.marca}` : ""} disponible en Diplomatic Automobile Trading.`;
+  const foto = auto.fotos[0]?.url;
+
   return {
-    title: `${auto.nombre} — Diplomatic Automobile Trading`,
-    description:
-      auto.descripcion ??
-      `${auto.nombre}${auto.marca ? ` ${auto.marca}` : ""} disponible en Diplomatic Automobile Trading.`,
+    title: auto.nombre,
+    description: descripcion,
+    alternates: { canonical: `/autos/${auto.slug}` },
+    openGraph: foto
+      ? { title: auto.nombre, description: descripcion, images: [{ url: foto }] }
+      : { title: auto.nombre, description: descripcion },
   };
 }
 
@@ -42,6 +44,27 @@ export default async function AutoDetallePage({
   const auto = await getAutoPorSlug(slug);
 
   if (!auto) notFound();
+
+  const hrefTestDrive = await whatsappHref(mensajeTestDrive(auto.nombre));
+
+  const vehiculoSchema = {
+    "@context": "https://schema.org",
+    "@type": "Vehicle",
+    name: auto.nombre,
+    brand: auto.marca ?? undefined,
+    vehicleModelDate: auto.anio ?? undefined,
+    mileageFromOdometer: auto.kilometraje ?? undefined,
+    vehicleTransmission: auto.transmision ?? undefined,
+    fuelType: auto.combustible ?? undefined,
+    color: auto.color ?? undefined,
+    image: auto.fotos.map((foto) => foto.url),
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "USD",
+      price: auto.precio ?? undefined,
+      availability: "https://schema.org/InStock",
+    },
+  };
 
   const fichaTecnica = [
     { etiqueta: "Marca", valor: auto.marca },
@@ -56,11 +79,15 @@ export default async function AutoDetallePage({
     { etiqueta: "Transmisión", valor: auto.transmision },
     { etiqueta: "Combustible", valor: auto.combustible },
     { etiqueta: "Color", valor: auto.color },
-    { etiqueta: "Condición", valor: auto.tipo ? TIPO_LABELS[auto.tipo] : null },
+    { etiqueta: "Condición", valor: tipoLabel(auto.tipo) },
   ].filter((fila) => Boolean(fila.valor));
 
   return (
-    <div className="mx-auto max-w-[1280px] px-5 py-12 sm:px-8 sm:py-16">
+    <div className="mx-auto max-w-site px-5 py-16 sm:px-8 sm:py-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(vehiculoSchema) }}
+      />
       <Link
         href="/inventario"
         className="inline-flex items-center gap-1.5 text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-gold"
@@ -69,7 +96,7 @@ export default async function AutoDetallePage({
         Inventario
       </Link>
 
-      <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:gap-14">
+      <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:gap-14">
         <CarGallery fotos={auto.fotos} nombre={auto.nombre} />
 
         <div>
@@ -77,25 +104,25 @@ export default async function AutoDetallePage({
             {auto.nombre}
           </h1>
           {auto.marca && (
-            <p className="mt-1 text-xs uppercase tracking-[0.22em] text-muted-foreground">
+            <p className="mt-2 text-xs uppercase tracking-[0.22em] text-muted-foreground">
               {auto.marca}
             </p>
           )}
 
-          <p className="mt-6 font-display text-2xl font-semibold text-gold">
+          <p className="mt-8 font-display text-2xl font-semibold text-gold">
             {auto.precio != null
               ? `USD ${formatoNumero.format(auto.precio)}`
               : "Precio bajo consulta"}
           </p>
 
           {auto.descripcion && (
-            <p className="mt-6 text-base leading-[1.8] text-foreground/85">
+            <p className="mt-8 text-base leading-[1.8] text-foreground/85">
               {auto.descripcion}
             </p>
           )}
 
           {fichaTecnica.length > 0 && (
-            <dl className="mt-8 border-t border-border">
+            <dl className="mt-10 border-t border-border">
               {fichaTecnica.map((fila) => (
                 <div
                   key={fila.etiqueta}
@@ -110,14 +137,15 @@ export default async function AutoDetallePage({
             </dl>
           )}
 
-          <a
-            href={whatsappHref(mensajeTestDrive(auto.nombre))}
+          <SiteButton
+            href={hrefTestDrive}
+            size="lg"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex h-12 w-full items-center justify-center bg-gold px-8 text-[0.7rem] font-medium uppercase tracking-[0.2em] text-gold-foreground outline-none transition-colors hover:bg-gold-strong focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:w-auto"
+            className="mt-10 w-full sm:w-auto"
           >
             Agenda un Test Drive
-          </a>
+          </SiteButton>
         </div>
       </div>
     </div>

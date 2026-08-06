@@ -11,6 +11,7 @@ import { execFileSync } from "node:child_process";
 import { writeFileSync, unlinkSync } from "node:fs";
 import { join } from "node:path";
 import os from "node:os";
+import { slugify } from "../src/lib/slug";
 
 const DB_NAME = "diplomatic-automobile-trading-db";
 
@@ -29,15 +30,6 @@ const AUTOS = [
   { nombre: "Serie 7 740i", marca: "BMW", anio: 2022, precio: 98500, kilometraje: 41800, tipo: "USADO", transmision: "Automática", combustible: "Gasolina", color: "Gris mineral" },
   { nombre: "Continental GT", marca: "Bentley", anio: 2020, precio: 175000, kilometraje: 29500, tipo: "USADO", transmision: "Automática", combustible: "Gasolina", color: "Verde Cumbria" },
 ] as const;
-
-function slugify(valor: string): string {
-  return valor
-    .normalize("NFD")
-    .replace(new RegExp("[\\u0300-\\u036f]", "g"), "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
 
 function main() {
   const remote = process.argv.includes("--remote");

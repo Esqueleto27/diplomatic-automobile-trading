@@ -2,6 +2,7 @@ import Link from "next/link";
 import { desc } from "drizzle-orm";
 import { getDb } from "@/lib/db";
 import { cars } from "@/db/schema";
+import { tipoLabel } from "@/lib/cars";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -13,12 +14,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { DeleteCarButton } from "@/components/admin/delete-car-button";
-
-const TIPO_LABELS: Record<string, string> = {
-  NUEVO: "Nuevo",
-  USADO: "Usado",
-  DIPLOMATICO: "Diplomático",
-};
 
 export default async function AdminAutosPage() {
   const db = await getDb();
@@ -64,14 +59,14 @@ export default async function AdminAutosPage() {
                   )}
                 </TableCell>
                 <TableCell>
-                  {auto.tipo ? TIPO_LABELS[auto.tipo] : "—"}
+                  {tipoLabel(auto.tipo) ?? "—"}
                 </TableCell>
                 <TableCell>
                   {auto.precio != null
                     ? `$${auto.precio.toLocaleString("es-EC")}`
                     : "Consultar"}
                 </TableCell>
-                <TableCell>{auto.fotos.length} / 5</TableCell>
+                <TableCell>{auto.fotos.length} / 10</TableCell>
                 <TableCell className="space-x-1">
                   {auto.destacado && (
                     <Badge variant="secondary">Destacado</Badge>

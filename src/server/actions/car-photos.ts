@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { randomUUID } from "node:crypto";
-import { and, asc, count, eq } from "drizzle-orm";
+import { asc, count, eq } from "drizzle-orm";
 import { requireSession } from "@/lib/session";
 import { getDb } from "@/lib/db";
 import { carPhotos } from "@/db/schema";
@@ -11,6 +11,33 @@ import { getPhotosBucket, getPhotosPublicUrl } from "@/lib/r2";
 const MAX_FOTOS_POR_AUTO = 10;
 const TIPOS_PERMITIDOS = new Set(["image/jpeg", "image/png", "image/webp"]);
 const MAX_BYTES = 8 * 1024 * 1024; // 8 MB
+
+/** El navegador reporta File.type a partir de la extensión/metadata, no del
+ * contenido real — no alcanza como única defensa. Se verifican los magic
+ * bytes de cada formato permitido antes de aceptar el archivo. */
+async function tieneFirmaValida(archivo: File): Promise<boolean> {
+  const header = new Uint8Array(await archivo.slice(0, 12).arrayBuffer());
+
+  if (header[0] === 0xff && header[1] === 0xd8 && header[2] === 0xff) {
+    return true; // JPEG
+  }
+  if (
+    header[0] === 0x89 &&
+    header[1] === 0x50 &&
+    header[2] === 0x4e &&
+    header[3] === 0x47 &&
+    header[4] === 0x0d &&
+    header[5] === 0x0a &&
+    header[6] === 0x1a &&
+    header[7] === 0x0a
+  ) {
+    return true; // PNG
+  }
+
+  const riff = String.fromCharCode(...header.slice(0, 4));
+  const webp = String.fromCharCode(...header.slice(8, 12));
+  return riff === "RIFF" && webp === "WEBP";
+}
 
 function extensionDe(mimeType: string): string {
   switch (mimeType) {
@@ -47,6 +74,9 @@ export async function uploadFotos(
     }
     if (archivo.size > MAX_BYTES) {
       return `"${archivo.name}" pesa más de 8 MB.`;
+    }
+    if (!(await tieneFirmaValida(archivo))) {
+      return `"${archivo.name}" no es una imagen válida.`;
     }
   }
 
@@ -134,16 +164,39 @@ export async function eliminarFoto(carId: string, photoId: string) {
   revalidatePath(`/admin/autos/${carId}`);
 }
 
+/** Borra del bucket todas las fotos de un auto. Usado antes de borrar el
+ * auto: el borrado de la fila en cascada limpia CarPhoto en D1, pero no
+ * los objetos de R2 — eso hay que hacerlo a mano acá.
+ * Toda función exportada de un archivo "use server" es un endpoint público
+ * — requireSession() acá es obligatorio, no redundante con el caller. */
+export async function eliminarFotosDeAuto(carId: string): Promise<void> {
+  await requireSession();
+  const db = await getDb();
+  const fotos = await db.query.carPhotos.findMany({
+    where: eq(carPhotos.carId, carId),
+  });
+  if (fotos.length === 0) return;
+
+  const bucket = await getPhotosBucket();
+  await bucket.delete(fotos.map((foto) => foto.key));
+}
+
 export async function marcarPortada(carId: string, photoId: string) {
   await requireSession();
 
   const db = await getDb();
+
+  // Validar pertenencia ANTES del batch: si photoId no fuera de este carId,
+  // el segundo UPDATE del batch afectaría 0 filas y el auto quedaría sin
+  // ninguna portada (el primer UPDATE ya puso todas en false), sin error.
+  const foto = await db.query.carPhotos.findFirst({
+    where: eq(carPhotos.id, photoId),
+  });
+  if (!foto || foto.carId !== carId) return;
+
   await db.batch([
     db.update(carPhotos).set({ portada: false }).where(eq(carPhotos.carId, carId)),
-    db
-      .update(carPhotos)
-      .set({ portada: true })
-      .where(and(eq(carPhotos.id, photoId), eq(carPhotos.carId, carId))),
+    db.update(carPhotos).set({ portada: true }).where(eq(carPhotos.id, photoId)),
   ]);
 
   revalidatePath(`/admin/autos/${carId}`);

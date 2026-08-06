@@ -41,6 +41,16 @@
   --color-muted: var(--muted);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-secondary: var(--secondary);
+  /* Ancho de contenido del sitio público — genera la utilidad `max-w-site`.
+     Antes repetido como `max-w-[1280px]` en 13 archivos: cambiar el ancho
+     del sitio era 13 ediciones en vez de una (regla nº1 del proyecto:
+     tokens centralizados, cero hardcode). */
+  --container-site: 1280px;
+  /* Sombras compartidas del sitio (tarjetas + botones) — un solo lugar para
+     que toda elevación siga el mismo lenguaje. */
+  --shadow-lift: 0 24px 44px -18px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 10px 28px -12px rgba(199, 163, 84, 0.5);
+  --shadow-glow-hover: 0 16px 34px -12px rgba(199, 163, 84, 0.62);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
   --color-popover-foreground: var(--popover-foreground);
@@ -207,6 +217,25 @@
   }
   .no-scrollbar::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Fondo de respaldo para fotos que todavía no existen (auto sin fotos
+   * subidas, servicio sin imagen). Antes repetido como arbitrary value
+   * `bg-[radial-gradient(...)]` en 4 archivos con 2 variantes ligeramente
+   * distintas — quedan unificadas acá en una sola definición cada una. */
+  .bg-placeholder-centro {
+    background: radial-gradient(
+      circle at 50% 35%,
+      var(--surface-2),
+      var(--background)
+    );
+  }
+  .bg-placeholder-esquina {
+    background: radial-gradient(
+      circle at 75% 15%,
+      var(--surface-2),
+      var(--background)
+    );
   }
 }
 

@@ -9,7 +9,7 @@ import { getDb } from "@/lib/db";
 import { cars } from "@/db/schema";
 import { carSchema } from "@/lib/validations/car";
 import { slugify } from "@/lib/slug";
-import { uploadFotos } from "@/server/actions/car-photos";
+import { eliminarFotosDeAuto, uploadFotos } from "@/server/actions/car-photos";
 
 export type CarActionState =
   | {
@@ -88,6 +88,7 @@ export async function updateCar(
 
 export async function deleteCar(id: string) {
   await requireSession();
+  await eliminarFotosDeAuto(id);
   const db = await getDb();
   await db.delete(cars).where(eq(cars.id, id));
   revalidatePath("/admin/autos");

@@ -1,6 +1,6 @@
 import { sql } from "drizzle-orm";
 import { relations } from "drizzle-orm";
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, index } from "drizzle-orm/sqlite-core";
 
 // Admin único de la plataforma. Sin roles: cualquier fila de esta tabla
 // puede administrar todo el inventario. Se crea vía script de seed, no hay
@@ -63,7 +63,12 @@ export const carPhotos = sqliteTable("CarPhoto", {
   createdAt: text("createdAt")
     .notNull()
     .default(sql`CURRENT_TIMESTAMP`),
-});
+}, (table) => [
+  // Toda consulta de fotos filtra por carId (ficha del auto, panel admin,
+  // borrado en cascada) — sin índice, D1 escanea la tabla completa. A 20
+  // autos no se nota, pero es gratis evitarlo desde ya.
+  index("CarPhoto_carId_idx").on(table.carId),
+]);
 
 // Mensajes del formulario de /contacto. A diferencia del botón "Agendar Test
 // Drive" (que va directo a WhatsApp sin tocar la base de datos), este

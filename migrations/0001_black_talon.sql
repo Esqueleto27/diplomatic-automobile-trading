@@ -1,0 +1,1 @@
+CREATE INDEX `CarPhoto_carId_idx` ON `CarPhoto` (`carId`);

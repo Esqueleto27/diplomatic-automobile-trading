@@ -2,35 +2,40 @@ import type { Metadata } from "next";
 import { contacto } from "@/lib/site";
 import { SectionHeading } from "@/components/site/section-heading";
 import { ContactForm } from "@/components/site/contact-form";
+import { SiteButton } from "@/components/site/button";
 import { whatsappHref } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
-  title: "Contacto — Diplomatic Automobile Trading",
+  title: "Contacto",
   description:
     "Hable con un especialista de Diplomatic Automobile Trading.",
+  alternates: { canonical: "/contacto" },
 };
 
-export default function ContactoPage() {
+export default async function ContactoPage() {
+  const hrefEspecialista = await whatsappHref(
+    "Hola, me gustaría hablar con un especialista de Diplomatic Automobile Trading.",
+  );
+
   return (
-    <div className="mx-auto max-w-[1280px] px-5 py-16 sm:px-8 sm:py-28">
+    <div className="mx-auto max-w-site px-5 py-20 sm:px-8 sm:py-32">
       <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
         <div>
           <SectionHeading as="h1">Hablemos</SectionHeading>
-          <p className="mt-4 max-w-md text-base leading-[1.8] text-muted-foreground sm:text-lg">
+          <p className="mt-6 max-w-md text-base leading-[1.8] text-muted-foreground sm:text-lg">
             Cuéntenos qué vehículo busca o qué trámite necesita resolver. Un
             especialista le responde por WhatsApp el mismo día.
           </p>
 
-          <a
-            href={whatsappHref(
-              "Hola, me gustaría hablar con un especialista de Diplomatic Automobile Trading.",
-            )}
+          <SiteButton
+            href={hrefEspecialista}
+            size="lg"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex h-12 items-center justify-center bg-gold px-8 text-[0.7rem] font-medium uppercase tracking-[0.2em] text-gold-foreground outline-none transition-colors hover:bg-gold-strong focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+            className="mt-10"
           >
             Escribir por WhatsApp
-          </a>
+          </SiteButton>
         </div>
 
         <dl className="space-y-px self-start">

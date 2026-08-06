@@ -18,14 +18,14 @@ export function BrandStrip() {
       aria-label="Marcas que comercializamos"
       className="border-y border-border bg-surface"
     >
-      <div className="mx-auto flex max-w-[1280px] flex-col items-center px-5 pt-8 sm:px-8">
+      <div className="mx-auto flex max-w-site flex-col items-center px-5 pt-8 sm:px-8">
         <span aria-hidden className="mb-4 h-px w-10 bg-gold/70" />
         <p className="text-center text-sm leading-relaxed text-muted-foreground sm:text-base">
           {confianza.frase}
         </p>
       </div>
 
-      <ul className="mx-auto flex max-w-[1280px] flex-wrap items-center justify-center gap-x-12 gap-y-8 px-5 py-10 sm:gap-x-16 sm:px-8">
+      <ul className="mx-auto flex max-w-site flex-wrap items-center justify-center gap-x-12 gap-y-8 px-5 py-10 sm:gap-x-16 sm:px-8">
         {marcas.map((marca) => (
           <li key={marca.nombre} className="grid h-16 place-items-center">
             {marca.logo ? (

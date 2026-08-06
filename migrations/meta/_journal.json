@@ -8,6 +8,13 @@
       "when": 1785778453077,
       "tag": "0000_colorful_marvel_apes",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1785997283598,
+      "tag": "0001_black_talon",
+      "breakpoints": true
     }
   ]
 }
