@@ -43,6 +43,15 @@ export const heroImageUrl = `${ASSETS_BASE_URL}/hero.webp`;
 export const logoUrl = `${ASSETS_BASE_URL}/logo/logo-300x74.png`;
 // Foto real de la oficina (no generada), usada en /empresa.
 export const oficinaImageUrl = `${ASSETS_BASE_URL}/empresa/oficina.png`;
+// Foto real de la fachada del edificio, usada en /contacto junto al mapa.
+export const edificioImageUrl = `${ASSETS_BASE_URL}/empresa/edificio.png`;
+// Foto real (entrega de llaves), usada como textura de fondo en la franja
+// superior de /contacto — nunca a máxima intensidad, ver ContactoPage.
+export const contactoHeroImageUrl = `${ASSETS_BASE_URL}/contacto/hero.jpg`;
+// Foto real (fila de superautos), usada como textura de fondo en el CTA de
+// cierre de la home ("Hablemos de su próximo vehículo") — mismo tratamiento
+// apagado que contactoHeroImageUrl, ver ContactCta.
+export const contactoCtaImageUrl = `${ASSETS_BASE_URL}/contacto-cta.jpg`;
 
 // Texto propio (no copiado de la competencia). A propósito NO se estructura
 // como un bloque aislado de "bienvenida + historia breve" — ese patrón
@@ -93,10 +102,10 @@ export const lineasNegocio: LineaNegocio[] = [
 ];
 
 export const navLinks = [
+  { href: "/", label: "Inicio" },
   { href: "/empresa", label: "Empresa" },
   { href: "/inventario", label: "Inventario" },
   { href: "/servicios", label: "Servicios" },
-  { href: "/contacto", label: "Contacto" },
 ];
 
 // PENDIENTE: reemplazar por los datos reales del cliente antes de publicar.
@@ -129,7 +138,6 @@ export const marcas: { nombre: string; logo?: string; escala?: number }[] = [
   { nombre: "BMW", logo: `${ASSETS_BASE_URL}/marcas/bmw.svg` },
   { nombre: "Audi", logo: `${ASSETS_BASE_URL}/marcas/audi.svg`, escala: 1.4 },
   { nombre: "Porsche", logo: `${ASSETS_BASE_URL}/marcas/porsche.svg` },
-  { nombre: "Ferrari", logo: `${ASSETS_BASE_URL}/marcas/ferrari.svg`, escala: 1.05 },
   { nombre: "Aston Martin", logo: `${ASSETS_BASE_URL}/marcas/astonmartin.svg`, escala: 1.7 },
   { nombre: "Maserati", logo: `${ASSETS_BASE_URL}/marcas/maserati.svg`, escala: 1.05 },
   { nombre: "McLaren", logo: `${ASSETS_BASE_URL}/marcas/mclaren.svg`, escala: 1.75 },
@@ -182,16 +190,21 @@ export type Servicio = {
   imagen?: string;
 };
 
+// Orden a propósito: los dos servicios "core" del negocio (importar el
+// vehículo en sí, y usar el cupo diplomático para traer bienes) van primero
+// — son los que más valen y los que ServiciosAdicionales destaca con la
+// card grande del grid asimétrico. Matriculación y reexportación son trámite
+// de apoyo; los seguros, complementarios — por eso cierran la lista.
 export const servicios: Servicio[] = [
   {
-    slug: "matriculacion-vehicular",
-    titulo: "Matriculación Vehicular",
+    slug: "importacion-vehiculos",
+    titulo: "Importación de Vehículos",
     descripcion:
-      "Contamos con el servicio de un gestor que le ayuda con los procesos requeridos por nuestras autoridades para regularizar la matriculación de su vehículo, usted despreocúpese que nosotros somos su soporte.",
+      "¿Desea traer su vehículo desde el exterior? Nos encargamos de todo el proceso de importación, desde el trámite inicial hasta la entrega en su destino final en el país.",
     resumen:
-      "Un gestor tramita la matriculación ante las autoridades por usted, de inicio a fin.",
-    icono: BadgeCheck,
-    imagen: `${ASSETS_BASE_URL}/servicios/matriculacion-vehicular.webp`,
+      "Gestionamos todo el proceso para traer su vehículo desde el exterior hasta la entrega.",
+    icono: Truck,
+    imagen: `${ASSETS_BASE_URL}/servicios/importacion-vehiculos.webp`,
   },
   {
     slug: "importacion-mercaderias",
@@ -204,14 +217,18 @@ export const servicios: Servicio[] = [
     imagen: `${ASSETS_BASE_URL}/servicios/importacion-mercaderias.webp`,
   },
   {
-    slug: "importacion-vehiculos",
-    titulo: "Importación de Vehículos",
+    slug: "matriculacion-vehicular",
+    titulo: "Matriculación Vehicular",
     descripcion:
-      "¿Desea traer su vehículo desde el exterior? Nos encargamos de todo el proceso de importación, desde el trámite inicial hasta la entrega en su destino final en el país.",
+      "Contamos con el servicio de un gestor que le ayuda con los procesos requeridos por nuestras autoridades para regularizar la matriculación de su vehículo, usted despreocúpese que nosotros somos su soporte.",
     resumen:
-      "Gestionamos todo el proceso para traer su vehículo desde el exterior hasta la entrega.",
-    icono: Truck,
-    imagen: `${ASSETS_BASE_URL}/servicios/importacion-vehiculos.webp`,
+      "Un gestor tramita la matriculación ante las autoridades por usted, de inicio a fin.",
+    icono: BadgeCheck,
+    // Reemplazada: la foto original (lámpara de escritorio) no comunicaba
+    // nada del servicio. Ahora es un sello siendo estampado sobre un
+    // documento junto a una llave de auto — sin texto legible, sin sello
+    // gubernamental real, sin marcas.
+    imagen: `${ASSETS_BASE_URL}/servicios/matriculacion-vehicular.png`,
   },
   {
     // Contraparte de "importacion-vehiculos": ese servicio es sólo para

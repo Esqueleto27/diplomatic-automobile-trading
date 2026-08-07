@@ -23,6 +23,10 @@ export const carSchema = z.object({
     emptyToUndefined,
     z.enum(["NUEVO", "USADO", "DIPLOMATICO"]).optional(),
   ),
+  estado: z.preprocess(
+    emptyToUndefined,
+    z.enum(["DISPONIBLE", "RESERVADO", "EXONERADO", "CUPO_DIPLOMATICO"]).optional(),
+  ),
   destacado: z.boolean().default(false),
   activo: z.boolean().default(true),
 });

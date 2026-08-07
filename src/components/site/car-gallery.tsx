@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { logoUrl } from "@/lib/site";
 
 export function CarGallery({
   fotos,
@@ -41,6 +42,17 @@ export function CarGallery({
           priority
           sizes="(max-width: 1024px) 100vw, 60vw"
           className="object-cover"
+        />
+        {/* Misma marca de agua que en las cards del inventario (ver
+            CarMedia) — acá en la foto grande, no en las miniaturas del
+            carrusel, que ya son demasiado chicas para llevarla. */}
+        <Image
+          src={logoUrl}
+          alt=""
+          aria-hidden
+          width={300}
+          height={74}
+          className="pointer-events-none absolute bottom-3 right-3 h-5 w-auto opacity-80 drop-shadow-[0_1px_3px_rgba(0,0,0,0.7)] sm:h-6"
         />
       </div>
 

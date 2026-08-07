@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
-import { getAutoPorSlug, tipoLabel } from "@/lib/cars";
+import { estadoLabel, getAutoPorSlug, tipoLabel } from "@/lib/cars";
 import { CarGallery } from "@/components/site/car-gallery";
 import { SiteButton } from "@/components/site/button";
+import { precioLegible } from "@/components/site/car-card";
 import { mensajeTestDrive, whatsappHref } from "@/lib/whatsapp";
 
 export const dynamic = "force-dynamic";
@@ -80,6 +81,7 @@ export default async function AutoDetallePage({
     { etiqueta: "Combustible", valor: auto.combustible },
     { etiqueta: "Color", valor: auto.color },
     { etiqueta: "Condición", valor: tipoLabel(auto.tipo) },
+    { etiqueta: "Estado", valor: estadoLabel(auto.estado) },
   ].filter((fila) => Boolean(fila.valor));
 
   return (
@@ -110,9 +112,7 @@ export default async function AutoDetallePage({
           )}
 
           <p className="mt-8 font-display text-2xl font-semibold text-gold">
-            {auto.precio != null
-              ? `USD ${formatoNumero.format(auto.precio)}`
-              : "Precio bajo consulta"}
+            {precioLegible(auto)}
           </p>
 
           {auto.descripcion && (
@@ -137,15 +137,25 @@ export default async function AutoDetallePage({
             </dl>
           )}
 
-          <SiteButton
-            href={hrefTestDrive}
-            size="lg"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-10 w-full sm:w-auto"
-          >
-            Agenda un Test Drive
-          </SiteButton>
+          <div className="mt-10 flex flex-wrap gap-4">
+            <SiteButton
+              href={hrefTestDrive}
+              size="lg"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto"
+            >
+              Agenda un Test Drive
+            </SiteButton>
+            <SiteButton
+              href="/inventario"
+              size="lg"
+              variant="outline"
+              className="w-full sm:w-auto"
+            >
+              Ver más vehículos
+            </SiteButton>
+          </div>
         </div>
       </div>
     </div>

@@ -1,5 +1,7 @@
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/session";
+import { logoUrl } from "@/lib/site";
 import { LoginForm } from "@/components/admin/login-form";
 
 export const dynamic = "force-dynamic";
@@ -12,14 +14,21 @@ export default async function AdminLoginPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="w-full max-w-sm space-y-6">
-        <div className="space-y-1 text-center">
-          <h1 className="text-xl font-semibold">Panel de administración</h1>
-          <p className="text-sm text-muted-foreground">
-            Diplomatic Automobile Trading
-          </p>
+      <div className="w-full max-w-sm">
+        <div className="flex flex-col items-center gap-4 text-center">
+          <Image src={logoUrl} alt="" aria-hidden width={300} height={74} className="h-9 w-auto" />
+          <div>
+            <h1 className="text-lg font-semibold tracking-tight">
+              Panel de administración
+            </h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Ingresá con tu cuenta para continuar.
+            </p>
+          </div>
         </div>
-        <LoginForm />
+        <div className="mt-8 rounded-xl border border-border bg-card p-6">
+          <LoginForm />
+        </div>
       </div>
     </div>
   );

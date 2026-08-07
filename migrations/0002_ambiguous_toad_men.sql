@@ -1,0 +1,1 @@
+ALTER TABLE `Car` ADD `estado` text;

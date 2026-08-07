@@ -34,7 +34,11 @@ export function LoginForm() {
           autoComplete="current-password"
         />
       </div>
-      {error && <p className="text-sm text-destructive">{error}</p>}
+      {error && (
+        <p className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+          {error}
+        </p>
+      )}
       <Button type="submit" className="w-full" disabled={isPending}>
         {isPending ? "Ingresando..." : "Ingresar"}
       </Button>

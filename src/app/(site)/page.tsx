@@ -3,6 +3,7 @@ import { getAutosPorTipo } from "@/lib/cars";
 import { Hero } from "@/components/site/hero";
 import { BrandStrip } from "@/components/site/brand-strip";
 import { StatsBand } from "@/components/site/stats-band";
+import { OficinaTrust } from "@/components/site/oficina-trust";
 import { VehiculosUsados } from "@/components/site/vehiculos-usados";
 import { ServiciosAdicionales } from "@/components/site/servicios-adicionales";
 import { ContactCta } from "@/components/site/contact-cta";
@@ -46,6 +47,7 @@ export default async function HomePage() {
       <Hero />
       <BrandStrip />
       <StatsBand />
+      <OficinaTrust />
       {usados.length > 0 && <VehiculosUsados autos={usados} />}
       <ServiciosAdicionales />
       <ContactCta />

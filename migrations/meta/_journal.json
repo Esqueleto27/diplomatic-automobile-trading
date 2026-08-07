@@ -15,6 +15,13 @@
       "when": 1785997283598,
       "tag": "0001_black_talon",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1786052591538,
+      "tag": "0002_ambiguous_toad_men",
+      "breakpoints": true
     }
   ]
 }

@@ -4,14 +4,15 @@ import { Toaster as Sonner, type ToasterProps } from "sonner"
 import { CircleCheckIcon, InfoIcon, TriangleAlertIcon, OctagonXIcon, Loader2Icon } from "lucide-react"
 
 // Sin next-themes: no hay ningún ThemeProvider montado en la app (el sitio
-// público fuerza tema oscuro vía la clase site-theme, /admin usa el tema
-// claro neutro de shadcn sin selector) — useTheme() sin Provider no tenía
-// ningún efecto real, así que se sacó la dependencia y se fija "light"
-// directo, que es el tema real de donde vive el Toaster (sólo en /admin).
+// público fuerza tema oscuro vía la clase site-theme, y /admin también es
+// oscuro — grafito + dorado, ver :root en globals.css) — useTheme() sin
+// Provider no tenía ningún efecto real, así que se sacó la dependencia y se
+// fija "dark" directo, que es el tema real de toda la app hoy (el Toaster
+// sólo se usa desde /admin).
 const Toaster = ({ ...props }: ToasterProps) => {
   return (
     <Sonner
-      theme="light"
+      theme="dark"
       className="toaster group"
       icons={{
         success: (

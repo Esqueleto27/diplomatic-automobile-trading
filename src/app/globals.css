@@ -16,6 +16,8 @@
   --color-gold-foreground: var(--gold-foreground);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
+  --color-cream: var(--cream);
+  --color-cream-foreground: var(--cream-foreground);
   --color-overlay-strong: var(--overlay-strong);
   --color-hairline: var(--hairline);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -49,8 +51,12 @@
   /* Sombras compartidas del sitio (tarjetas + botones) — un solo lugar para
      que toda elevación siga el mismo lenguaje. */
   --shadow-lift: 0 24px 44px -18px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 10px 28px -12px rgba(199, 163, 84, 0.5);
-  --shadow-glow-hover: 0 16px 34px -12px rgba(199, 163, 84, 0.62);
+  /* Antes un halo dorado difuso y grande (rgba(199,163,84,...) con blur de
+     28-34px) — se leía a plantilla genérica. Ahora es una sombra dura y
+     chica, neutra (no coloreada), mismo lenguaje que --shadow-lift pero a
+     escala de botón en vez de tarjeta. */
+  --shadow-glow: 0 4px 12px -2px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-glow-hover: 0 6px 16px -2px rgba(0, 0, 0, 0.45), 0 2px 5px rgba(0, 0, 0, 0.35);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
   --color-popover-foreground: var(--popover-foreground);
@@ -66,39 +72,56 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* ─────────────────────────────────────────────────────────────
+   TEMA DEL PANEL ADMIN
+   Vive en :root (no en una clase scopeada como .site-theme) a
+   propósito: Select/AlertDialog de Base UI portan su contenido a
+   <body>, fuera del árbol de React del layout — una clase scopeada
+   no les llegaría por CSS. :root es seguro para esto porque
+   .site-theme (más abajo) redeclara cada token que usa el sitio
+   público, así que estos valores sólo terminan afectando lo que no
+   está envuelto en .site-theme: el panel /admin.
+
+   Grafito + dorado, no el negro cálido del sitio público: misma
+   familia de marca (mismo dorado de acento), pero un tono más frío
+   y neutro — funcional primero, para que se note de un vistazo que
+   estás en el panel y no en el sitio.
+   ───────────────────────────────────────────────────────────── */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --background: #0c0d0f;
+  --foreground: #eef0f2;
+  --card: #16181b;
+  --card-foreground: #eef0f2;
+  --popover: #1b1d21;
+  --popover-foreground: #eef0f2;
+  --primary: #c7a354;
+  --primary-foreground: #14120c;
+  --secondary: #202226;
+  --secondary-foreground: #eef0f2;
+  --muted: #1b1d21;
+  --muted-foreground: #9a9ea6;
+  --accent: #202226;
+  --accent-foreground: #eef0f2;
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: #ffffff14;
+  --input: #ffffff1f;
+  --ring: #c7a354;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --radius: 0.5rem;
+  /* Riel del sidebar más oscuro que el fondo del contenido: separa la
+     navegación del área de trabajo sin necesitar un borde grueso. */
+  --sidebar: #08090a;
+  --sidebar-foreground: #eef0f2;
+  --sidebar-primary: #c7a354;
+  --sidebar-primary-foreground: #14120c;
+  --sidebar-accent: #ffffff0f;
+  --sidebar-accent-foreground: #eef0f2;
+  --sidebar-border: #ffffff12;
+  --sidebar-ring: #c7a354;
 }
 
 .dark {
@@ -160,6 +183,12 @@
   --surface: #171717;
   --surface-2: #1e1e1e;
 
+  /* Único punto de respiro claro del sitio, a propósito: usarlo con
+     moderación (1 sección, no más) para no perder el tono oscuro/lujo del
+     resto — ver StatsBand, el único lugar que lo usa hoy. */
+  --cream: #f5f2ed;
+  --cream-foreground: #1a1712;
+
   /* Texto */
   --foreground: var(--brand-ink);
   /* Antes #979289: quedaba con poco contraste en párrafos largos. Sigue
@@ -210,6 +239,18 @@
 }
 
 @layer utilities {
+  /* Espaciado vertical fluido para las secciones "grandes" de la home
+   * (Vehículos Usados, Servicios). Antes eran `py-32 sm:py-40` (128px/160px)
+   * con un solo salto en el breakpoint sm — en una pantalla de 375px, 128px
+   * de padding arriba y abajo es una fracción enorme del alto visible.
+   * `clamp` escala con el viewport en vez de saltar en un punto fijo: ~56px
+   * en 375px de ancho, ~144px en desktop (similar al máximo anterior). No se
+   * aplicó a todas las secciones del sitio, sólo a estas dos — el resto ya
+   * tenía valores más chicos que no generaban el mismo vacío. */
+  .section-py {
+    padding-block: clamp(3.5rem, 9vw, 9rem);
+  }
+
   /* Carruseles horizontales: se desplazan con drag/rueda, sin barra visible. */
   .no-scrollbar {
     -ms-overflow-style: none;

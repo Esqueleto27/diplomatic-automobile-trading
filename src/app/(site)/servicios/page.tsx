@@ -22,7 +22,7 @@ export default async function ServiciosPage() {
   return (
     <div>
       <div className="mx-auto max-w-site px-5 pt-20 sm:px-8 sm:pt-32">
-        <SectionHeading as="h1">Servicios Adicionales</SectionHeading>
+        <SectionHeading as="h1">Nuestros Servicios</SectionHeading>
         <p className="mt-6 max-w-xl text-base leading-[1.8] text-muted-foreground sm:text-lg">
           Más allá de la compra del vehículo, acompañamos los trámites que
           suelen consumir más tiempo al llegar o mudarse de país.

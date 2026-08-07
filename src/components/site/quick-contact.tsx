@@ -17,12 +17,18 @@ export async function QuickContact() {
   const telefono = contacto.telefonos[0];
 
   return (
-    <div className="fixed bottom-5 right-5 z-40 flex flex-col gap-3 sm:bottom-8 sm:right-8">
+    <div
+      className="fixed right-5 z-40 flex flex-col gap-3 sm:bottom-8 sm:right-8"
+      style={{ bottom: "calc(1.25rem + env(safe-area-inset-bottom))" }}
+    >
+      {/* Sólo WhatsApp en móvil: dos botones flotantes uno sobre otro tapan
+          contenido en pantallas chicas. En desktop hay espacio de sobra
+          para los dos. */}
       {telefono && (
         <a
           href={`tel:${telefono.replace(/\s/g, "")}`}
           aria-label={`Llamar a ${telefono}`}
-          className="grid size-12 place-items-center rounded-full border border-gold/40 bg-surface text-gold shadow-[0_10px_28px_-12px_rgba(0,0,0,0.7)] outline-none transition-all duration-200 hover:-translate-y-0.5 hover:border-gold hover:bg-gold/10 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+          className="hidden size-12 place-items-center rounded-full border border-gold/40 bg-surface text-gold shadow-[0_10px_28px_-12px_rgba(0,0,0,0.7)] outline-none transition-all duration-200 hover:-translate-y-0.5 hover:border-gold hover:bg-gold/10 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:grid"
         >
           <Phone className="size-5" aria-hidden />
         </a>

@@ -4,9 +4,11 @@ import { logoUrl } from "@/lib/site";
 
 export function Wordmark({
   className,
+  imgClassName,
   priority,
 }: {
   className?: string;
+  imgClassName?: string;
   priority?: boolean;
 }) {
   return (
@@ -17,7 +19,7 @@ export function Wordmark({
         width={300}
         height={74}
         priority={priority}
-        className="h-10 w-auto sm:h-12"
+        className={cn("h-10 w-auto sm:h-12", imgClassName)}
       />
     </span>
   );

@@ -1,9 +1,13 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { eq } from "drizzle-orm";
+import { ExternalLink } from "lucide-react";
 import { getDb } from "@/lib/db";
 import { cars } from "@/db/schema";
 import { CarForm } from "@/components/admin/car-form";
 import { CarPhotos } from "@/components/admin/car-photos";
+import { AdminPageHeader } from "@/components/admin/page-header";
+import { Button } from "@/components/ui/button";
 import { updateCar } from "@/server/actions/cars";
 
 export default async function EditarAutoPage({
@@ -25,16 +29,32 @@ export default async function EditarAutoPage({
   const updateCarWithId = updateCar.bind(null, auto.id);
 
   return (
-    <div className="space-y-8">
-      <h1 className="text-2xl font-semibold tracking-tight">
-        Editar: {auto.nombre}
-      </h1>
-      <CarForm
-        action={updateCarWithId}
-        defaultValues={auto}
-        submitLabel="Guardar cambios"
+    <div>
+      <AdminPageHeader
+        title={auto.nombre}
+        description="Editar auto"
+        actions={
+          <Button
+            variant="outline"
+            size="sm"
+            nativeButton={false}
+            render={
+              <Link href={`/autos/${auto.slug}`} target="_blank" rel="noopener noreferrer" />
+            }
+          >
+            Ver en el sitio
+            <ExternalLink className="size-3.5" />
+          </Button>
+        }
       />
-      <CarPhotos carId={auto.id} fotos={auto.fotos} />
+      <div className="max-w-3xl space-y-6">
+        <CarForm
+          action={updateCarWithId}
+          defaultValues={auto}
+          submitLabel="Guardar cambios"
+        />
+        <CarPhotos carId={auto.id} fotos={auto.fotos} />
+      </div>
     </div>
   );
 }

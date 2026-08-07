@@ -43,7 +43,13 @@ export default function SiteLayout({
         Saltar al contenido
       </a>
       <SiteHeader />
-      <main id="contenido" className="flex-1">
+      {/* El header pasó a `fixed` (para poder ir transparente sobre el hero
+          y encogerse sin empujar el layout) — por eso ya no reserva su
+          espacio en el flujo normal. `pt-20` acá compensa esa altura para
+          el resto de páginas; `Hero` cancela este padding con `-mt-20`
+          para que su foto arranque debajo del header en vez de debajo del
+          hueco que este padding deja. */}
+      <main id="contenido" className="flex-1 pt-20">
         {children}
       </main>
       <SiteFooter />

@@ -25,6 +25,31 @@ export function tipoLabel(tipo: string | null): string | null {
   return tipo && tipo in TIPO_LABELS ? TIPO_LABELS[tipo as TipoAuto] : null;
 }
 
+// Badge de estado comercial — independiente de `tipo` (categoría de
+// inventario): un auto DIPLOMATICO puede estar además EXONERADO o RESERVADO.
+export type EstadoAuto =
+  | "DISPONIBLE"
+  | "RESERVADO"
+  | "EXONERADO"
+  | "CUPO_DIPLOMATICO";
+
+export const ESTADO_LABELS: Record<EstadoAuto, string> = {
+  DISPONIBLE: "Disponible",
+  RESERVADO: "Reservado",
+  EXONERADO: "Exonerado",
+  CUPO_DIPLOMATICO: "Con cupo diplomático",
+};
+
+export const ESTADO_OPTIONS: { value: EstadoAuto; label: string }[] = (
+  Object.entries(ESTADO_LABELS) as [EstadoAuto, string][]
+).map(([value, label]) => ({ value, label }));
+
+export function estadoLabel(estado: string | null): string | null {
+  return estado && estado in ESTADO_LABELS
+    ? ESTADO_LABELS[estado as EstadoAuto]
+    : null;
+}
+
 const columnasPublicas = {
   id: true,
   slug: true,
@@ -37,6 +62,7 @@ const columnasPublicas = {
   combustible: true,
   color: true,
   tipo: true,
+  estado: true,
 } as const;
 
 export type AutoPublico = {
@@ -50,9 +76,10 @@ export type AutoPublico = {
   transmision: string | null;
   combustible: string | null;
   color: string | null;
-  // string (no TipoAuto): el schema lo guarda como texto libre en D1/SQLite;
-  // TipoAuto sólo restringe los valores que la app misma escribe.
+  // string (no TipoAuto/EstadoAuto): el schema los guarda como texto libre en
+  // D1/SQLite; los union types sólo restringen los valores que la app escribe.
   tipo: string | null;
+  estado: string | null;
   fotos: { url: string }[];
 };
 

@@ -30,6 +30,7 @@ function parseCarForm(formData: FormData) {
     color: formData.get("color"),
     descripcion: formData.get("descripcion"),
     tipo: formData.get("tipo"),
+    estado: formData.get("estado"),
     destacado: formData.get("destacado") === "on",
     activo: formData.get("activo") === "on",
   });

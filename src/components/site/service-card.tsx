@@ -37,38 +37,43 @@ export function ServiceCard({ servicio, delay = 0 }: { servicio: Servicio; delay
             sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
-          {/* El velo arranca al 85% abajo (donde va el texto) y se disuelve
-              del todo a media altura: las fotos de servicios ya son oscuras
-              de por sí, así que un degradado que cubría toda la card las
-              apagaba hasta volverlas rectángulos marrones indistinguibles. */}
+          {/* Antes se disolvía a 0.25 de opacidad ya a mitad de la card
+              (`via-black/25 via-55%`) — insuficiente contraste contra fotos
+              claras (contenedores, capó, ventana de aeropuerto): el título
+              quedaba leyéndose directo sobre la imagen. Ahora casi opaco
+              donde vive el texto (0.94 en la base, 0.8 hasta 35%) y recién
+              empieza a aclarar después de esa zona, en vez de aclarar desde
+              el borde inferior mismo. */}
           <div
             aria-hidden
-            className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 via-55% to-transparent transition-opacity duration-300"
+            className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,.94)_0%,rgba(0,0,0,.8)_35%,rgba(0,0,0,.3)_65%,transparent_100%)] transition-opacity duration-300"
           />
         </>
       ) : (
         <div aria-hidden className="absolute inset-0 bg-placeholder-esquina" />
       )}
 
-      <div
-        aria-hidden
-        className="absolute right-5 top-5 grid size-11 place-items-center rounded-full border border-white/15 bg-black/30 backdrop-blur-sm transition-colors duration-300 group-hover:border-gold/60"
-      >
-        <Icono className="size-5 text-gold transition-transform duration-300 group-hover:scale-110" />
-      </div>
-
       <div className="relative">
         <span
           aria-hidden
           className="mb-4 block h-px w-10 bg-gold/70 transition-all duration-500 group-hover:w-16"
         />
-        {/* El contenedor reserva siempre el alto de 2 líneas (text-xl 1.25rem
-            x leading-snug 1.375 x 2 = 3.4375rem) y ancla el título abajo: sin
-            esto, los títulos de una línea suben su bloque y la rayita dorada
-            queda a distinta altura en cada card de la fila. El min-h va en el
-            div y no en el h3 porque line-clamp-2 usa display:-webkit-box, que
-            no admite el alineado vertical. */}
-        <div className="flex min-h-[3.4375rem] items-end">
+        {/* El ícono va pegado al título, no flotando arriba a la derecha de
+            la foto: así queda leído como parte del bloque de texto en vez de
+            un elemento suelto desconectado. El contenedor del título reserva
+            siempre el alto de 2 líneas (text-xl 1.25rem x leading-snug 1.375
+            x 2 = 3.4375rem) y lo ancla abajo: sin esto, los títulos de una
+            línea suben su bloque y el ícono/rayita quedan a distinta altura
+            en cada card de la fila. El min-h va en el div y no en el h3
+            porque line-clamp-2 usa display:-webkit-box, que no admite el
+            alineado vertical. */}
+        <div className="flex min-h-[3.4375rem] items-end gap-3">
+          <span
+            aria-hidden
+            className="grid size-9 shrink-0 place-items-center rounded-full border border-white/15 bg-black/30 backdrop-blur-sm transition-colors duration-300 group-hover:border-gold/60"
+          >
+            <Icono className="size-4 text-gold transition-transform duration-300 group-hover:scale-110" />
+          </span>
           <h3 className="line-clamp-2 font-display text-xl leading-snug tracking-wide">
             {titulo}
           </h3>

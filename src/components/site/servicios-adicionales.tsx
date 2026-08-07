@@ -13,12 +13,19 @@ const DESTACADOS = 6;
 
 export function ServiciosAdicionales() {
   return (
-    <section className="py-32 sm:py-40" aria-labelledby="servicios">
+    <section className="section-py" aria-labelledby="servicios">
       <div className="mx-auto max-w-site px-5 sm:px-8">
         <SectionHeading>
-          <span id="servicios">Servicios Adicionales</span>
+          <span id="servicios">Nuestros Servicios</span>
         </SectionHeading>
 
+        {/* Grid parejo 3×2, sin asimetría: se probó una card grande
+            (col-span-2) para destacar el core del negocio y generaba más
+            problemas que los que resolvía — huecos en el grid al no fijar
+            también las filas, y una card desproporcionada. La jerarquía
+            (Importación de Vehículos y Cupo Diplomático primero) ya la da
+            el orden del array `servicios` en site.ts, no hace falta
+            duplicarla con el tamaño. */}
         <ul className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {servicios.slice(0, DESTACADOS).map((servicio, i) => (
             <li key={servicio.slug}>

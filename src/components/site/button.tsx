@@ -9,14 +9,17 @@ import { cn } from "@/lib/utils";
 const variantes = {
   gold: "bg-gold text-gold-foreground shadow-glow hover:bg-gold-strong hover:shadow-glow-hover",
   outline:
-    "border border-gold/40 bg-transparent text-gold hover:border-gold hover:bg-gold/10",
+    "border border-gold/60 bg-transparent text-gold hover:border-gold hover:bg-gold/10",
 };
 
+// Tracking bajado de ~0.12–0.2em a un rango 0.08–0.1em: al tamaño de texto
+// de estos botones (11–12px) el tracking anterior se leía espaciado en
+// exceso, no elegante.
 const tamanos = {
-  sm: "h-10 px-4 text-[0.68rem] tracking-[0.12em]",
-  md: "h-11 px-7 text-[0.68rem] tracking-[0.18em]",
-  lg: "h-12 px-8 text-[0.7rem] tracking-[0.2em]",
-  xl: "h-14 px-10 text-[0.72rem] tracking-[0.2em]",
+  sm: "h-10 px-4 text-[0.68rem] tracking-[0.08em]",
+  md: "h-11 px-7 text-[0.68rem] tracking-[0.08em]",
+  lg: "h-12 px-8 text-[0.7rem] tracking-[0.09em]",
+  xl: "h-14 px-10 text-[0.72rem] tracking-[0.1em]",
 };
 
 // Máximo 200ms, elevación + sombra + cambio del dorado en hover, cursor

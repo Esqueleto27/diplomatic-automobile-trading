@@ -35,6 +35,11 @@ export const cars = sqliteTable("Car", {
   // "NUEVO" | "USADO" | "DIPLOMATICO" — SQLite/D1 no tiene enums nativos,
   // se valida en la capa de aplicación (src/lib/validations/car.ts).
   tipo: text("tipo"),
+  // "DISPONIBLE" | "RESERVADO" | "EXONERADO" | "CUPO_DIPLOMATICO" — badge de
+  // estado que se muestra en la tarjeta/ficha. Independiente de `tipo`: un
+  // auto puede ser DIPLOMATICO (categoría de inventario) y estar además
+  // EXONERADO o RESERVADO (estado comercial), mismo patrón texto-libre.
+  estado: text("estado"),
   destacado: integer("destacado", { mode: "boolean" })
     .notNull()
     .default(false),
