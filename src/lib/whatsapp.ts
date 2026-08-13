@@ -24,7 +24,7 @@ export async function whatsappHref(mensaje: string): Promise<string> {
 }
 
 export function mensajeTestDrive(nombreAuto: string): string {
-  return `Hola, me interesa agendar un test drive del ${nombreAuto}.`;
+  return `Hola, me interesa agendar una prueba de manejo del ${nombreAuto}.`;
 }
 
 export function mensajeConsultaServicio(servicio: string): string {

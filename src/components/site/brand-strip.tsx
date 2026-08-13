@@ -1,4 +1,5 @@
 import { confianza, marcas } from "@/lib/site";
+import { LogoMarca } from "@/components/site/logo-marca";
 
 /**
  * Muro de marcas: todas visibles siempre, sin flechas ni auto-scroll — eso
@@ -40,23 +41,7 @@ export function BrandStrip() {
             key={marca.nombre}
             className="grid h-16 shrink-0 snap-center place-items-center"
           >
-            {marca.logo ? (
-              /* eslint-disable-next-line @next/next/no-img-element */
-              <img
-                src={marca.logo}
-                alt={marca.nombre}
-                width={48}
-                height={48}
-                loading="lazy"
-                decoding="async"
-                style={{ height: `${2.76 * (marca.escala ?? 1)}rem` }}
-                className="w-auto opacity-75 transition-opacity duration-300 hover:opacity-100"
-              />
-            ) : (
-              <span className="whitespace-nowrap font-display text-lg uppercase tracking-[0.18em] text-foreground/70 transition-colors hover:text-foreground">
-                {marca.nombre}
-              </span>
-            )}
+            <LogoMarca marca={marca} />
           </li>
         ))}
       </ul>

@@ -7,7 +7,6 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { navLinks } from "@/lib/site";
 import { Wordmark } from "@/components/site/wordmark";
-import { SiteButton } from "@/components/site/button";
 
 export function SiteHeader() {
   const [abierto, setAbierto] = useState(false);
@@ -74,7 +73,11 @@ export function SiteHeader() {
       )}
     >
       <div className="mx-auto grid h-full max-w-site grid-cols-[1fr_auto_1fr] items-center gap-6 px-5 sm:px-8">
-        <div aria-label="Diplomatic Automobile Trading">
+        <Link
+          href="/"
+          aria-label="Diplomatic Automobile Trading — Inicio"
+          className="justify-self-start outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+        >
           <Wordmark
             priority
             imgClassName={cn(
@@ -82,7 +85,7 @@ export function SiteHeader() {
               scrolled ? "h-8" : "h-10",
             )}
           />
-        </div>
+        </Link>
 
         <nav
           className="hidden items-center gap-9 lg:flex"
@@ -119,15 +122,6 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center justify-end gap-5">
-          <SiteButton
-            href="/contacto"
-            size="sm"
-            variant="outline"
-            className="hidden lg:inline-flex"
-          >
-            Contacto
-          </SiteButton>
-
           <button
             ref={toggleRef}
             type="button"
@@ -172,16 +166,6 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-
-        <div className="border-t border-border px-6 py-6">
-          <SiteButton
-            href="/contacto"
-            className="w-full"
-            onClick={() => setAbierto(false)}
-          >
-            Contacto
-          </SiteButton>
-        </div>
       </div>
     </header>
   );

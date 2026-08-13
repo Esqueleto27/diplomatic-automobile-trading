@@ -9,6 +9,11 @@ import { siteUrl } from "@/lib/site";
 // noindex — evita que Google indexe el preview en paralelo al sitio real.
 const CANONICAL_HOST = new URL(siteUrl).host;
 
+// Mismo host de R2 que next.config.ts (remotePatterns) y src/lib/site.ts
+// (ASSETS_BASE_URL) — hardcodeado a propósito en los tres lugares, mismo
+// criterio explicado ahí: es estable y cambiarlo ya implica tocar código.
+const R2_HOST = "https://pub-2a4b20ea6c834e9d8fda32f7a54be906.r2.dev";
+
 // Corre en Edge Runtime (Cloudflare Workers) — el chequeo de sesión sólo
 // toca D1 vía JWT/cookie (jose, edge-safe), nunca importa src/lib/db.ts ni
 // src/db/schema.ts, que arrastrarían drizzle-orm/d1 innecesariamente acá.
@@ -18,6 +23,32 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isAdminRoute = pathname.startsWith("/admin");
   const isLoginPage = pathname === "/admin/login";
+
+  // Nonce por request para la Content-Security-Policy: permite los <script>
+  // JSON-LD propios del sitio (Schema.org en SiteLayout y en la ficha de
+  // auto) sin abrir script-src a 'unsafe-inline', que habilitaría cualquier
+  // script inyectado por un XSS. Se manda también como header de REQUEST
+  // (no sólo de respuesta) para que esos Server Components puedan leerlo
+  // con `headers()` y ponerlo en el atributo `nonce` del script.
+  const nonce = crypto.randomUUID();
+  const csp = [
+    "default-src 'self'",
+    `script-src 'self' 'nonce-${nonce}'`,
+    // 'unsafe-inline' sólo para estilos: React/Tailwind ponen varios
+    // `style={{...}}` fijos en el servidor (filtros de imagen, delays de
+    // animación, alturas calculadas de logos) — nonce-per-style no vale la
+    // pena para esto, y no es el vector de XSS que importa acá.
+    "style-src 'self' 'unsafe-inline'",
+    `img-src 'self' data: ${R2_HOST}`,
+    "font-src 'self'",
+    "connect-src 'self'",
+    // Embed de Google Maps en /contacto — ver ese archivo.
+    "frame-src https://www.google.com",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+  ].join("; ");
 
   if (isAdminRoute) {
     const token = request.cookies.get(SESSION_COOKIE_NAME)?.value;
@@ -29,6 +60,7 @@ export async function middleware(request: NextRequest) {
       return withSecurityHeaders(
         NextResponse.redirect(new URL("/admin/login", request.nextUrl.origin)),
         request,
+        csp,
       );
     }
 
@@ -36,17 +68,36 @@ export async function middleware(request: NextRequest) {
       return withSecurityHeaders(
         NextResponse.redirect(new URL("/admin", request.nextUrl.origin)),
         request,
+        csp,
       );
     }
   }
 
-  return withSecurityHeaders(NextResponse.next(), request);
+  // Next.js arma sus propios <script> internos (el payload de streaming de
+  // RSC que hidrata la página) leyendo el nonce de la cabecera
+  // Content-Security-Policy del REQUEST entrante, no de la respuesta — así
+  // que hay que ponérsela acá también, exactamente igual a la de la
+  // respuesta. Sin esto, esos scripts internos salían sin nonce y el propio
+  // navegador los bloqueaba: la hidratación nunca corría, así que todo lo
+  // que depende de JS para mostrarse (los `<Reveal>` de Motion, que arrancan
+  // en opacity:0 hasta que su script hidrata) quedaba invisible.
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-nonce", nonce);
+  requestHeaders.set("Content-Security-Policy", csp);
+
+  return withSecurityHeaders(
+    NextResponse.next({ request: { headers: requestHeaders } }),
+    request,
+    csp,
+  );
 }
 
 function withSecurityHeaders(
   response: NextResponse,
   request: NextRequest,
+  csp: string,
 ): NextResponse {
+  response.headers.set("Content-Security-Policy", csp);
   response.headers.set(
     "Strict-Transport-Security",
     "max-age=31536000; includeSubDomains; preload",

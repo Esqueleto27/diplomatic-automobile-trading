@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { confianza, lineasNegocio, marcas, oficinaImageUrl } from "@/lib/site";
+import { confianza, marcas, oficinaImageUrl } from "@/lib/site";
 import { SectionHeading } from "@/components/site/section-heading";
 import { SiteButton } from "@/components/site/button";
 import { Reveal } from "@/components/site/reveal";
+import { StatsBand } from "@/components/site/stats-band";
+import { LogoMarca } from "@/components/site/logo-marca";
 
 export const metadata: Metadata = {
-  title: "Empresa",
+  title: "Sobre Nosotros",
   description: confianza.frase,
   alternates: { canonical: "/empresa" },
 };
@@ -16,7 +18,7 @@ export default function EmpresaPage() {
     <div className="mx-auto max-w-site px-5 py-20 sm:px-8 sm:py-32">
       <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
         <div>
-          <SectionHeading as="h1">Empresa</SectionHeading>
+          <SectionHeading as="h1">Sobre Nosotros</SectionHeading>
 
           <p className="mt-6 text-base leading-[1.8] text-foreground/85 sm:text-lg">
             {confianza.frase} Trabajamos con las principales marcas del
@@ -42,28 +44,21 @@ export default function EmpresaPage() {
         </div>
       </div>
 
-      {/* Lista apilada con reglas horizontales: a propósito distinta de la
-          grilla de LineasNegocio en la home, para no repetir el mismo bloque
-          dos veces en el sitio con solo el ancho de columna cambiado. */}
-      <dl className="mt-20 max-w-2xl border-t border-border">
-        {lineasNegocio.map(({ slug, titulo, descripcion, icono: Icono }) => (
-          <div key={slug} className="border-b border-border py-6">
-            <dt className="flex items-center gap-2.5 font-display text-lg tracking-wide">
-              <Icono className="size-5 text-gold" aria-hidden />
-              {titulo}
-            </dt>
-            <dd className="mt-2 text-base leading-[1.7] text-muted-foreground">
-              {descripcion}
-            </dd>
-          </div>
-        ))}
-      </dl>
+      {/* Misma franja de trayectoria que la home (StatsBand) — llena con un
+          dato concreto (30+ años, embajadas atendidas, vehículos vendidos)
+          el espacio que antes ocupaba el bloque de líneas de negocio, que ya
+          se explica en la home y se sentía repetido acá. */}
+      <div className="-mx-5 mt-20 sm:-mx-8">
+        <StatsBand />
+      </div>
 
-      {/* Muro de marcas: mismo array que BrandStrip (home), pero acá con
-          tratamiento de tarjeta individual — la home muestra el logo suelto
-          para no saturar la franja de confianza, /empresa es la página donde
-          alguien viene a evaluar la seriedad del negocio, así que cada marca
-          gana su propio recuadro. */}
+      {/* Muro de marcas: mismo array y mismo tratamiento visual "logo suelto"
+          que BrandStrip en la home — antes esta sección repetía las ~20
+          marcas como una grilla de tarjetas cuadradas grandes, que con ese
+          volumen se volvía una página entera de solo logos. Un muro
+          horizontal compacto (mismo patrón ya resuelto en BrandStrip) cabe
+          en una fracción del alto y no exige scroll para llegar a lo que
+          sigue. */}
       <div className="mt-24">
         <SectionHeading>Marcas con las que trabajamos</SectionHeading>
 
@@ -75,31 +70,12 @@ export default function EmpresaPage() {
           su valor en el mercado ecuatoriano, marca por marca.
         </p>
 
-        <ul className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+        <ul className="mt-10 flex flex-wrap items-center justify-center gap-x-16 gap-y-8 border-y border-border py-10">
           {marcas.map((marca, i) => (
-            <li key={marca.nombre}>
-              <Reveal delay={(i % 10) * 0.04}>
-                <div className="group flex aspect-square flex-col items-center justify-center gap-3 border border-white/[0.07] bg-surface px-4 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-gold/50 hover:shadow-[0_24px_44px_-18px_rgba(0,0,0,0.6),0_0_0_1px_rgba(199,163,84,0.12)]">
-                  {marca.logo ? (
-                    /* eslint-disable-next-line @next/next/no-img-element */
-                    <img
-                      src={marca.logo}
-                      alt={marca.nombre}
-                      width={48}
-                      height={48}
-                      loading="lazy"
-                      decoding="async"
-                      style={{ height: `${2.5 * (marca.escala ?? 1)}rem` }}
-                      className="w-auto opacity-75 transition-opacity duration-300 group-hover:opacity-100"
-                    />
-                  ) : (
-                    <span className="text-center font-display text-lg uppercase tracking-[0.18em] text-foreground/70 transition-colors duration-300 group-hover:text-foreground">
-                      {marca.nombre}
-                    </span>
-                  )}
-                  <span className="text-center text-[0.7rem] font-medium uppercase tracking-[0.18em] text-muted-foreground transition-colors duration-300 group-hover:text-gold">
-                    {marca.nombre}
-                  </span>
+            <li key={marca.nombre} className="grid h-16 place-items-center">
+              <Reveal delay={(i % 12) * 0.03}>
+                <div className="group grid place-items-center">
+                  <LogoMarca marca={marca} hover="group" />
                 </div>
               </Reveal>
             </li>

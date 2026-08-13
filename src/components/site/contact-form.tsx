@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useRef } from "react";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, TriangleAlert } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -166,6 +166,16 @@ export function ContactForm() {
           >
             <CheckCircle2 className="size-4 shrink-0" aria-hidden />
             Mensaje enviado. Le responderemos a la brevedad.
+          </p>
+        )}
+
+        {state?.message && (
+          <p
+            role="alert"
+            className="flex items-center gap-2 text-sm text-destructive"
+          >
+            <TriangleAlert className="size-4 shrink-0" aria-hidden />
+            {state.message}
           </p>
         )}
       </div>

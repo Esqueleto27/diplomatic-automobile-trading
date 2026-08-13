@@ -10,11 +10,7 @@ import {
   EliminarMensajeButton,
   MensajeLeidoToggle,
 } from "@/components/admin/mensaje-row-actions";
-
-const formatoFecha = new Intl.DateTimeFormat("es-EC", {
-  dateStyle: "medium",
-  timeStyle: "short",
-});
+import { formatoFechaHora } from "@/lib/format";
 
 export default async function AdminMensajesPage() {
   const db = await getDb();
@@ -69,7 +65,7 @@ export default async function AdminMensajesPage() {
                     </div>
                     <div className="flex shrink-0 items-center gap-3">
                       <span className="text-xs text-muted-foreground">
-                        {formatoFecha.format(sqliteTimestampToDate(m.createdAt))}
+                        {formatoFechaHora.format(sqliteTimestampToDate(m.createdAt))}
                       </span>
                       <MensajeLeidoToggle id={m.id} leido={m.leido} />
                       <EliminarMensajeButton

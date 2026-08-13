@@ -32,6 +32,26 @@
 			"database_id": "2dbd3843-5030-426b-9c46-607ced93553a"
 		}
 	],
+	"ratelimits": [
+		{
+			// Login del admin: hay un único usuario y su email es adivinable —
+			// sin esto, nada impedía lanzarle miles de intentos de contraseña
+			// por segundo a loginAction. `namespace_id` es sólo un identificador
+			// arbitrario que separa el estado de este limiter del de contacto,
+			// no hace falta crearlo con ningún comando aparte.
+			"name": "RATE_LIMITER_LOGIN",
+			"namespace_id": "1001",
+			"simple": { "limit": 5, "period": 60 }
+		},
+		{
+			// Formulario de contacto: público y sin sesión, escribe directo en
+			// D1. El honeypot (ver enviarMensajeContacto) frena bots torpes,
+			// no uno que hable el protocolo de Server Actions.
+			"name": "RATE_LIMITER_CONTACTO",
+			"namespace_id": "1002",
+			"simple": { "limit": 3, "period": 60 }
+		}
+	],
 	"vars": {
 		// URL pública desde donde se sirven las fotos de PHOTOS_BUCKET. Hoy es
 		// el *.r2.dev gratuito de Cloudflare (activado con

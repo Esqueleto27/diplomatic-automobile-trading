@@ -9,6 +9,11 @@ import {
   mensajeConsultaServicio,
 } from "@/lib/whatsapp";
 
+// Mismo motivo que /contacto: sin esto Next prerenderiza la página estática
+// en build y el número de WhatsApp queda horneado desde .dev.vars en vez
+// del valor real de producción.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Servicios",
   description:
@@ -97,7 +102,7 @@ export default async function ServiciosPage() {
             Cuéntenos qué necesita y un especialista lo atenderá personalmente.
           </p>
           <SiteButton href="/contacto" size="lg" className="mt-2">
-            Contáctanos
+            Contáctenos
           </SiteButton>
         </div>
       </div>

@@ -1,9 +1,11 @@
 import Link from "next/link";
+import Image from "next/image";
 import { desc } from "drizzle-orm";
 import { Car as CarIcon, Plus } from "lucide-react";
 import { getDb } from "@/lib/db";
 import { cars } from "@/db/schema";
-import { estadoLabel, tipoLabel } from "@/lib/cars";
+import { esVendido, estadoLabel, tipoLabel } from "@/lib/cars";
+import { MAX_FOTOS_POR_AUTO } from "@/lib/fotos";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -16,17 +18,15 @@ import {
 } from "@/components/ui/table";
 import { AdminPageHeader } from "@/components/admin/page-header";
 import { DeleteCarButton } from "@/components/admin/delete-car-button";
+import { ActionToast } from "@/components/admin/action-toast";
+import { formatoPrecio } from "@/lib/format";
 
-// Mismo formato que el sitio público (ver formatoPrecio en car-card.tsx) —
-// antes esta tabla armaba "$${...}" a mano y quedaba distinto de "USD X.XXX"
-// del sitio.
-const formatoPrecio = new Intl.NumberFormat("es-EC", {
-  style: "currency",
-  currency: "USD",
-  maximumFractionDigits: 0,
-});
-
-export default async function AdminAutosPage() {
+export default async function AdminAutosPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ creado?: string; actualizado?: string }>;
+}) {
+  const { creado, actualizado } = await searchParams;
   const db = await getDb();
   const autos = await db.query.cars.findMany({
     orderBy: desc(cars.createdAt),
@@ -35,6 +35,11 @@ export default async function AdminAutosPage() {
 
   return (
     <div>
+      <ActionToast
+        show={creado === "1" || actualizado === "1"}
+        message={creado === "1" ? "Auto publicado" : "Cambios guardados"}
+        pathname="/admin/autos"
+      />
       <AdminPageHeader
         title="Autos"
         description={`${autos.length} ${autos.length === 1 ? "vehículo" : "vehículos"} en el inventario.`}
@@ -82,13 +87,14 @@ export default async function AdminAutosPage() {
                 return (
                   <TableRow key={auto.id}>
                     <TableCell>
-                      <div className="size-11 overflow-hidden rounded-md border border-border bg-muted">
+                      <div className="relative size-11 overflow-hidden rounded-md border border-border bg-muted">
                         {portada ? (
-                          /* eslint-disable-next-line @next/next/no-img-element -- URL dinámica de R2, panel interno sin necesidad de optimización */
-                          <img
+                          <Image
                             src={portada}
                             alt=""
-                            className="h-full w-full object-cover"
+                            fill
+                            sizes="44px"
+                            className="object-cover"
                           />
                         ) : (
                           <div className="grid h-full w-full place-items-center">
@@ -112,11 +118,16 @@ export default async function AdminAutosPage() {
                     </TableCell>
                     <TableCell>
                       {tipoLabel(auto.tipo) ?? "—"}
-                      {estadoLabel(auto.estado) && (
-                        <span className="ml-1 text-muted-foreground">
-                          · {estadoLabel(auto.estado)}
-                        </span>
-                      )}
+                      {estadoLabel(auto.estado) &&
+                        (esVendido(auto.estado) ? (
+                          <Badge variant="destructive" className="ml-1.5">
+                            {estadoLabel(auto.estado)}
+                          </Badge>
+                        ) : (
+                          <span className="ml-1 text-muted-foreground">
+                            · {estadoLabel(auto.estado)}
+                          </span>
+                        ))}
                     </TableCell>
                     <TableCell className="tabular-nums">
                       {auto.precio != null
@@ -124,7 +135,7 @@ export default async function AdminAutosPage() {
                         : "Consultar"}
                     </TableCell>
                     <TableCell className="tabular-nums text-muted-foreground">
-                      {auto.fotos.length} / 10
+                      {auto.fotos.length} / {MAX_FOTOS_POR_AUTO}
                     </TableCell>
                     <TableCell className="space-x-1">
                       {auto.destacado && <Badge>Destacado</Badge>}

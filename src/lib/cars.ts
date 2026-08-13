@@ -1,3 +1,5 @@
+import { asc, desc, sql, type SQL } from "drizzle-orm";
+import { cars } from "@/db/schema";
 import { getDb } from "@/lib/db";
 
 // SQLite/D1 no tiene enums nativos: "tipo" es String en el schema, validado
@@ -27,17 +29,22 @@ export function tipoLabel(tipo: string | null): string | null {
 
 // Badge de estado comercial — independiente de `tipo` (categoría de
 // inventario): un auto DIPLOMATICO puede estar además EXONERADO o RESERVADO.
+// VENDIDO es un estado más de esta misma lista (no un campo booleano aparte)
+// a propósito: reutiliza el mismo badge/select que ya existía en vez de
+// sumar un segundo mecanismo de estado en el schema.
 export type EstadoAuto =
   | "DISPONIBLE"
   | "RESERVADO"
   | "EXONERADO"
-  | "CUPO_DIPLOMATICO";
+  | "CUPO_DIPLOMATICO"
+  | "VENDIDO";
 
 export const ESTADO_LABELS: Record<EstadoAuto, string> = {
   DISPONIBLE: "Disponible",
   RESERVADO: "Reservado",
   EXONERADO: "Exonerado",
   CUPO_DIPLOMATICO: "Con cupo diplomático",
+  VENDIDO: "Vendido",
 };
 
 export const ESTADO_OPTIONS: { value: EstadoAuto; label: string }[] = (
@@ -49,6 +56,24 @@ export function estadoLabel(estado: string | null): string | null {
     ? ESTADO_LABELS[estado as EstadoAuto]
     : null;
 }
+
+/** `Car.estado` es texto libre en el schema — este helper es el único punto
+ * que decide qué string cuenta como "vendido" para ordenar y para el
+ * tratamiento visual (grid/tarjeta), en vez de comparar "VENDIDO" a mano en
+ * cada lugar que lo necesita. */
+export function esVendido(estado: string | null): boolean {
+  return estado === "VENDIDO";
+}
+
+// Orden compartido por las consultas públicas de inventario: los vendidos
+// siempre van al final (quedan en "segundo plano"), y dentro de cada grupo
+// se mantiene destacado > más reciente. `sql<number>` en vez de un booleano
+// porque D1/SQLite ordena 0/1, no true/false.
+const ordenInventario: SQL[] = [
+  asc(sql<number>`case when ${cars.estado} = 'VENDIDO' then 1 else 0 end`),
+  desc(cars.destacado),
+  desc(cars.createdAt),
+];
 
 const columnasPublicas = {
   id: true,
@@ -92,7 +117,7 @@ export async function getAutosPorTipo(
   return db.query.cars.findMany({
     where: (car, { and, eq, inArray }) =>
       and(eq(car.activo, true), inArray(car.tipo, tipos)),
-    orderBy: (car, { desc }) => [desc(car.destacado), desc(car.createdAt)],
+    orderBy: ordenInventario,
     limit: limite,
     columns: columnasPublicas,
     with: {
@@ -130,7 +155,7 @@ export async function getAutosVisibles(limite = 60): Promise<AutoPublico[]> {
   const db = await getDb();
   return db.query.cars.findMany({
     where: (car, { eq }) => eq(car.activo, true),
-    orderBy: (car, { desc }) => [desc(car.destacado), desc(car.createdAt)],
+    orderBy: ordenInventario,
     limit: limite,
     columns: columnasPublicas,
     with: {

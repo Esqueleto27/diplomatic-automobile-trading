@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import type { AutoPublico } from "@/lib/cars";
-import { logoUrl } from "@/lib/site";
+import { Watermark } from "@/components/site/watermark";
 
 /**
  * Foto de portada del auto. Cuando todavía no se cargó ninguna foto muestra
@@ -33,19 +33,10 @@ export function CarMedia({
             fill
             sizes={sizes}
             priority={priority}
+            quality={90}
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
           />
-          {/* Marca de agua: logo propio en cada foto de auto, discreto pero
-              siempre presente — protege contra el uso de las fotos fuera del
-              sitio sin taparle la vista al vehículo. */}
-          <Image
-            src={logoUrl}
-            alt=""
-            aria-hidden
-            width={300}
-            height={74}
-            className="pointer-events-none absolute bottom-2.5 right-2.5 h-4 w-auto opacity-80 drop-shadow-[0_1px_3px_rgba(0,0,0,0.7)] sm:h-5"
-          />
+          <Watermark size="sm" />
         </>
       ) : (
         <div

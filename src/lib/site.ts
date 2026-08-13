@@ -30,7 +30,7 @@ export const siteConfig = {
   nombre: "Diplomatic",
   apellido: "Automobile Trading",
   tagline:
-    "Dealer especializado en vehículos diplomáticos y de alta gama para organismos internacionales y ciudadanos globales.",
+    "Ofrecemos una selección de vehículos para clientes que buscan calidad, exclusividad y confianza, con una atención especializada para diplomáticos y clientes particulares que valoran un servicio a la altura de sus necesidades.",
 };
 
 // Dominio de producción del sitio nuevo (reemplaza al sitio actual en el
@@ -45,12 +45,11 @@ export const logoUrl = `${ASSETS_BASE_URL}/logo/logo-300x74.png`;
 export const oficinaImageUrl = `${ASSETS_BASE_URL}/empresa/oficina.png`;
 // Foto real de la fachada del edificio, usada en /contacto junto al mapa.
 export const edificioImageUrl = `${ASSETS_BASE_URL}/empresa/edificio.png`;
-// Foto real (entrega de llaves), usada como textura de fondo en la franja
-// superior de /contacto — nunca a máxima intensidad, ver ContactoPage.
-export const contactoHeroImageUrl = `${ASSETS_BASE_URL}/contacto/hero.jpg`;
 // Foto real (fila de superautos), usada como textura de fondo en el CTA de
-// cierre de la home ("Hablemos de su próximo vehículo") — mismo tratamiento
-// apagado que contactoHeroImageUrl, ver ContactCta.
+// cierre de la home ("Hablemos de su próximo vehículo"), ver ContactCta.
+// /contacto ya no lleva foto de fondo propia (se sacó a pedido del
+// cliente — quedaba "fea"/competía con el formulario); la franja superior
+// de esa página ahora es sólo texto sobre el fondo plano del tema.
 export const contactoCtaImageUrl = `${ASSETS_BASE_URL}/contacto-cta.jpg`;
 
 // Texto propio (no copiado de la competencia). A propósito NO se estructura
@@ -65,14 +64,13 @@ export const confianza = {
     "Más de 30 años asesorando a embajadas, misiones diplomáticas y organismos internacionales en la compra y venta de vehículos exonerados en Ecuador.",
 };
 
-// PENDIENTE: confirmar las cifras reales con el cliente antes de publicar —
-// los valores son placeholders coherentes con el posicionamiento (30+ años
-// sí es real, ver confianza.frase).
-export const indicadores = [
-  { valor: "30+", etiqueta: "Años en el mercado" },
-  { valor: "100+", etiqueta: "Embajadas atendidas" },
-  { valor: "800+", etiqueta: "Vehículos vendidos" },
-];
+// "100+ embajadas atendidas" y "800+ vehículos vendidos" se sacaron de acá:
+// eran placeholders sin confirmar por el cliente que igual estaban en vivo
+// en la home y en /empresa — afirmaciones concretas sobre un negocio real
+// que nadie verificó. Sólo queda el dato que sí es real (30+ años, mismo
+// que confianza.frase). Si el cliente confirma cifras reales, se agregan
+// acá — StatsBand ya sabe mostrar 1 o varios (ver ese componente).
+export const indicadores = [{ valor: "30+", etiqueta: "Años en el mercado" }];
 
 export type LineaNegocio = {
   slug: string;
@@ -106,6 +104,7 @@ export const navLinks = [
   { href: "/empresa", label: "Empresa" },
   { href: "/inventario", label: "Inventario" },
   { href: "/servicios", label: "Servicios" },
+  { href: "/contacto", label: "Contacto" },
 ];
 
 // PENDIENTE: reemplazar por los datos reales del cliente antes de publicar.
@@ -192,9 +191,9 @@ export type Servicio = {
 
 // Orden a propósito: los dos servicios "core" del negocio (importar el
 // vehículo en sí, y usar el cupo diplomático para traer bienes) van primero
-// — son los que más valen y los que ServiciosAdicionales destaca con la
-// card grande del grid asimétrico. Matriculación y reexportación son trámite
-// de apoyo; los seguros, complementarios — por eso cierran la lista.
+// — son los que más valen, y ServiciosAdicionales los destaca ocupando los
+// dos primeros lugares de la grilla. Matriculación y reexportación son
+// trámite de apoyo; los seguros, complementarios — por eso cierran la lista.
 export const servicios: Servicio[] = [
   {
     slug: "importacion-vehiculos",

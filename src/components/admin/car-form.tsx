@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import type { CarActionState } from "@/server/actions/cars";
 import { ESTADO_OPTIONS, TIPO_OPTIONS } from "@/lib/cars";
+import { PhotoPicker } from "@/components/admin/photo-picker";
 
 const TRANSMISION_OPTIONS = [
   { value: "Automática", label: "Automática" },
@@ -30,7 +32,10 @@ const COMBUSTIBLE_OPTIONS = [
 ];
 
 const ANIO_ACTUAL = new Date().getFullYear();
-const MIN_ANIO = 1995;
+// 1970, no 1995: un bróker de usados también recibe clásicos ocasionales —
+// con el tope anterior no había forma de cargar el año de un vehículo más
+// viejo, y la ficha pública quedaba con "Sin definir".
+const MIN_ANIO = 1970;
 const ANIOS_OPTIONS = Array.from(
   { length: ANIO_ACTUAL - MIN_ANIO + 1 },
   (_, i) => {
@@ -100,6 +105,20 @@ export function CarForm({
   const [state, formAction, isPending] = useActionState(action, undefined);
   const errors = state?.errors ?? {};
 
+  // `state` arranca en `undefined` y sólo pasa a tener valor cuando la
+  // action vuelve SIN redirigir (error de validación, o un error inesperado
+  // de base de datos) — el caso de éxito ya redirige y avisa desde la página
+  // de destino (ver ActionToast), así que acá sólo hace falta cubrir la
+  // falla. `state.message` ya se muestra fijo junto al botón más abajo — acá
+  // sólo el toast de errores de campo, que están dispersos por todo el
+  // formulario y conviene señalarlos desde arriba.
+  useEffect(() => {
+    if (!state) return;
+    if (state.errors) {
+      toast.error("Revisa los campos marcados en rojo");
+    }
+  }, [state]);
+
   return (
     <form action={formAction} className="max-w-3xl space-y-6">
       {conFotos && (
@@ -108,18 +127,7 @@ export function CarForm({
             <CardTitle className="text-base">Fotos</CardTitle>
           </CardHeader>
           <CardContent>
-            <input
-              id="fotos"
-              name="fotos"
-              type="file"
-              accept="image/jpeg,image/png,image/webp"
-              multiple
-              className="block w-full text-sm text-muted-foreground file:mr-3 file:rounded-md file:border-0 file:bg-secondary file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-secondary-foreground"
-            />
-            <p className="mt-2 text-xs text-muted-foreground">
-              JPG, PNG o WebP, hasta 8 MB cada una. Se pueden subir también
-              después desde el panel.
-            </p>
+            <PhotoPicker name="fotos" />
           </CardContent>
         </Card>
       )}
@@ -254,11 +262,22 @@ export function CarForm({
               />
             </Field>
 
-            <Field label="Tipo" htmlFor="tipo">
+            <Field
+              label="Tipo"
+              htmlFor="tipo"
+              hint="Sólo Usado o Diplomático aparecen en la portada del sitio."
+            >
               <Select
                 name="tipo"
                 items={TIPO_OPTIONS}
-                defaultValue={defaultValues?.tipo ?? undefined}
+                // Al crear (conFotos === true, ver nota en la prop) arranca
+                // en "Usado" — la inmensa mayoría de las altas lo son, y
+                // dejarlo en blanco es la causa más común de "publiqué un
+                // auto pero no aparece en el home": el home sólo lista
+                // Usado/Diplomático (ver getAutosPorTipo), "Visible en el
+                // sitio" no alcanza por sí solo. Al editar se respeta el
+                // valor guardado tal cual, sin forzar nada.
+                defaultValue={defaultValues?.tipo ?? (conFotos ? "USADO" : undefined)}
               >
                 <SelectTrigger id="tipo" className="w-full">
                   <SelectValue placeholder="Sin definir" />
@@ -304,7 +323,7 @@ export function CarForm({
                 name="destacado"
                 defaultChecked={defaultValues?.destacado ?? false}
               />
-              <Label htmlFor="destacado">Destacado</Label>
+              <Label htmlFor="destacado">Destacado (aparece primero en la portada)</Label>
             </div>
 
             <div className="flex items-center gap-2">

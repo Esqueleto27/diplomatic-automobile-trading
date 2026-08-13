@@ -22,7 +22,7 @@ export default async function AdminLoginPage() {
               Panel de administración
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Ingresá con tu cuenta para continuar.
+              Ingresa con tu cuenta para continuar.
             </p>
           </div>
         </div>

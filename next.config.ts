@@ -1,6 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    // Next.js limita el body de un Server Action a 1 MB por defecto — con
+    // una sola foto liviana entraba, pero subir varias (hasta 10, 8 MB cada
+    // una — ver MAX_FOTOS_POR_AUTO en car-photos.ts) rompía con "Body
+    // exceeded 1 MB limit" (500, sin mensaje claro para el usuario). 100 MB
+    // deja margen sobre el máximo teórico (10 × 8 MB = 80 MB) sin acercarse
+    // al límite de tamaño de request de Cloudflare Workers.
+    serverActions: {
+      bodySizeLimit: "100mb",
+    },
+  },
   images: {
     remotePatterns: [
       // Host exacto del bucket, no un wildcard "*.r2.dev": con wildcard,

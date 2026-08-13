@@ -7,6 +7,8 @@ import { requireSession } from "@/lib/session";
 import { getDb } from "@/lib/db";
 import { contactMessages } from "@/db/schema";
 import { contactoSchema } from "@/lib/validations/contacto";
+import { errorAdmin, errorPublico } from "@/lib/action-error";
+import { dentroDelLimite, getRateLimiter } from "@/lib/rate-limit";
 
 export type ContactoActionState =
   | {
@@ -26,6 +28,15 @@ export async function enviarMensajeContacto(
     return { ok: true };
   }
 
+  // Endpoint público sin sesión — el honeypot de arriba frena bots torpes,
+  // no uno que hable el protocolo de Server Actions directo. 3 envíos por
+  // minuto por IP alcanza de sobra para una persona real y evita que se
+  // llene la tabla ContactMessage (y la bandeja del panel) a fuerza bruta.
+  const limiter = await getRateLimiter("RATE_LIMITER_CONTACTO");
+  if (!(await dentroDelLimite(limiter))) {
+    return { message: "Demasiados intentos. Inténtelo de nuevo en un minuto." };
+  }
+
   const parsed = contactoSchema.safeParse({
     nombre: formData.get("nombre"),
     apellido: formData.get("apellido"),
@@ -38,23 +49,40 @@ export async function enviarMensajeContacto(
     return { errors: parsed.error.flatten().fieldErrors };
   }
 
-  const db = await getDb();
-  await db.insert(contactMessages).values({ id: randomUUID(), ...parsed.data });
+  try {
+    const db = await getDb();
+    await db.insert(contactMessages).values({ id: randomUUID(), ...parsed.data });
+  } catch (error) {
+    return { message: errorPublico(error, "enviarMensajeContacto") };
+  }
 
   revalidatePath("/admin/mensajes");
   return { ok: true };
 }
 
-export async function marcarMensajeLeido(id: string, leido: boolean) {
+export async function marcarMensajeLeido(
+  id: string,
+  leido: boolean,
+): Promise<string | null> {
   await requireSession();
-  const db = await getDb();
-  await db.update(contactMessages).set({ leido }).where(eq(contactMessages.id, id));
+  try {
+    const db = await getDb();
+    await db.update(contactMessages).set({ leido }).where(eq(contactMessages.id, id));
+  } catch (error) {
+    return errorAdmin(error, "marcarMensajeLeido");
+  }
   revalidatePath("/admin/mensajes");
+  return null;
 }
 
-export async function eliminarMensaje(id: string) {
+export async function eliminarMensaje(id: string): Promise<string | null> {
   await requireSession();
-  const db = await getDb();
-  await db.delete(contactMessages).where(eq(contactMessages.id, id));
+  try {
+    const db = await getDb();
+    await db.delete(contactMessages).where(eq(contactMessages.id, id));
+  } catch (error) {
+    return errorAdmin(error, "eliminarMensaje");
+  }
   revalidatePath("/admin/mensajes");
+  return null;
 }

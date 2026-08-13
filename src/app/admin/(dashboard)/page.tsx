@@ -8,10 +8,7 @@ import { AdminPageHeader } from "@/components/admin/page-header";
 import { StatCard } from "@/components/admin/stat-card";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-const formatoFecha = new Intl.DateTimeFormat("es-EC", {
-  dateStyle: "medium",
-});
+import { formatoFecha } from "@/lib/format";
 
 // Portada real en vez de un redirect ciego a /autos: da una foto del
 // negocio de un vistazo (cuánto inventario, qué falta de atención) antes de

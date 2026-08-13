@@ -36,7 +36,10 @@ export function MensajeLeidoToggle({
         checked={leido}
         disabled={isPending}
         onCheckedChange={(checked) =>
-          startTransition(() => marcarMensajeLeido(id, checked === true))
+          startTransition(async () => {
+            const error = await marcarMensajeLeido(id, checked === true);
+            if (error) toast.error(error);
+          })
         }
         aria-label="Marcar como leído"
       />
@@ -56,7 +59,11 @@ export function EliminarMensajeButton({
 
   const handleDelete = () => {
     startTransition(async () => {
-      await eliminarMensaje(id);
+      const error = await eliminarMensaje(id);
+      if (error) {
+        toast.error(error);
+        return;
+      }
       toast.success(`Mensaje de "${nombre}" eliminado`);
     });
   };

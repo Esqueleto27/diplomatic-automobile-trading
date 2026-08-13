@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import { SiteHeader } from "@/components/site/header";
 import { SiteFooter } from "@/components/site/footer";
 import { QuickContact } from "@/components/site/quick-contact";
@@ -23,17 +24,23 @@ function organizacionSchema() {
   };
 }
 
-export default function SiteLayout({
+export default async function SiteLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // El nonce lo genera src/middleware.ts por request (ver la CSP ahí) y lo
+  // manda como header de request — así este script inline pasa la política
+  // sin necesitar 'unsafe-inline' en script-src.
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
+
   // `site-theme` inyecta la paleta de marca (ver globals.css). Va acá y no en
   // :root para que el panel /admin conserve el tema neutro de shadcn.
   return (
     <div className="site-theme flex min-h-dvh flex-1 flex-col">
       <script
         type="application/ld+json"
+        nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizacionSchema()) }}
       />
       <a

@@ -1,5 +1,6 @@
 import { indicadores } from "@/lib/site";
 import { Reveal } from "@/components/site/reveal";
+import { cn } from "@/lib/utils";
 
 /**
  * Franja de trayectoria: mismo fondo/borde que el resto de franjas oscuras
@@ -8,18 +9,29 @@ import { Reveal } from "@/components/site/reveal";
  * demás (negro + dorado) se leía como un bloque ajeno, no como una pausa
  * intencional.
  *
- * `grid-cols-3` fijo, también en móvil (no `flex-wrap`): con 3 items,
- * flex-wrap en una pantalla angosta terminaba envolviendo a 2+1, dejando el
- * tercer número solo en su propia fila. Tres columnas con divisores se lee
- * sólido y ocupa una fracción del alto que una lista apilada.
+ * `grid-cols-3` con divisores cuando hay 3 indicadores (así se lee sólido,
+ * sin envolver a 2+1 en móvil como pasaría con `flex-wrap`). Con 1 solo
+ * indicador (el caso real hoy: se sacaron dos cifras de negocio que nunca
+ * llegó a confirmar el cliente, ver el comentario en `indicadores`) el
+ * mismo grid de 3 columnas dejaría dos huecos vacíos con divisores sin
+ * nada al lado — acá se centra en cambio como una única pieza.
  */
 export function StatsBand() {
+  const unSoloIndicador = indicadores.length === 1;
+
   return (
     <section
       aria-label="Nuestra trayectoria"
       className="border-b border-border bg-surface py-10 sm:py-14"
     >
-      <div className="mx-auto grid max-w-site grid-cols-3 divide-x divide-border px-5 sm:px-8">
+      <div
+        className={cn(
+          "mx-auto grid max-w-site px-5 sm:px-8",
+          unSoloIndicador
+            ? "justify-center"
+            : "grid-cols-3 divide-x divide-border",
+        )}
+      >
         {indicadores.map(({ valor, etiqueta }, i) => (
           <Reveal
             key={etiqueta}

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { logoUrl } from "@/lib/site";
+import { Watermark } from "@/components/site/watermark";
 
 export function CarGallery({
   fotos,
@@ -40,26 +40,24 @@ export function CarGallery({
           alt={`${nombre} — foto ${activa + 1} de ${fotos.length}`}
           fill
           priority
+          quality={90}
           sizes="(max-width: 1024px) 100vw, 60vw"
           className="object-cover"
         />
-        {/* Misma marca de agua que en las cards del inventario (ver
-            CarMedia) — acá en la foto grande, no en las miniaturas del
-            carrusel, que ya son demasiado chicas para llevarla. */}
-        <Image
-          src={logoUrl}
-          alt=""
-          aria-hidden
-          width={300}
-          height={74}
-          className="pointer-events-none absolute bottom-3 right-3 h-5 w-auto opacity-80 drop-shadow-[0_1px_3px_rgba(0,0,0,0.7)] sm:h-6"
-        />
+        {/* No va en las miniaturas del carrusel, más abajo — ya son
+            demasiado chicas para llevarla. */}
+        <Watermark size="lg" />
       </div>
 
       {fotos.length > 1 && (
-        <ul className="mt-3 flex gap-3">
+        // Ancho fijo por miniatura + scroll horizontal, no `flex-1`: con
+        // flex-1 las 10 miniaturas que permite el sistema se repartían el
+        // ancho disponible entre todas, y en un móvil angosto cada una
+        // quedaba en unos 22px — imposible distinguir una foto de otra o
+        // acertarle con el dedo.
+        <ul className="no-scrollbar mt-3 flex gap-3 overflow-x-auto">
           {fotos.map((foto, i) => (
-            <li key={foto.id} className="flex-1">
+            <li key={foto.id} className="w-20 shrink-0 sm:w-24">
               <button
                 type="button"
                 onClick={() => setActiva(i)}
@@ -77,7 +75,7 @@ export function CarGallery({
                   src={foto.url}
                   alt=""
                   fill
-                  sizes="18vw"
+                  sizes="96px"
                   className="object-cover"
                 />
               </button>

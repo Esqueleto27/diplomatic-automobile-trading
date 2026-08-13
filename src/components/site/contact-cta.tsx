@@ -45,7 +45,7 @@ export function ContactCta() {
             compra, importación o los trámites de su vehículo.
           </p>
           <SiteButton href="/contacto" size="lg" className="mt-10">
-            Contáctanos
+            Contáctenos
           </SiteButton>
         </Reveal>
       </div>

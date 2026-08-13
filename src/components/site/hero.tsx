@@ -51,7 +51,7 @@ export function Hero() {
             className="animate-fade-up-in mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4"
           >
             <SiteButton href="/contacto" size="xl" className="w-full sm:w-auto">
-              Solicitar Asesor
+              Hablar con un Asesor
             </SiteButton>
             <SiteButton
               href="/inventario"

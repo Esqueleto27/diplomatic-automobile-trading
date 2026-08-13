@@ -4,7 +4,7 @@ import { Hero } from "@/components/site/hero";
 import { BrandStrip } from "@/components/site/brand-strip";
 import { StatsBand } from "@/components/site/stats-band";
 import { OficinaTrust } from "@/components/site/oficina-trust";
-import { VehiculosUsados } from "@/components/site/vehiculos-usados";
+import { VehiculosUsados, DESTACADOS } from "@/components/site/vehiculos-usados";
 import { ServiciosAdicionales } from "@/components/site/servicios-adicionales";
 import { ContactCta } from "@/components/site/contact-cta";
 
@@ -38,7 +38,7 @@ export default async function HomePage() {
   // consiguen por importación o compra local, es un servicio (ver
   // lineasNegocio en src/lib/site.ts, usado hoy sólo en /empresa), no algo
   // que se liste con fotos. Por eso no hay consulta a tipo "NUEVO".
-  const usados = await autosOVacio(["USADO", "DIPLOMATICO"], 10);
+  const usados = await autosOVacio(["USADO", "DIPLOMATICO"], DESTACADOS);
 
   // Las secciones son bloques independientes: cambiar el orden de la página
   // es mover una línea, y una sección sin inventario simplemente no se monta.

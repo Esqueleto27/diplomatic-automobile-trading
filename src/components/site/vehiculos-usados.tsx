@@ -4,8 +4,13 @@ import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal } from "@/components/site/reveal";
 import { SiteButton } from "@/components/site/button";
 
+// Exportado para que la página que arma `autos` (home) le pida a la base
+// exactamente esta cantidad — antes pedía 10 y acá se recortaban a 3, así
+// que se traían con fotos y todo 7 autos de más en cada carga de la home.
+export const DESTACADOS = 3;
+
 export function VehiculosUsados({ autos }: { autos: AutoPublico[] }) {
-  const destacados = autos.slice(0, 3);
+  const destacados = autos.slice(0, DESTACADOS);
 
   return (
     <section

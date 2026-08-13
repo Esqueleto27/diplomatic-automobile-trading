@@ -28,7 +28,11 @@ export function DeleteCarButton({
 
   const handleDelete = () => {
     startTransition(async () => {
-      await deleteCar(id);
+      const result = await deleteCar(id);
+      if (result?.error) {
+        toast.error(result.error);
+        return;
+      }
       toast.success(`"${nombre}" eliminado`);
     });
   };

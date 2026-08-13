@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
-import { estadoLabel, getAutoPorSlug, tipoLabel } from "@/lib/cars";
+import { esVendido, estadoLabel, getAutoPorSlug, tipoLabel } from "@/lib/cars";
 import { CarGallery } from "@/components/site/car-gallery";
 import { SiteButton } from "@/components/site/button";
 import { precioLegible } from "@/components/site/car-card";
 import { mensajeTestDrive, whatsappHref } from "@/lib/whatsapp";
+import { formatoNumero } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
-
-const formatoNumero = new Intl.NumberFormat("es-EC");
 
 export async function generateMetadata({
   params,
@@ -47,6 +47,8 @@ export default async function AutoDetallePage({
   if (!auto) notFound();
 
   const hrefTestDrive = await whatsappHref(mensajeTestDrive(auto.nombre));
+  // Ver la nota junto al mismo patrón en SiteLayout.
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
 
   const vehiculoSchema = {
     "@context": "https://schema.org",
@@ -63,7 +65,9 @@ export default async function AutoDetallePage({
       "@type": "Offer",
       priceCurrency: "USD",
       price: auto.precio ?? undefined,
-      availability: "https://schema.org/InStock",
+      availability: esVendido(auto.estado)
+        ? "https://schema.org/SoldOut"
+        : "https://schema.org/InStock",
     },
   };
 
@@ -88,6 +92,7 @@ export default async function AutoDetallePage({
     <div className="mx-auto max-w-site px-5 py-16 sm:px-8 sm:py-24">
       <script
         type="application/ld+json"
+        nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(vehiculoSchema) }}
       />
       <Link
@@ -145,7 +150,7 @@ export default async function AutoDetallePage({
               rel="noopener noreferrer"
               className="w-full sm:w-auto"
             >
-              Agenda un Test Drive
+              Agende una Prueba de Manejo
             </SiteButton>
             <SiteButton
               href="/inventario"
