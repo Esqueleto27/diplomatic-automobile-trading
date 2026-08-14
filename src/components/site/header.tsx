@@ -82,7 +82,9 @@ export function SiteHeader() {
             priority
             imgClassName={cn(
               "w-auto transition-[height] duration-300",
-              scrolled ? "h-8" : "h-10",
+              // ~10% más chico que antes (h-8/h-10) — feedback del cliente:
+              // un logo levemente más chico se lee más refinado.
+              scrolled ? "h-7" : "h-9",
             )}
           />
         </Link>

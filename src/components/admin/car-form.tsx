@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { CarActionState } from "@/server/actions/cars";
-import { esVendido, TIPO_OPTIONS } from "@/lib/cars";
+import { esVendido, MAX_DESTACADOS, TIPO_OPTIONS } from "@/lib/cars";
 import { PhotoPicker } from "@/components/admin/photo-picker";
 
 const TRANSMISION_OPTIONS = [
@@ -293,14 +293,24 @@ export function CarForm({
             </Field>
           </div>
 
-          <div className="mt-5 flex flex-wrap gap-6 border-t border-border pt-5">
-            <div className="flex items-center gap-2">
-              <Checkbox
-                id="destacado"
-                name="destacado"
-                defaultChecked={defaultValues?.destacado ?? false}
-              />
-              <Label htmlFor="destacado">Destacado (aparece primero en la portada)</Label>
+          <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3 border-t border-border pt-5">
+            <div>
+              <div className="flex items-center gap-2">
+                <Checkbox
+                  id="destacado"
+                  name="destacado"
+                  defaultChecked={defaultValues?.destacado ?? false}
+                  aria-invalid={Boolean(errors.destacado)}
+                />
+                <Label htmlFor="destacado">
+                  Destacado (aparece en el home — máximo {MAX_DESTACADOS} a la vez)
+                </Label>
+              </div>
+              {errors.destacado && (
+                <p className="mt-1.5 text-xs text-destructive">
+                  {errors.destacado[0]}
+                </p>
+              )}
             </div>
 
             <div className="flex items-center gap-2">

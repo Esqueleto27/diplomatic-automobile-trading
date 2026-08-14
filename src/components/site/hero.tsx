@@ -31,7 +31,13 @@ export function Hero() {
 
       <div className="mx-auto flex min-h-[clamp(34rem,84vh,52rem)] max-w-site items-center px-5 py-24 sm:px-8">
         <div className="max-w-xl">
-          <h1 className="animate-fade-up-in font-display text-[clamp(2.2rem,6vw,4.2rem)] font-light uppercase leading-[0.88] tracking-[0.02em]">
+          {/* Breakpoint móvil propio, no el mismo clamp que desktop: en
+              ≤640px el título+párrafo+dos botones competían por muy poco
+              alto de pantalla (feedback directo del cliente sobre un
+              iPhone SE) — acá el tamaño/interlineado bajan de forma fija,
+              desde sm: se recupera el clamp original sin tocar nada de
+              tablet/desktop para arriba. */}
+          <h1 className="animate-fade-up-in font-display text-[2.75rem] font-light uppercase leading-[1] tracking-[0.01em] sm:text-[clamp(2.2rem,6vw,4.2rem)] sm:leading-[0.88] sm:tracking-[0.02em]">
             Diplomatic
             <br />
             Automobile
@@ -41,16 +47,20 @@ export function Hero() {
 
           <p
             style={{ animationDelay: "0.1s" }}
-            className="animate-fade-up-in mt-6 max-w-xl text-[1.375rem] leading-relaxed tracking-wide text-foreground/85 sm:text-[1.5rem]"
+            className="animate-fade-up-in mt-5 max-w-[22rem] text-[1.125rem] leading-[1.5] tracking-wide text-foreground/85 sm:mt-6 sm:max-w-xl sm:text-[1.5rem] sm:leading-relaxed"
           >
             {siteConfig.tagline}
           </p>
 
           <div
             style={{ animationDelay: "0.2s" }}
-            className="animate-fade-up-in mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4"
+            className="animate-fade-up-in mt-7 flex flex-col gap-2 sm:mt-9 sm:flex-row sm:flex-wrap sm:gap-4"
           >
-            <SiteButton href="/contacto" size="xl" className="w-full sm:w-auto">
+            <SiteButton
+              href="/contacto"
+              size="xl"
+              className="h-[3.625rem] w-full sm:h-14 sm:w-auto"
+            >
               Hablar con un Asesor
             </SiteButton>
             <SiteButton

@@ -1,13 +1,15 @@
 import type { AutoPublico } from "@/lib/cars";
+import { MAX_DESTACADOS } from "@/lib/cars";
 import { CarCardDetalle } from "@/components/site/car-card";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal } from "@/components/site/reveal";
 import { SiteButton } from "@/components/site/button";
 
-// Exportado para que la página que arma `autos` (home) le pida a la base
-// exactamente esta cantidad — antes pedía 10 y acá se recortaban a 3, así
-// que se traían con fotos y todo 7 autos de más en cada carga de la home.
-export const DESTACADOS = 3;
+// Reexportado desde MAX_DESTACADOS (lib/cars.ts) — misma constante que el
+// tope de autos que se pueden marcar "Destacado" en el admin, para que la
+// página que arma `autos` (home) le pida a la base exactamente esta
+// cantidad. Antes eran dos números "3" hardcodeados en archivos distintos.
+export const DESTACADOS = MAX_DESTACADOS;
 
 export function VehiculosUsados({ autos }: { autos: AutoPublico[] }) {
   const destacados = autos.slice(0, DESTACADOS);

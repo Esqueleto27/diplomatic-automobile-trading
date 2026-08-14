@@ -113,6 +113,36 @@ export async function getAutosPorTipo(
   });
 }
 
+// Cantidad de tarjetas del grid de la home (ver DESTACADOS en
+// vehiculos-usados.tsx) — el mismo número es el tope de autos que se pueden
+// marcar "Destacado" a la vez (ver MAX_DESTACADOS en server/actions/cars.ts):
+// no tiene sentido permitir marcar un cuarto si sólo hay 3 lugares en el home.
+export const MAX_DESTACADOS = 3;
+
+/** Sólo los autos marcados "Destacado" — antes getAutosPorTipo ordenaba por
+ * destacado pero sin filtrar, así que si había menos de 3 destacados el home
+ * se rellenaba con autos comunes sin que el admin lo hubiera pedido. */
+export async function getAutosDestacados(
+  tipos: TipoAuto[],
+  limite = MAX_DESTACADOS,
+): Promise<AutoPublico[]> {
+  const db = await getDb();
+  return db.query.cars.findMany({
+    where: (car, { and, eq, inArray }) =>
+      and(eq(car.activo, true), eq(car.destacado, true), inArray(car.tipo, tipos)),
+    orderBy: ordenInventario,
+    limit: limite,
+    columns: columnasPublicas,
+    with: {
+      fotos: {
+        orderBy: (foto, { desc, asc }) => [desc(foto.portada), asc(foto.orden)],
+        limit: 1,
+        columns: { url: true },
+      },
+    },
+  });
+}
+
 export type AutoDetalle = Omit<AutoPublico, "fotos"> & {
   descripcion: string | null;
   fotos: { id: string; url: string }[];

@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { UploadCloud, X } from "lucide-react";
+import { Star, UploadCloud, X } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   ACCEPT_FOTOS,
   MAX_BYTES_POR_FOTO,
@@ -112,6 +114,20 @@ export function PhotoPicker({ name = "fotos" }: { name?: string }) {
     syncInput(files.filter((_, idx) => idx !== i));
   }
 
+  // No hay fotoId todavía (el auto ni existe) para replicar el mecanismo de
+  // "portada" de CarPhotos (marcarPortada server action contra un id real).
+  // En cambio, uploadFotos ya trata a la PRIMERA foto del array como portada
+  // al crear (`actuales === 0 && i === 0`) — así que "marcar portada" acá es
+  // simplemente reordenar el array para que la elegida quede primera, sin
+  // tocar el servidor.
+  function marcarPortada(i: number) {
+    if (i === 0) return;
+    const next = [...files];
+    const [elegida] = next.splice(i, 1);
+    next.unshift(elegida);
+    syncInput(next);
+  }
+
   const lleno = files.length >= MAX_FOTOS_POR_AUTO;
 
   return (
@@ -125,15 +141,41 @@ export function PhotoPicker({ name = "fotos" }: { name?: string }) {
             >
               {/* eslint-disable-next-line @next/next/no-img-element -- preview local vía blob:, next/image no soporta blob URLs */}
               <img src={previews[i]} alt="" className="h-full w-full object-cover" />
-              <button
-                type="button"
-                onClick={() => quitar(i)}
-                className="absolute right-1.5 top-1.5 rounded-full bg-destructive p-1 text-destructive-foreground shadow-sm hover:bg-destructive/90"
-                aria-label={`Quitar ${file.name}`}
-                title="Quitar"
-              >
-                <X className="size-3.5" />
-              </button>
+              {i === 0 && (
+                <Badge className="absolute left-1.5 top-1.5 gap-1">
+                  <Star className="size-3" />
+                  Portada
+                </Badge>
+              )}
+              {/* Siempre visibles, no sólo al hover — en touch (celular,
+                  tablet) un overlay hover-only las dejaba inalcanzables,
+                  mismo criterio que CarPhotos. */}
+              <div className="absolute right-1.5 top-1.5 flex gap-1">
+                {i !== 0 && (
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    size="icon-sm"
+                    title="Marcar como portada"
+                    aria-label={`Marcar ${file.name} como portada`}
+                    className="bg-background/80 shadow-sm backdrop-blur-sm hover:bg-background"
+                    onClick={() => marcarPortada(i)}
+                  >
+                    <Star className="size-3.5" />
+                  </Button>
+                )}
+                <Button
+                  type="button"
+                  variant="destructive"
+                  size="icon-sm"
+                  title="Quitar"
+                  aria-label={`Quitar ${file.name}`}
+                  className="shadow-sm"
+                  onClick={() => quitar(i)}
+                >
+                  <X className="size-3.5" />
+                </Button>
+              </div>
             </li>
           ))}
         </ul>

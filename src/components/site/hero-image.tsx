@@ -27,7 +27,12 @@ export function HeroImage() {
         fill
         priority
         sizes="100vw"
-        className="animate-hero-zoom object-cover object-[58%_center]"
+        // En móvil el recorte es más alto/angosto que en desktop y 58%
+        // dejaba al auto corrido hacia un borde detrás del texto centrado
+        // (ver comentario del velo, arriba) — centrado a secas se ve mejor
+        // ahí; desde sm: (donde el texto vuelve a vivir a la izquierda) se
+        // conserva el 58% original.
+        className="animate-hero-zoom object-cover object-center sm:object-[58%_center]"
       />
     </motion.div>
   );

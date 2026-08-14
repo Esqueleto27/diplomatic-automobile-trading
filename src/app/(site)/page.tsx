@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getAutosPorTipo } from "@/lib/cars";
+import { getAutosDestacados } from "@/lib/cars";
 import { Hero } from "@/components/site/hero";
 import { BrandStrip } from "@/components/site/brand-strip";
 import { StatsBand } from "@/components/site/stats-band";
@@ -23,10 +23,10 @@ export const metadata: Metadata = {
  * para que se note, pero el visitante todavía puede contactar al negocio.
  */
 async function autosOVacio(
-  ...args: Parameters<typeof getAutosPorTipo>
-): Promise<Awaited<ReturnType<typeof getAutosPorTipo>>> {
+  ...args: Parameters<typeof getAutosDestacados>
+): Promise<Awaited<ReturnType<typeof getAutosDestacados>>> {
   try {
-    return await getAutosPorTipo(...args);
+    return await getAutosDestacados(...args);
   } catch (error) {
     console.error("No se pudo leer el inventario para la portada:", error);
     return [];
@@ -34,11 +34,14 @@ async function autosOVacio(
 }
 
 export default async function HomePage() {
-  // El inventario destacado de portada es sólo de vehículos usados: los
-  // nuevos se consiguen por importación o compra local, es un servicio (ver
-  // lineasNegocio en src/lib/site.ts, usado hoy sólo en /empresa), no algo
-  // que se liste con fotos. Por eso no hay consulta a tipo "NUEVO" acá (sí
-  // puede aparecer en /inventario, que lista todo lo activo sin filtrar).
+  // El inventario destacado de portada es sólo de vehículos usados marcados
+  // "Destacado" a mano en el admin (getAutosDestacados filtra por eso, no
+  // sólo ordena) — si hay menos de 3 destacados, el home muestra menos
+  // tarjetas en vez de rellenar con autos comunes. Los nuevos se consiguen
+  // por importación o compra local, es un servicio (ver lineasNegocio en
+  // src/lib/site.ts, usado hoy sólo en /empresa), no algo que se liste con
+  // fotos. Por eso no hay consulta a tipo "NUEVO" acá (sí puede aparecer en
+  // /inventario, que lista todo lo activo sin filtrar).
   const usados = await autosOVacio(["USADO"], DESTACADOS);
 
   // Las secciones son bloques independientes: cambiar el orden de la página
