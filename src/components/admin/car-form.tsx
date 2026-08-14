@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { CarActionState } from "@/server/actions/cars";
-import { esVendido, MAX_DESTACADOS, TIPO_OPTIONS } from "@/lib/cars";
+import { AUTOS_EN_PORTADA, esVendido, TIPO_OPTIONS } from "@/lib/cars";
 import { PhotoPicker } from "@/components/admin/photo-picker";
 
 const TRANSMISION_OPTIONS = [
@@ -56,7 +56,6 @@ type CarFormValues = {
   descripcion?: string | null;
   tipo?: string | null;
   estado?: string | null;
-  destacado?: boolean;
   activo?: boolean;
 };
 
@@ -273,7 +272,7 @@ export function CarForm({
                 // Al crear (conFotos === true, ver nota en la prop) arranca
                 // en "Usado" — la inmensa mayoría de las altas lo son, y
                 // dejarlo en blanco es la causa más común de "publiqué un
-                // auto pero no aparece en el home": el home sólo destaca
+                // auto pero no aparece en el home": la portada sólo lista
                 // Usado (ver getAutosPorTipo), "Visible en el sitio" no
                 // alcanza por sí solo. Al editar se respeta el valor
                 // guardado tal cual, sin forzar nada.
@@ -294,25 +293,6 @@ export function CarForm({
           </div>
 
           <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3 border-t border-border pt-5">
-            <div>
-              <div className="flex items-center gap-2">
-                <Checkbox
-                  id="destacado"
-                  name="destacado"
-                  defaultChecked={defaultValues?.destacado ?? false}
-                  aria-invalid={Boolean(errors.destacado)}
-                />
-                <Label htmlFor="destacado">
-                  Destacado (aparece en el home — máximo {MAX_DESTACADOS} a la vez)
-                </Label>
-              </div>
-              {errors.destacado && (
-                <p className="mt-1.5 text-xs text-destructive">
-                  {errors.destacado[0]}
-                </p>
-              )}
-            </div>
-
             <div className="flex items-center gap-2">
               <Checkbox
                 id="activo"
@@ -331,6 +311,15 @@ export function CarForm({
               <Label htmlFor="vendido">Vendido (badge en la tarjeta y la ficha)</Label>
             </div>
           </div>
+
+          {/* La portada ya no se cura a mano (antes había un checkbox
+              "Destacado") — sin este aviso, el admin no tiene forma de saber
+              qué decide lo que se ve en el home. */}
+          <p className="mt-4 text-xs text-muted-foreground">
+            La portada del sitio muestra los {AUTOS_EN_PORTADA} vehículos
+            usados publicados más recientemente. Al publicar uno nuevo, el más
+            antiguo pasa a verse sólo en el inventario.
+          </p>
         </CardContent>
       </Card>
 

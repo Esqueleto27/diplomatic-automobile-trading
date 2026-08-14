@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { count, desc, eq } from "drizzle-orm";
-import { Car, Star, EyeOff, MessageSquare, ImageOff, ArrowRight } from "lucide-react";
+import { Car, House, EyeOff, MessageSquare, ImageOff, ArrowRight } from "lucide-react";
 import { getDb } from "@/lib/db";
 import { contactMessages } from "@/db/schema";
+import { AUTOS_EN_PORTADA, getAutosPorTipo } from "@/lib/cars";
 import { sqliteTimestampToDate } from "@/lib/date";
 import { AdminPageHeader } from "@/components/admin/page-header";
 import { StatCard } from "@/components/admin/stat-card";
@@ -16,7 +17,7 @@ import { formatoFecha } from "@/lib/format";
 export default async function AdminDashboardPage() {
   const db = await getDb();
 
-  const [autos, mensajesRecientes] = await Promise.all([
+  const [autos, mensajesRecientes, portada] = await Promise.all([
     db.query.cars.findMany({
       with: { fotos: { columns: { id: true } } },
     }),
@@ -24,9 +25,12 @@ export default async function AdminDashboardPage() {
       orderBy: [desc(contactMessages.createdAt)],
       limit: 4,
     }),
+    // Misma consulta que usa el home, no un recuento aparte: si da menos de
+    // AUTOS_EN_PORTADA es señal de que la portada quedó incompleta (por
+    // ejemplo, si no hay suficientes autos de tipo "Usado" publicados).
+    getAutosPorTipo(["USADO"], AUTOS_EN_PORTADA),
   ]);
 
-  const destacados = autos.filter((a) => a.destacado).length;
   const ocultos = autos.filter((a) => !a.activo).length;
   const sinFotos = autos.filter((a) => a.fotos.length === 0).length;
   // Total real de sin leer (el `limit: 4` de arriba es sólo para el
@@ -51,7 +55,12 @@ export default async function AdminDashboardPage() {
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard label="Autos publicados" value={autos.length} icon={Car} />
-        <StatCard label="Destacados" value={destacados} icon={Star} />
+        <StatCard
+          label={`En portada (de ${AUTOS_EN_PORTADA})`}
+          value={portada.length}
+          icon={House}
+          tone={portada.length < AUTOS_EN_PORTADA ? "warning" : "default"}
+        />
         <StatCard label="Ocultos" value={ocultos} icon={EyeOff} />
         <StatCard
           label="Mensajes sin leer"

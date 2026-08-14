@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { getAutosDestacados } from "@/lib/cars";
+import { getAutosPorTipo } from "@/lib/cars";
 import { Hero } from "@/components/site/hero";
 import { BrandStrip } from "@/components/site/brand-strip";
 import { StatsBand } from "@/components/site/stats-band";
 import { OficinaTrust } from "@/components/site/oficina-trust";
-import { VehiculosUsados, DESTACADOS } from "@/components/site/vehiculos-usados";
+import { VehiculosUsados } from "@/components/site/vehiculos-usados";
+import { AUTOS_EN_PORTADA } from "@/lib/cars";
 import { ServiciosAdicionales } from "@/components/site/servicios-adicionales";
 import { ContactCta } from "@/components/site/contact-cta";
 
@@ -23,10 +24,10 @@ export const metadata: Metadata = {
  * para que se note, pero el visitante todavía puede contactar al negocio.
  */
 async function autosOVacio(
-  ...args: Parameters<typeof getAutosDestacados>
-): Promise<Awaited<ReturnType<typeof getAutosDestacados>>> {
+  ...args: Parameters<typeof getAutosPorTipo>
+): Promise<Awaited<ReturnType<typeof getAutosPorTipo>>> {
   try {
-    return await getAutosDestacados(...args);
+    return await getAutosPorTipo(...args);
   } catch (error) {
     console.error("No se pudo leer el inventario para la portada:", error);
     return [];
@@ -34,15 +35,15 @@ async function autosOVacio(
 }
 
 export default async function HomePage() {
-  // El inventario destacado de portada es sólo de vehículos usados marcados
-  // "Destacado" a mano en el admin (getAutosDestacados filtra por eso, no
-  // sólo ordena) — si hay menos de 3 destacados, el home muestra menos
-  // tarjetas en vez de rellenar con autos comunes. Los nuevos se consiguen
-  // por importación o compra local, es un servicio (ver lineasNegocio en
-  // src/lib/site.ts, usado hoy sólo en /empresa), no algo que se liste con
-  // fotos. Por eso no hay consulta a tipo "NUEVO" acá (sí puede aparecer en
-  // /inventario, que lista todo lo activo sin filtrar).
-  const usados = await autosOVacio(["USADO"], DESTACADOS);
+  // La portada se arma sola: los AUTOS_EN_PORTADA usados más recientes (ver
+  // ordenInventario en lib/cars.ts). Publicar un auto lo pone en el home y
+  // empuja al más viejo al inventario — no hay que marcar nada en el admin.
+  // Los vehículos nuevos se consiguen por importación o compra local, es un
+  // servicio (ver lineasNegocio en src/lib/site.ts, usado hoy sólo en
+  // /empresa), no algo que se liste con fotos: por eso no hay consulta a
+  // tipo "NUEVO" acá (sí puede aparecer en /inventario, que lista todo lo
+  // activo sin filtrar).
+  const usados = await autosOVacio(["USADO"], AUTOS_EN_PORTADA);
 
   // Las secciones son bloques independientes: cambiar el orden de la página
   // es mover una línea, y una sección sin inventario simplemente no se monta.

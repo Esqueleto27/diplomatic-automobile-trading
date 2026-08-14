@@ -1,0 +1,1 @@
+ALTER TABLE `Car` DROP COLUMN `destacado`;

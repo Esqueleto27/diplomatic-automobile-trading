@@ -50,11 +50,16 @@ export function esVendido(estado: string | null): boolean {
 
 // Orden compartido por las consultas públicas de inventario: los vendidos
 // siempre van al final (quedan en "segundo plano"), y dentro de cada grupo
-// se mantiene destacado > más reciente. `sql<number>` en vez de un booleano
-// porque D1/SQLite ordena 0/1, no true/false.
+// manda el más reciente. `sql<number>` en vez de un booleano porque
+// D1/SQLite ordena 0/1, no true/false.
+//
+// Este orden es además el que decide qué autos entran a la portada: el home
+// pide los primeros AUTOS_EN_PORTADA de esta misma lista, así que publicar
+// un auto nuevo lo pone al frente y empuja al más viejo fuera del home,
+// sin que nadie tenga que marcar nada a mano. Un auto vendido cae al final
+// y sale solo de la portada mientras haya stock disponible que lo reemplace.
 const ordenInventario: SQL[] = [
   asc(sql<number>`case when ${cars.estado} = 'VENDIDO' then 1 else 0 end`),
-  desc(cars.destacado),
   desc(cars.createdAt),
 ];
 
@@ -113,35 +118,11 @@ export async function getAutosPorTipo(
   });
 }
 
-// Cantidad de tarjetas del grid de la home (ver DESTACADOS en
-// vehiculos-usados.tsx) — el mismo número es el tope de autos que se pueden
-// marcar "Destacado" a la vez (ver MAX_DESTACADOS en server/actions/cars.ts):
-// no tiene sentido permitir marcar un cuarto si sólo hay 3 lugares en el home.
-export const MAX_DESTACADOS = 3;
-
-/** Sólo los autos marcados "Destacado" — antes getAutosPorTipo ordenaba por
- * destacado pero sin filtrar, así que si había menos de 3 destacados el home
- * se rellenaba con autos comunes sin que el admin lo hubiera pedido. */
-export async function getAutosDestacados(
-  tipos: TipoAuto[],
-  limite = MAX_DESTACADOS,
-): Promise<AutoPublico[]> {
-  const db = await getDb();
-  return db.query.cars.findMany({
-    where: (car, { and, eq, inArray }) =>
-      and(eq(car.activo, true), eq(car.destacado, true), inArray(car.tipo, tipos)),
-    orderBy: ordenInventario,
-    limit: limite,
-    columns: columnasPublicas,
-    with: {
-      fotos: {
-        orderBy: (foto, { desc, asc }) => [desc(foto.portada), asc(foto.orden)],
-        limit: 1,
-        columns: { url: true },
-      },
-    },
-  });
-}
+// Cantidad de autos que muestra la portada = las 3 columnas del grid de
+// VehiculosUsados. No hay curación manual: la portada es una cola por
+// antigüedad (ver ordenInventario arriba), así que este número es tanto el
+// tamaño del grid como el largo de esa cola.
+export const AUTOS_EN_PORTADA = 3;
 
 export type AutoDetalle = Omit<AutoPublico, "fotos"> & {
   descripcion: string | null;

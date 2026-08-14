@@ -4,7 +4,13 @@ import { desc } from "drizzle-orm";
 import { Car as CarIcon, Plus } from "lucide-react";
 import { getDb } from "@/lib/db";
 import { cars } from "@/db/schema";
-import { esVendido, estadoLabel, tipoLabel } from "@/lib/cars";
+import {
+  AUTOS_EN_PORTADA,
+  esVendido,
+  estadoLabel,
+  getAutosPorTipo,
+  tipoLabel,
+} from "@/lib/cars";
 import { MAX_FOTOS_POR_AUTO } from "@/lib/fotos";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -28,10 +34,19 @@ export default async function AdminAutosPage({
 }) {
   const { creado, actualizado } = await searchParams;
   const db = await getDb();
-  const autos = await db.query.cars.findMany({
-    orderBy: desc(cars.createdAt),
-    with: { fotos: { columns: { id: true, url: true, portada: true } } },
-  });
+  // La portada se arma sola (los N usados más recientes) — se consulta con
+  // la MISMA función que usa el home en vez de recalcular ese criterio acá,
+  // que es lo que haría que las dos vistas se desincronicen con el tiempo.
+  // Sin este badge el admin no tendría forma de saber qué está publicado en
+  // la portada, ya que no hay ningún control manual que lo indique.
+  const [autos, portada] = await Promise.all([
+    db.query.cars.findMany({
+      orderBy: desc(cars.createdAt),
+      with: { fotos: { columns: { id: true, url: true, portada: true } } },
+    }),
+    getAutosPorTipo(["USADO"], AUTOS_EN_PORTADA),
+  ]);
+  const enPortada = new Set(portada.map((auto) => auto.id));
 
   return (
     <div>
@@ -138,7 +153,7 @@ export default async function AdminAutosPage({
                       {auto.fotos.length} / {MAX_FOTOS_POR_AUTO}
                     </TableCell>
                     <TableCell className="space-x-1">
-                      {auto.destacado && <Badge>Destacado</Badge>}
+                      {enPortada.has(auto.id) && <Badge>En portada</Badge>}
                       <Badge variant={auto.activo ? "secondary" : "outline"}>
                         {auto.activo ? "Visible" : "Oculto"}
                       </Badge>

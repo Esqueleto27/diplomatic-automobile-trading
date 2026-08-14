@@ -3,14 +3,13 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { randomUUID } from "node:crypto";
-import { and, count, eq, ne } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { requireSession } from "@/lib/session";
 import { getDb } from "@/lib/db";
 import { cars } from "@/db/schema";
 import { carSchema } from "@/lib/validations/car";
 import { slugify } from "@/lib/slug";
 import { errorAdmin } from "@/lib/action-error";
-import { MAX_DESTACADOS } from "@/lib/cars";
 import { eliminarFotosDeAuto, uploadFotos } from "@/server/actions/car-photos";
 
 export type CarActionState =
@@ -35,29 +34,8 @@ function parseCarForm(formData: FormData) {
     // "Vendido" es un checkbox aparte (no un select de estado) — se traduce
     // acá al único valor que la columna `estado` puede tener ahora.
     estado: formData.get("vendido") === "on" ? "VENDIDO" : undefined,
-    destacado: formData.get("destacado") === "on",
     activo: formData.get("activo") === "on",
   });
-}
-
-/** El home sólo tiene 3 lugares para autos destacados (ver MAX_DESTACADOS en
- * lib/cars.ts) — sin este chequeo, marcar un cuarto simplemente lo dejaba
- * fuera del home sin ningún aviso ("por qué este auto no aparece"). Se
- * valida acá, no sólo con el hint del checkbox en CarForm: un select de
- * Base UI no impide tildar el checkbox, así que el form por sí solo no
- * alcanza como única defensa. `excludeId` deja re-guardar un auto que ya
- * era destacado sin que se cuente a sí mismo contra el tope. */
-async function excedeTopeDestacados(excludeId?: string): Promise<boolean> {
-  const db = await getDb();
-  const [{ total }] = await db
-    .select({ total: count() })
-    .from(cars)
-    .where(
-      excludeId
-        ? and(eq(cars.destacado, true), ne(cars.id, excludeId))
-        : eq(cars.destacado, true),
-    );
-  return total >= MAX_DESTACADOS;
 }
 
 export async function createCar(
@@ -69,16 +47,6 @@ export async function createCar(
   const parsed = parseCarForm(formData);
   if (!parsed.success) {
     return { errors: parsed.error.flatten().fieldErrors };
-  }
-
-  if (parsed.data.destacado && (await excedeTopeDestacados())) {
-    return {
-      errors: {
-        destacado: [
-          `Ya hay ${MAX_DESTACADOS} autos destacados — quite uno antes de agregar otro.`,
-        ],
-      },
-    };
   }
 
   const slug = `${slugify(parsed.data.nombre)}-${Math.random().toString(36).slice(2, 8)}`;
@@ -119,16 +87,6 @@ export async function updateCar(
   const parsed = parseCarForm(formData);
   if (!parsed.success) {
     return { errors: parsed.error.flatten().fieldErrors };
-  }
-
-  if (parsed.data.destacado && (await excedeTopeDestacados(id))) {
-    return {
-      errors: {
-        destacado: [
-          `Ya hay ${MAX_DESTACADOS} autos destacados — quite uno antes de agregar otro.`,
-        ],
-      },
-    };
   }
 
   try {

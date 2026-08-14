@@ -1,18 +1,15 @@
 import type { AutoPublico } from "@/lib/cars";
-import { MAX_DESTACADOS } from "@/lib/cars";
+import { AUTOS_EN_PORTADA } from "@/lib/cars";
 import { CarCardDetalle } from "@/components/site/car-card";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal } from "@/components/site/reveal";
 import { SiteButton } from "@/components/site/button";
 
-// Reexportado desde MAX_DESTACADOS (lib/cars.ts) — misma constante que el
-// tope de autos que se pueden marcar "Destacado" en el admin, para que la
-// página que arma `autos` (home) le pida a la base exactamente esta
-// cantidad. Antes eran dos números "3" hardcodeados en archivos distintos.
-export const DESTACADOS = MAX_DESTACADOS;
-
 export function VehiculosUsados({ autos }: { autos: AutoPublico[] }) {
-  const destacados = autos.slice(0, DESTACADOS);
+  // La home ya pide exactamente esta cantidad, pero el slice queda como
+  // red de seguridad: este componente nunca debe romper el grid de 3
+  // columnas si alguien le pasa una lista más larga.
+  const enPortada = autos.slice(0, AUTOS_EN_PORTADA);
 
   return (
     <section
@@ -33,7 +30,7 @@ export function VehiculosUsados({ autos }: { autos: AutoPublico[] }) {
         </Reveal>
 
         <ul className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {destacados.map((auto, i) => (
+          {enPortada.map((auto, i) => (
             <li key={auto.id}>
               <Reveal delay={(i % 3) * 0.1}>
                 <CarCardDetalle auto={auto} />

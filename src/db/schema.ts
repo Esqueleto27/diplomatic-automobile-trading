@@ -42,9 +42,10 @@ export const cars = sqliteTable("Car", {
   // mantiene la misma columna de texto libre (evita una migración) en vez de
   // pasar a boolean; el form ahora la controla con un checkbox "Vendido".
   estado: text("estado"),
-  destacado: integer("destacado", { mode: "boolean" })
-    .notNull()
-    .default(false),
+  // Existió una columna `destacado` para elegir a mano qué autos salían en la
+  // portada. Se quitó: la portada ahora se arma sola con los usados más
+  // recientes (ver AUTOS_EN_PORTADA/ordenInventario en src/lib/cars.ts), así
+  // que no había nada que la escribiera ni la leyera.
   activo: integer("activo", { mode: "boolean" }).notNull().default(true),
   createdAt: text("createdAt")
     .notNull()

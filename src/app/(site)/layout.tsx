@@ -43,12 +43,6 @@ export default async function SiteLayout({
         nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizacionSchema()) }}
       />
-      <a
-        href="#contenido"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-sm focus:bg-gold focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-gold-foreground"
-      >
-        Saltar al contenido
-      </a>
       <SiteHeader />
       {/* El header pasó a `fixed` (para poder ir transparente sobre el hero
           y encogerse sin empujar el layout) — por eso ya no reserva su
@@ -56,7 +50,7 @@ export default async function SiteLayout({
           el resto de páginas; `Hero` cancela este padding con `-mt-20`
           para que su foto arranque debajo del header en vez de debajo del
           hueco que este padding deja. */}
-      <main id="contenido" className="flex-1 pt-20">
+      <main className="flex-1 pt-20">
         {children}
       </main>
       <SiteFooter />

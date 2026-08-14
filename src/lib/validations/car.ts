@@ -23,7 +23,6 @@ export const carSchema = z.object({
   // Ya no es un select de varios valores — parseCarForm (cars.ts) traduce el
   // checkbox "vendido" del form a "VENDIDO" o undefined antes de llegar acá.
   estado: z.literal("VENDIDO").optional(),
-  destacado: z.boolean().default(false),
   activo: z.boolean().default(true),
 });
 

@@ -37,12 +37,11 @@ function main() {
   const values = AUTOS.map((auto) => {
     const slug = slugify(`${auto.marca} ${auto.nombre}`);
     const kilometraje = "kilometraje" in auto ? auto.kilometraje : null;
-    const destacado = auto.tipo === "NUEVO" ? 1 : 0;
-    return `(${sqlEscape(randomUUID())}, ${sqlEscape(slug)}, ${sqlEscape(auto.nombre)}, ${sqlEscape(auto.marca)}, ${auto.anio}, ${auto.precio ?? "NULL"}, ${kilometraje ?? "NULL"}, ${sqlEscape(auto.transmision)}, ${sqlEscape(auto.combustible)}, ${sqlEscape(auto.color)}, ${sqlEscape(auto.tipo)}, ${destacado}, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`;
+    return `(${sqlEscape(randomUUID())}, ${sqlEscape(slug)}, ${sqlEscape(auto.nombre)}, ${sqlEscape(auto.marca)}, ${auto.anio}, ${auto.precio ?? "NULL"}, ${kilometraje ?? "NULL"}, ${sqlEscape(auto.transmision)}, ${sqlEscape(auto.combustible)}, ${sqlEscape(auto.color)}, ${sqlEscape(auto.tipo)}, 1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`;
   });
 
   const sql = `
-    INSERT INTO "Car" (id, slug, nombre, marca, anio, precio, kilometraje, transmision, combustible, color, tipo, destacado, activo, createdAt, updatedAt)
+    INSERT INTO "Car" (id, slug, nombre, marca, anio, precio, kilometraje, transmision, combustible, color, tipo, activo, createdAt, updatedAt)
     VALUES ${values.join(",\n           ")}
     ON CONFLICT(slug) DO NOTHING;
   `.trim();
