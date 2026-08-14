@@ -29,7 +29,7 @@ export function VehiculosUsados({ autos }: { autos: AutoPublico[] }) {
           </p>
         </Reveal>
 
-        <ul className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-10 grid grid-cols-1 gap-5 sm:mt-14 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           {enPortada.map((auto, i) => (
             <li key={auto.id}>
               <Reveal delay={(i % 3) * 0.1}>
@@ -39,7 +39,7 @@ export function VehiculosUsados({ autos }: { autos: AutoPublico[] }) {
           ))}
         </ul>
 
-        <div className="mt-14 flex justify-center">
+        <div className="mt-10 flex justify-center sm:mt-14">
           <SiteButton href="/inventario" size="lg">
             Ver inventario completo
           </SiteButton>

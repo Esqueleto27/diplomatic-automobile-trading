@@ -31,6 +31,11 @@ export const siteConfig = {
   apellido: "Automobile Trading",
   tagline:
     "Ofrecemos una selección de vehículos para clientes que buscan calidad, exclusividad y confianza, con una atención especializada para diplomáticos y clientes particulares que valoran un servicio a la altura de sus necesidades.",
+  // Misma promesa, condensada: en un teléfono el tagline largo ocupa seis
+  // renglones debajo del título y empuja los dos botones fuera de la primera
+  // pantalla. El Hero usa esta versión hasta 640px y la larga desde ahí.
+  taglineCorto:
+    "Vehículos de alta gama para diplomáticos, organismos internacionales y clientes que valoran un servicio a su altura.",
 };
 
 // Dominio de producción del sitio nuevo (reemplaza al sitio actual en el

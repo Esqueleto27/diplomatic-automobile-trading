@@ -26,9 +26,12 @@ import { Reveal } from "@/components/site/reveal";
 export function OficinaTrust() {
   return (
     <section className="section-py bg-background" aria-labelledby="oficina">
-      <div className="mx-auto grid max-w-site gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:items-center lg:gap-16">
+      <div className="mx-auto grid max-w-site gap-9 px-5 sm:gap-12 sm:px-8 lg:grid-cols-2 lg:items-center lg:gap-16">
         <Reveal
-          className="relative aspect-[3/4] overflow-hidden border border-white/[0.07] shadow-lift sm:mx-auto sm:max-w-sm lg:mx-0 lg:order-1 lg:max-w-none"
+          // Apaisada en móvil, vertical desde sm: un 3/4 a 350px de ancho mide
+          // ~466px de alto, casi una pantalla entera de teléfono ocupada por
+          // una sola foto antes de llegar al texto que la acompaña.
+          className="relative aspect-[4/3] overflow-hidden border border-white/[0.07] shadow-lift sm:mx-auto sm:aspect-[3/4] sm:max-w-sm lg:mx-0 lg:order-1 lg:max-w-none"
           direction="left"
         >
           {/* La foto tira a frío (azul-cian) — un filtro cálido la acerca a

@@ -198,6 +198,12 @@
   }
   html {
     @apply font-sans;
+    /* Sin esto, en un teléfono real el rebote elástico al llegar al final de
+       la página descubre el fondo del <body> — un negro distinto (más frío)
+       al de la franja del pie — y se lee como una banda negra suelta pegada
+       debajo del footer. No se reproduce en el emulador de escritorio de
+       Chrome, que no hace overscroll: es un síntoma exclusivo de móvil. */
+    overscroll-behavior-y: none;
   }
 }
 

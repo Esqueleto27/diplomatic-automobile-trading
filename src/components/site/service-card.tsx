@@ -26,7 +26,7 @@ export function ServiceCard({ servicio, delay = 0 }: { servicio: Servicio; delay
     <Link
       href={`/servicios#${slug}`}
       style={{ animationDelay: `${delay}s` }}
-      className="group relative flex aspect-[4/3] flex-col justify-end overflow-hidden border border-white/[0.07] bg-surface p-6 outline-none transition-all duration-300 ease-out hover:-translate-y-1 hover:border-gold/50 hover:shadow-[0_24px_44px_-18px_rgba(0,0,0,0.6),0_0_0_1px_rgba(199,163,84,0.12)] focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+      className="group relative flex aspect-[4/3] flex-col justify-end overflow-hidden border border-white/[0.07] bg-surface p-5 outline-none sm:p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-gold/50 hover:shadow-[0_24px_44px_-18px_rgba(0,0,0,0.6),0_0_0_1px_rgba(199,163,84,0.12)] focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background"
     >
       {imagen ? (
         <>

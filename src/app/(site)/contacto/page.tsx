@@ -27,7 +27,7 @@ export default async function ContactoPage() {
 
   return (
     <>
-      <section className="py-20 sm:py-28">
+      <section className="py-14 sm:py-28">
         <div className="mx-auto max-w-site px-5 sm:px-8">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
             <div>

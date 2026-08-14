@@ -10,9 +10,13 @@ const iconosRed: { label: string; href: string; path: string }[] = [];
 export function SiteFooter() {
   return (
     <footer className="border-t border-border bg-surface">
-      <div className="mx-auto max-w-site px-5 py-16 sm:px-8">
+      {/* `pb-24` en móvil: el botón flotante de WhatsApp (QuickContact, fijo
+          abajo a la derecha) se apoyaba justo encima de la línea de copyright
+          al llegar al final del scroll. En sm+ el botón queda a la derecha del
+          texto centrado y no hace falta el colchón. */}
+      <div className="mx-auto max-w-site px-5 pb-20 pt-11 sm:px-8 sm:py-16">
         <div
-          className={`grid gap-10 sm:grid-cols-2 lg:gap-16 ${
+          className={`grid gap-8 sm:grid-cols-2 sm:gap-10 lg:gap-16 ${
             iconosRed.length > 0
               ? "lg:grid-cols-[auto_1fr_1fr_auto]"
               : "lg:grid-cols-[auto_1fr_1fr]"
@@ -50,7 +54,11 @@ export function SiteFooter() {
             <h2 className="text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground">
               Navegación
             </h2>
-            <ul className="mt-4 space-y-1.5 text-sm text-foreground/75">
+            {/* En fila que envuelve mientras entre en dos renglones (móvil),
+                apilada desde sm. Los cinco links en columna sumaban ~160px de
+                alto muerto en el teléfono, que era buena parte del "hueco
+                negro" del pie. */}
+            <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-foreground/75 sm:block sm:space-y-1.5">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="hover:text-gold">
@@ -84,7 +92,7 @@ export function SiteFooter() {
           )}
         </div>
 
-        <div className="mt-12 border-t border-border pt-6">
+        <div className="mt-9 border-t border-border pt-6 sm:mt-12">
           <p className="text-center text-[0.68rem] tracking-wide text-muted-foreground">
             © {new Date().getFullYear()} {siteConfig.nombre}{" "}
             {siteConfig.apellido}. Todos los derechos reservados.

@@ -15,7 +15,7 @@ import { contactoCtaImageUrl } from "@/lib/site";
 export function ContactCta() {
   return (
     <section
-      className="relative isolate overflow-hidden border-t border-border py-24 sm:py-32"
+      className="relative isolate overflow-hidden border-t border-border py-20 sm:py-32"
       aria-labelledby="contacto-cta"
     >
       <Image
@@ -44,7 +44,7 @@ export function ContactCta() {
             Un especialista le atiende personalmente para asesorarlo en la
             compra, importación o los trámites de su vehículo.
           </p>
-          <SiteButton href="/contacto" size="lg" className="mt-10">
+          <SiteButton href="/contacto" size="lg" className="mt-9 sm:mt-10">
             Contáctenos
           </SiteButton>
         </Reveal>

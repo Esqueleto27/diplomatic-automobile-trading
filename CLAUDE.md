@@ -225,6 +225,90 @@ Cambio de infraestructura completo: de VPS + Docker + Postgres a Cloudflare Work
   - `next.config.ts` ya tenía `images.remotePatterns` para `*.r2.dev` (de la migración de fotos de autos), así que `next/image` con `heroImageUrl`/`logoUrl` funcionó sin más cambios.
   - Reemplazar un logo/imagen a futuro: subir el archivo a R2 con el mismo key (`sitio/...`) — no hace falta tocar código ni redeployar, igual que con las fotos de autos.
 
+### Pasada de móvil (2026-08-13, feedback del cliente desde su teléfono)
+
+El cliente revisó el sitio en un teléfono real y reportó cuatro cosas: menú
+hamburguesa en el centro de la pantalla, "carrusel" de logos de marcas, footer
+feo con "mucho negro abajo", y la home en general saturada. Al reproducirlo
+aparecieron además dos bugs reales que nadie había visto.
+
+**Bugs encontrados (no eran sólo estética):**
+
+- **La CSP rompía TODO el JS de cliente en desarrollo.** `src/middleware.ts`
+  manda `script-src 'self' 'nonce-…'` sin `'unsafe-eval'`. En producción está
+  perfecto, pero **webpack en modo dev envuelve cada módulo en `eval()`**, así
+  que en local el navegador bloqueaba el bundle entero: la página se veía pero
+  nada hidrataba — los `<Reveal>` de Motion quedaban en `opacity: 0` (secciones
+  enteras invisibles, kilómetros de negro), el header nunca detectaba el
+  scroll y el menú móvil no abría. Se agregó `'unsafe-eval'` y `ws:` (para el
+  HMR) **sólo cuando `process.env.NODE_ENV !== "production"`**; verificado que
+  el bundle de producción elimina esa rama (`grep unsafe-eval .next/server/src/middleware.js`
+  → 0 coincidencias). Si alguna vez el sitio local se ve "muerto" (sin
+  animaciones, sin menú), mirar la consola por `EvalError … 'unsafe-eval'`
+  antes que nada.
+- **El menú móvil no abría después de scrollear.** El panel `fixed` vivía
+  *dentro* del `<header>`, y el header aplica `backdrop-blur` al volverse
+  sólido. Un filtro CSS convierte al elemento en bloque contenedor de sus
+  descendientes `fixed`: `inset-x-0 bottom-0 top-20` se resolvía contra la
+  franja de 80px del header y el panel quedaba de alto 0. Ahora el panel es
+  **hermano** del `<header>` (fragmento en `SiteHeader`), con `z-40` propio.
+  Regla general para este archivo: nada `fixed` a pantalla completa puede
+  colgar del header mientras el header tenga `backdrop-filter`.
+
+**Correcciones de layout:**
+
+- **Hamburguesa centrada:** el contenedor del header era
+  `grid-cols-[1fr_auto_1fr]` fijo, pero el `<nav>` del medio es `hidden lg:flex`
+  — y un ítem con `display:none` desaparece del grid, así que en móvil sólo
+  quedaban dos ítems y el botón caía en la columna 2 con la 3 vacía a su
+  derecha. Ahora `grid-cols-[1fr_auto] lg:grid-cols-[1fr_auto_1fr]`.
+- **`BrandStrip` dejó de tener scroll horizontal en móvil.** La versión previa
+  lo convertía en carrusel deslizable en pantallas chicas; con la barra oculta
+  se veían cuatro logos, el cuarto cortado, y nada indicaba que hubiera más.
+  Ahora es una grilla `grid-cols-4` (12 marcas, `MARCAS_EN_MOVIL`) que pasa a
+  `grid-cols-6` en `sm:` con las 20 y a `flex-wrap` en `md:`. Mismo criterio
+  aplicado a la lista de marcas de `/empresa`, que con `flex-wrap` +
+  `gap-x-16` metía dos logos por renglón y diez filas de aire.
+  `LogoMarca` pasó de un alto fijo de `2.76rem` a
+  `calc(clamp(1.6rem, 5.5vw, 2.76rem) * escala)`.
+- **Footer:** era de 661px en un viewport de 664 — una pantalla entera de
+  negro con contenido disperso, que es de donde salía la sensación de "mucho
+  negro". Los links de navegación pasan a fila que envuelve en móvil (en
+  columna sumaban ~160px muertos), paddings de `py-16` a `pt-11 pb-20`, y ese
+  `pb-20` es a propósito: el botón flotante de WhatsApp se apoyaba justo
+  encima de la línea de copyright al llegar al final del scroll.
+- **`overscroll-behavior-y: none` en `html`** (`globals.css`): el rebote
+  elástico de un móvil descubre el fondo del `<body>`, que es el negro del
+  tema admin (`#0c0d0f`) y no el de la franja del pie (`#171717`) — se lee
+  como una banda negra suelta debajo del sitio. No se reproduce en el emulador
+  de escritorio de Chrome porque ahí no hay overscroll; es la razón por la que
+  el cliente lo veía sólo en el teléfono.
+- **`suppressHydrationWarning`** en los `<script type="application/ld+json">`
+  con `nonce` (layout de `(site)` y ficha de auto): el navegador oculta el
+  valor de `nonce` una vez aplicada la CSP, así que React siempre avisaba por
+  hidratación. Era ruido de consola, no un bug.
+
+**Anti-saturación de la home en móvil** (de 6.419px a 5.313px de scroll):
+
+- Se quitó `StatsBand` **de la home** (sigue en `/empresa`): su único dato es
+  "30+ años en el mercado", exactamente lo que ya dice `confianza.frase` como
+  leyenda de `BrandStrip`, la sección inmediatamente anterior.
+- `siteConfig.taglineCorto`: el tagline largo ocupaba seis renglones en el
+  hero y empujaba los botones fuera de la primera pantalla. El `Hero` usa la
+  versión corta hasta 640px y la larga desde ahí.
+- `ServiciosAdicionales` muestra 4 cards en móvil (`DESTACADOS_EN_MOVIL`) y
+  las 6 desde `sm:`; el botón "Ver todos los servicios" ya estaba ahí.
+- La foto de `OficinaTrust` es `aspect-[4/3]` en móvil y `3/4` desde `sm:` (un
+  3/4 a 350px de ancho es casi una pantalla entera de teléfono).
+- Padding superior de las páginas interiores de `py-20` a `py-14` en móvil: el
+  layout ya agrega `pt-20` para compensar el header fijo, así que sumaban
+  160px de negro antes del título.
+
+**Verificación:** 320 / 390 / 430px con Playwright sobre `/`, `/inventario`,
+`/servicios`, `/empresa`, `/contacto` y una ficha de auto — sin overflow
+horizontal (`scrollWidth === clientWidth` en todos), sin errores de consola,
+`tsc --noEmit` y `eslint` limpios y `next build` OK.
+
 ## Convenciones de código
 - Sin comentarios salvo que expliquen un porqué no obvio
 - No crear abstracciones para casos hipotéticos futuros

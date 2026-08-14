@@ -47,9 +47,10 @@ export function Hero() {
 
           <p
             style={{ animationDelay: "0.1s" }}
-            className="animate-fade-up-in mt-5 max-w-[22rem] text-[1.125rem] leading-[1.5] tracking-wide text-foreground/85 sm:mt-6 sm:max-w-xl sm:text-[1.5rem] sm:leading-relaxed"
+            className="animate-fade-up-in mt-5 max-w-[22rem] text-[1.0625rem] leading-[1.55] tracking-wide text-foreground/85 sm:mt-6 sm:max-w-xl sm:text-[1.5rem] sm:leading-relaxed"
           >
-            {siteConfig.tagline}
+            <span className="sm:hidden">{siteConfig.taglineCorto}</span>
+            <span className="hidden sm:inline">{siteConfig.tagline}</span>
           </p>
 
           <div

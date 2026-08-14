@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { getAutosPorTipo } from "@/lib/cars";
 import { Hero } from "@/components/site/hero";
 import { BrandStrip } from "@/components/site/brand-strip";
-import { StatsBand } from "@/components/site/stats-band";
 import { OficinaTrust } from "@/components/site/oficina-trust";
 import { VehiculosUsados } from "@/components/site/vehiculos-usados";
 import { AUTOS_EN_PORTADA } from "@/lib/cars";
@@ -47,11 +46,16 @@ export default async function HomePage() {
 
   // Las secciones son bloques independientes: cambiar el orden de la página
   // es mover una línea, y una sección sin inventario simplemente no se monta.
+  //
+  // Sin StatsBand acá (sí sigue en /empresa): su único dato es "30+ años en
+  // el mercado", que es exactamente lo que ya dice `confianza.frase` como
+  // leyenda de BrandStrip, la sección inmediatamente anterior. En desktop
+  // pasaba desapercibido; en móvil eran dos pantallazos seguidos diciendo lo
+  // mismo, que es parte de por qué la portada se sentía recargada.
   return (
     <>
       <Hero />
       <BrandStrip />
-      <StatsBand />
       <OficinaTrust />
       {usados.length > 0 && <VehiculosUsados autos={usados} />}
       <ServiciosAdicionales />

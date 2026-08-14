@@ -26,7 +26,7 @@ export default async function ServiciosPage() {
 
   return (
     <div>
-      <div className="mx-auto max-w-site px-5 pt-20 sm:px-8 sm:pt-32">
+      <div className="mx-auto max-w-site px-5 pt-14 sm:px-8 sm:pt-32">
         <SectionHeading as="h1">Nuestros Servicios</SectionHeading>
         <p className="mt-6 max-w-xl text-base leading-[1.8] text-muted-foreground sm:text-lg">
           Más allá de la compra del vehículo, acompañamos los trámites que
@@ -45,7 +45,7 @@ export default async function ServiciosPage() {
           id={slug}
           className={i % 2 === 0 ? "bg-background" : "bg-surface"}
         >
-          <div className="mx-auto grid max-w-site scroll-mt-28 items-center gap-8 px-5 py-16 sm:px-8 sm:py-20 lg:grid-cols-2 lg:gap-16">
+          <div className="mx-auto grid max-w-site scroll-mt-28 items-center gap-7 px-5 py-12 sm:gap-8 sm:px-8 sm:py-20 lg:grid-cols-2 lg:gap-16">
             <div className={i % 2 === 0 ? "lg:order-1" : "lg:order-2"}>
               <div className="group relative aspect-[4/3] overflow-hidden border border-white/[0.07] bg-surface-2">
                 {imagen ? (

@@ -93,6 +93,11 @@ export default async function AutoDetallePage({
       <script
         type="application/ld+json"
         nonce={nonce}
+        // El navegador oculta el valor real de `nonce` una vez aplicada la
+        // CSP (devuelve "" al leer la propiedad), así que React ve el atributo
+        // del HTML del servidor distinto del DOM y avisa por hidratación. Es
+        // comportamiento esperado del navegador, no un bug del componente.
+        suppressHydrationWarning
         dangerouslySetInnerHTML={{ __html: JSON.stringify(vehiculoSchema) }}
       />
       <Link

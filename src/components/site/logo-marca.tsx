@@ -42,7 +42,14 @@ export function LogoMarca({
       height={48}
       loading="lazy"
       decoding="async"
-      style={{ height: `${2.76 * (marca.escala ?? 1)}rem` }}
+      // Alto fluido, no fijo: 2.76rem (44px) es la medida pensada para el
+      // muro de desktop y en una grilla de 390px dejaba los logos casi
+      // pegados entre filas. `clamp` los baja a ~26px en móvil y recupera el
+      // valor original desde tablet. `escala` sigue siendo el ajuste óptico
+      // por forma del glifo (ver la nota de `marcas` en site.ts).
+      style={{
+        height: `calc(clamp(1.6rem, 5.5vw, 2.76rem) * ${marca.escala ?? 1})`,
+      }}
       className={`w-auto opacity-75 transition-opacity duration-300 ${hover === "group" ? "group-hover:opacity-100" : "hover:opacity-100"}`}
     />
   );

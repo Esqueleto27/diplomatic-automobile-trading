@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default function EmpresaPage() {
   return (
-    <div className="mx-auto max-w-site px-5 py-20 sm:px-8 sm:py-32">
+    <div className="mx-auto max-w-site px-5 py-14 sm:px-8 sm:py-32">
       <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
         <div>
           <SectionHeading as="h1">Sobre Nosotros</SectionHeading>
@@ -70,9 +70,15 @@ export default function EmpresaPage() {
           su valor en el mercado ecuatoriano, marca por marca.
         </p>
 
-        <ul className="mt-10 flex flex-wrap items-center justify-center gap-x-16 gap-y-8 border-y border-border py-10">
+        {/* Grilla de 4 en móvil, fila que envuelve desde sm: con `flex-wrap`
+            y `gap-x-16` en 390px entraban dos logos por renglón y las 20
+            marcas se estiraban diez filas, casi todo aire. */}
+        <ul className="mt-10 grid grid-cols-4 items-center justify-items-center gap-x-6 gap-y-7 border-y border-border py-9 sm:flex sm:flex-wrap sm:justify-center sm:gap-x-16 sm:gap-y-8 sm:py-10">
           {marcas.map((marca, i) => (
-            <li key={marca.nombre} className="grid h-16 place-items-center">
+            <li
+              key={marca.nombre}
+              className="grid h-11 place-items-center sm:h-16"
+            >
               <Reveal delay={(i % 12) * 0.03}>
                 <div className="group grid place-items-center">
                   <LogoMarca marca={marca} hover="group" />

@@ -70,7 +70,7 @@ export function CarCardDetalle({ auto }: { auto: AutoPublico }) {
         )}
       </Link>
 
-      <div className={cn("flex flex-1 flex-col p-6", vendido && "opacity-60")}>
+      <div className={cn("flex flex-1 flex-col p-5 sm:p-6", vendido && "opacity-60")}>
         <h3 className="font-display text-xl leading-tight tracking-wide">
           <Link href={`/autos/${auto.slug}`} className="hover:text-gold">
             {auto.nombre}
@@ -94,7 +94,7 @@ export function CarCardDetalle({ auto }: { auto: AutoPublico }) {
             {precioLegible(auto)}
           </p>
 
-          <div className="mt-6 flex flex-wrap gap-3 pt-1">
+          <div className="mt-5 flex flex-wrap gap-3 pt-1 sm:mt-6">
             <SiteButton href={`/autos/${auto.slug}`} size="sm">
               {vendido ? "Ver detalle" : "Ver más"}
             </SiteButton>

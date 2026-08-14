@@ -64,84 +64,107 @@ export function SiteHeader() {
   }, [abierto]);
 
   return (
-    <header
-      className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-[background-color,height,box-shadow,backdrop-filter] duration-300",
-        scrolled
-          ? "h-16 border-b border-border bg-background/85 shadow-[0_10px_30px_-18px_rgba(0,0,0,0.6)] backdrop-blur-md"
-          : "h-20 bg-gradient-to-b from-black/70 to-transparent",
-      )}
-    >
-      <div className="mx-auto grid h-full max-w-site grid-cols-[1fr_auto_1fr] items-center gap-6 px-5 sm:px-8">
-        <Link
-          href="/"
-          aria-label="Diplomatic Automobile Trading — Inicio"
-          className="justify-self-start outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background"
-        >
-          <Wordmark
-            priority
-            imgClassName={cn(
-              "w-auto transition-[height] duration-300",
-              // ~10% más chico que antes (h-8/h-10) — feedback del cliente:
-              // un logo levemente más chico se lee más refinado.
-              scrolled ? "h-7" : "h-9",
-            )}
-          />
-        </Link>
-
-        <nav
-          className="hidden items-center gap-9 lg:flex"
-          aria-label="Principal"
-        >
-          {navLinks.map((link) => {
-            const activo =
-              link.href === "/"
-                ? pathname === "/"
-                : pathname.startsWith(link.href);
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                aria-current={activo ? "page" : undefined}
-                className={cn(
-                  "relative py-1 text-[0.9rem] font-medium uppercase tracking-[0.08em] outline-none transition-colors",
-                  "focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background",
-                  activo
-                    ? "text-foreground"
-                    : "text-foreground/60 hover:text-foreground",
-                )}
-              >
-                {link.label}
-                {activo && (
-                  <span
-                    aria-hidden
-                    className="absolute -bottom-2 left-1/2 size-1 -translate-x-1/2 rounded-full bg-gold"
-                  />
-                )}
-              </Link>
-            );
-          })}
-        </nav>
-
-        <div className="flex items-center justify-end gap-5">
-          <button
-            ref={toggleRef}
-            type="button"
-            onClick={() => setAbierto((v) => !v)}
-            aria-expanded={abierto}
-            aria-controls="menu-movil"
-            aria-label={abierto ? "Cerrar menú" : "Abrir menú"}
-            className="-mr-2 grid size-10 place-items-center text-foreground outline-none focus-visible:ring-2 focus-visible:ring-gold lg:hidden"
+    <>
+      <header
+        className={cn(
+          "fixed inset-x-0 top-0 z-50 transition-[background-color,height,box-shadow,backdrop-filter] duration-300",
+          scrolled ? "h-16" : "h-20",
+          // El alto depende sólo del scroll (el panel de abajo se ancla a él),
+          // pero el fondo también del menú: con el menú abierto arriba del
+          // hero, la franja del header seguía siendo un degradado translúcido
+          // y se veía la foto por detrás justo encima de un panel opaco.
+          scrolled || abierto
+            ? cn(
+                "border-b border-border shadow-[0_10px_30px_-18px_rgba(0,0,0,0.6)] backdrop-blur-md",
+                abierto ? "bg-background" : "bg-background/85",
+              )
+            : "bg-gradient-to-b from-black/70 to-transparent",
+        )}
+      >
+        {/* Dos columnas en móvil, tres desde lg. El nav del medio es
+            `hidden lg:flex`, o sea `display:none` en móvil — y un ítem con
+            display:none desaparece del grid por completo. Con tres columnas
+            fijas, el botón del menú caía en la columna 2 (`auto`) y quedaba
+            flotando en el centro de la pantalla con la tercera columna vacía
+            a su derecha. */}
+        <div className="mx-auto grid h-full max-w-site grid-cols-[1fr_auto] items-center gap-6 px-5 sm:px-8 lg:grid-cols-[1fr_auto_1fr]">
+          <Link
+            href="/"
+            aria-label="Diplomatic Automobile Trading — Inicio"
+            className="justify-self-start outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background"
           >
-            {abierto ? <X className="size-6" /> : <Menu className="size-6" />}
-          </button>
+            <Wordmark
+              priority
+              imgClassName={cn(
+                "w-auto transition-[height] duration-300",
+                // ~10% más chico que antes (h-8/h-10) — feedback del cliente:
+                // un logo levemente más chico se lee más refinado.
+                scrolled ? "h-7" : "h-9",
+              )}
+            />
+          </Link>
+
+          <nav
+            className="hidden items-center gap-9 lg:flex"
+            aria-label="Principal"
+          >
+            {navLinks.map((link) => {
+              const activo =
+                link.href === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  aria-current={activo ? "page" : undefined}
+                  className={cn(
+                    "relative py-1 text-[0.9rem] font-medium uppercase tracking-[0.08em] outline-none transition-colors",
+                    "focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background",
+                    activo
+                      ? "text-foreground"
+                      : "text-foreground/60 hover:text-foreground",
+                  )}
+                >
+                  {link.label}
+                  {activo && (
+                    <span
+                      aria-hidden
+                      className="absolute -bottom-2 left-1/2 size-1 -translate-x-1/2 rounded-full bg-gold"
+                    />
+                  )}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className="flex items-center justify-end gap-5">
+            <button
+              ref={toggleRef}
+              type="button"
+              onClick={() => setAbierto((v) => !v)}
+              aria-expanded={abierto}
+              aria-controls="menu-movil"
+              aria-label={abierto ? "Cerrar menú" : "Abrir menú"}
+              className="-mr-2 grid size-10 place-items-center text-foreground outline-none focus-visible:ring-2 focus-visible:ring-gold lg:hidden"
+            >
+              {abierto ? <X className="size-6" /> : <Menu className="size-6" />}
+            </button>
+          </div>
         </div>
-      </div>
+      </header>
 
       {/* Panel a pantalla completa, no un dropdown chico: con el header fijo
           y transparente sobre el hero, un menú angosto se perdía contra la
           foto. Arranca justo debajo de la franja del header (misma altura
-          que tiene en ese momento) y cubre el resto del viewport. */}
+          que tiene en ese momento) y cubre el resto del viewport.
+
+          Va como hermano del <header>, no adentro: el header lleva
+          `backdrop-blur` cuando está sólido, y un filtro CSS convierte al
+          elemento en bloque contenedor de sus descendientes `fixed`. Estando
+          adentro, `inset-x-0 bottom-0 top-20` se resolvía contra la franja de
+          80px del header en vez de contra la ventana y el panel quedaba de
+          alto 0 — el menú no se abría después de scrollear. */}
       <div
         id="menu-movil"
         role="dialog"
@@ -149,7 +172,7 @@ export function SiteHeader() {
         aria-label="Menú principal"
         hidden={!abierto}
         className={cn(
-          "fixed inset-x-0 bottom-0 flex flex-col overflow-y-auto bg-background lg:hidden",
+          "fixed inset-x-0 bottom-0 z-40 flex flex-col overflow-y-auto bg-background lg:hidden",
           scrolled ? "top-16" : "top-20",
         )}
       >
@@ -169,6 +192,6 @@ export function SiteHeader() {
           ))}
         </nav>
       </div>
-    </header>
+    </>
   );
 }

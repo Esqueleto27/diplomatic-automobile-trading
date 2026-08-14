@@ -22,7 +22,7 @@ export default async function InventarioPage() {
   const autos = await getAutosVisibles();
 
   return (
-    <div className="mx-auto max-w-site px-5 py-20 sm:px-8 sm:py-32">
+    <div className="mx-auto max-w-site px-5 py-14 sm:px-8 sm:py-32">
       <SectionHeading as="h1">Inventario</SectionHeading>
       <p className="mt-6 max-w-lg text-base leading-[1.8] text-muted-foreground sm:text-lg">
         Unidades disponibles hoy. Si busca un modelo que no aparece en la lista,

@@ -31,9 +31,16 @@ export async function middleware(request: NextRequest) {
   // (no sólo de respuesta) para que esos Server Components puedan leerlo
   // con `headers()` y ponerlo en el atributo `nonce` del script.
   const nonce = crypto.randomUUID();
+  // En desarrollo, webpack envuelve cada módulo en `eval()` (devtool
+  // eval-source-map) y el refresco en caliente abre un WebSocket — sin estas
+  // dos excepciones el navegador bloquea TODO el JS de cliente en local: la
+  // página se ve pero nada hidrata (los `<Reveal>` quedan en opacity:0, el
+  // header nunca detecta el scroll, el menú móvil no abre). Sólo en dev: el
+  // build de producción no usa eval, así que la política real sigue cerrada.
+  const isDev = process.env.NODE_ENV !== "production";
   const csp = [
     "default-src 'self'",
-    `script-src 'self' 'nonce-${nonce}'`,
+    `script-src 'self' 'nonce-${nonce}'${isDev ? " 'unsafe-eval'" : ""}`,
     // 'unsafe-inline' sólo para estilos: React/Tailwind ponen varios
     // `style={{...}}` fijos en el servidor (filtros de imagen, delays de
     // animación, alturas calculadas de logos) — nonce-per-style no vale la
@@ -45,7 +52,7 @@ export async function middleware(request: NextRequest) {
     // cuadro vacío, nunca la miniatura.
     `img-src 'self' data: blob: ${R2_HOST}`,
     "font-src 'self'",
-    "connect-src 'self'",
+    `connect-src 'self'${isDev ? " ws:" : ""}`,
     // Embed de Google Maps en /contacto — ver ese archivo.
     "frame-src https://www.google.com",
     "object-src 'none'",
