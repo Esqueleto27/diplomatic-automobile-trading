@@ -101,7 +101,9 @@ export function CarGallery({
             >
               <ChevronRight className="size-5" />
             </button>
-            <span className="absolute bottom-3 right-3 border border-white/20 bg-background/70 px-2.5 py-1 text-xs tabular-nums text-foreground backdrop-blur-sm">
+            {/* A la izquierda, no a la derecha: el logo (Watermark) ya vive
+                ahí abajo a la derecha en esta misma foto grande — se pisaban. */}
+            <span className="absolute bottom-3 left-3 border border-white/20 bg-background/70 px-2.5 py-1 text-xs tabular-nums text-foreground backdrop-blur-sm">
               {activa + 1} / {fotos.length}
             </span>
           </>
