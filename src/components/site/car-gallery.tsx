@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Watermark } from "@/components/site/watermark";
 
@@ -13,6 +14,19 @@ export function CarGallery({
   nombre: string;
 }) {
   const [activa, setActiva] = useState(0);
+  const thumbRefs = useRef<(HTMLLIElement | null)[]>([]);
+
+  // Tanto las flechas como las miniaturas mueven `activa` — sin esto, avanzar
+  // con flecha hasta una foto fuera del área visible de miniaturas (con
+  // scroll horizontal oculto, ver comentario más abajo) la dejaba
+  // seleccionada pero invisible, sin pista de cuál era.
+  useEffect(() => {
+    thumbRefs.current[activa]?.scrollIntoView({
+      behavior: "smooth",
+      inline: "center",
+      block: "nearest",
+    });
+  }, [activa]);
 
   if (fotos.length === 0) {
     return (
@@ -32,9 +46,24 @@ export function CarGallery({
     );
   }
 
+  const hayVarias = fotos.length > 1;
+  const anterior = () => setActiva((i) => (i - 1 + fotos.length) % fotos.length);
+  const siguiente = () => setActiva((i) => (i + 1) % fotos.length);
+
   return (
     <div>
-      <div className="relative aspect-[4/3] w-full overflow-hidden border border-border bg-surface-2">
+      <div
+        className="relative aspect-[4/3] w-full overflow-hidden border border-border bg-surface-2 outline-none"
+        tabIndex={hayVarias ? 0 : undefined}
+        onKeyDown={
+          hayVarias
+            ? (e) => {
+                if (e.key === "ArrowLeft") anterior();
+                if (e.key === "ArrowRight") siguiente();
+              }
+            : undefined
+        }
+      >
         <Image
           src={fotos[activa].url}
           alt={`${nombre} — foto ${activa + 1} de ${fotos.length}`}
@@ -47,9 +76,39 @@ export function CarGallery({
         {/* No va en las miniaturas del carrusel, más abajo — ya son
             demasiado chicas para llevarla. */}
         <Watermark size="lg" />
+
+        {hayVarias && (
+          <>
+            {/* Antes la única forma de ver el resto de las fotos era
+                arrastrar la tira de miniaturas, sin ninguna barra de scroll
+                visible (se oculta a propósito, ver `no-scrollbar` abajo) que
+                avisara que había más — se reportó como "no tengo acceso a
+                las demás fotos". Estas flechas son ahora la vía principal;
+                las miniaturas siguen sirviendo para saltar directo a una. */}
+            <button
+              type="button"
+              onClick={anterior}
+              aria-label="Foto anterior"
+              className="absolute left-3 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center border border-white/20 bg-background/70 text-foreground backdrop-blur-sm outline-none transition-colors hover:border-gold hover:text-gold focus-visible:ring-2 focus-visible:ring-gold"
+            >
+              <ChevronLeft className="size-5" />
+            </button>
+            <button
+              type="button"
+              onClick={siguiente}
+              aria-label="Foto siguiente"
+              className="absolute right-3 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center border border-white/20 bg-background/70 text-foreground backdrop-blur-sm outline-none transition-colors hover:border-gold hover:text-gold focus-visible:ring-2 focus-visible:ring-gold"
+            >
+              <ChevronRight className="size-5" />
+            </button>
+            <span className="absolute bottom-3 right-3 border border-white/20 bg-background/70 px-2.5 py-1 text-xs tabular-nums text-foreground backdrop-blur-sm">
+              {activa + 1} / {fotos.length}
+            </span>
+          </>
+        )}
       </div>
 
-      {fotos.length > 1 && (
+      {hayVarias && (
         // Ancho fijo por miniatura + scroll horizontal, no `flex-1`: con
         // flex-1 las 10 miniaturas que permite el sistema se repartían el
         // ancho disponible entre todas, y en un móvil angosto cada una
@@ -57,7 +116,13 @@ export function CarGallery({
         // acertarle con el dedo.
         <ul className="no-scrollbar mt-3 flex gap-3 overflow-x-auto">
           {fotos.map((foto, i) => (
-            <li key={foto.id} className="w-20 shrink-0 sm:w-24">
+            <li
+              key={foto.id}
+              ref={(el) => {
+                thumbRefs.current[i] = el;
+              }}
+              className="w-20 shrink-0 sm:w-24"
+            >
               <button
                 type="button"
                 onClick={() => setActiva(i)}
