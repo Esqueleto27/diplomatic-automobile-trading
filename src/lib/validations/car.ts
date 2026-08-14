@@ -19,16 +19,10 @@ export const carSchema = z.object({
   combustible: z.preprocess(emptyToUndefined, z.string().trim().optional()),
   color: z.preprocess(emptyToUndefined, z.string().trim().optional()),
   descripcion: z.preprocess(emptyToUndefined, z.string().trim().optional()),
-  tipo: z.preprocess(
-    emptyToUndefined,
-    z.enum(["NUEVO", "USADO", "DIPLOMATICO"]).optional(),
-  ),
-  estado: z.preprocess(
-    emptyToUndefined,
-    z
-      .enum(["DISPONIBLE", "RESERVADO", "EXONERADO", "CUPO_DIPLOMATICO", "VENDIDO"])
-      .optional(),
-  ),
+  tipo: z.preprocess(emptyToUndefined, z.enum(["NUEVO", "USADO"]).optional()),
+  // Ya no es un select de varios valores — parseCarForm (cars.ts) traduce el
+  // checkbox "vendido" del form a "VENDIDO" o undefined antes de llegar acá.
+  estado: z.literal("VENDIDO").optional(),
   destacado: z.boolean().default(false),
   activo: z.boolean().default(true),
 });

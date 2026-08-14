@@ -39,7 +39,11 @@ export async function middleware(request: NextRequest) {
     // animación, alturas calculadas de logos) — nonce-per-style no vale la
     // pena para esto, y no es el vector de XSS que importa acá.
     "style-src 'self' 'unsafe-inline'",
-    `img-src 'self' data: ${R2_HOST}`,
+    // blob: para el preview local de fotos en el admin antes de subirlas
+    // (PhotoPicker usa URL.createObjectURL) — sin esto el navegador las
+    // bloqueaba en silencio y sólo se veía el botón de borrar sobre un
+    // cuadro vacío, nunca la miniatura.
+    `img-src 'self' data: blob: ${R2_HOST}`,
     "font-src 'self'",
     "connect-src 'self'",
     // Embed de Google Maps en /contacto — ver ese archivo.

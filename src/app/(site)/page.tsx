@@ -34,11 +34,12 @@ async function autosOVacio(
 }
 
 export default async function HomePage() {
-  // El inventario es sólo de vehículos usados/diplomáticos: los nuevos se
-  // consiguen por importación o compra local, es un servicio (ver
+  // El inventario destacado de portada es sólo de vehículos usados: los
+  // nuevos se consiguen por importación o compra local, es un servicio (ver
   // lineasNegocio en src/lib/site.ts, usado hoy sólo en /empresa), no algo
-  // que se liste con fotos. Por eso no hay consulta a tipo "NUEVO".
-  const usados = await autosOVacio(["USADO", "DIPLOMATICO"], DESTACADOS);
+  // que se liste con fotos. Por eso no hay consulta a tipo "NUEVO" acá (sí
+  // puede aparecer en /inventario, que lista todo lo activo sin filtrar).
+  const usados = await autosOVacio(["USADO"], DESTACADOS);
 
   // Las secciones son bloques independientes: cambiar el orden de la página
   // es mover una línea, y una sección sin inventario simplemente no se monta.

@@ -12,6 +12,13 @@ import {
 } from "@/components/admin/mensaje-row-actions";
 import { formatoFechaHora } from "@/lib/format";
 
+/** "Nombre y apellido" ahora es un solo campo de texto libre — se toman las
+ * iniciales de las dos primeras palabras (o sólo la primera si no hay más). */
+function iniciales(nombre: string): string {
+  const palabras = nombre.trim().split(/\s+/);
+  return (palabras[0]?.[0] ?? "") + (palabras[1]?.[0] ?? "");
+}
+
 export default async function AdminMensajesPage() {
   const db = await getDb();
   const mensajes = await db.query.contactMessages.findMany({
@@ -43,15 +50,14 @@ export default async function AdminMensajesPage() {
                 )}
               >
                 <span className="grid size-10 shrink-0 place-items-center rounded-full bg-accent text-sm font-semibold text-foreground/70">
-                  {m.nombre[0]}
-                  {m.apellido[0]}
+                  {iniciales(m.nombre)}
                 </span>
 
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="min-w-0">
                       <p className="font-medium">
-                        {m.nombre} {m.apellido}
+                        {m.nombre}
                         {!m.leido && (
                           <span className="ml-2 inline-block size-1.5 rounded-full bg-primary align-middle" />
                         )}
@@ -68,10 +74,7 @@ export default async function AdminMensajesPage() {
                         {formatoFechaHora.format(sqliteTimestampToDate(m.createdAt))}
                       </span>
                       <MensajeLeidoToggle id={m.id} leido={m.leido} />
-                      <EliminarMensajeButton
-                        id={m.id}
-                        nombre={`${m.nombre} ${m.apellido}`}
-                      />
+                      <EliminarMensajeButton id={m.id} nombre={m.nombre} />
                     </div>
                   </div>
 

@@ -52,9 +52,9 @@ export function ContactForm() {
         />
       </div>
 
-      <div className="space-y-2.5">
+      <div className="space-y-2.5 sm:col-span-2">
         <Label htmlFor="nombre" className={etiquetaClases}>
-          Nombre
+          Nombre y apellido
         </Label>
         <Input
           id="nombre"
@@ -67,25 +67,6 @@ export function ContactForm() {
         {errors.nombre && (
           <p id="nombre-error" className="text-[0.7rem] text-destructive">
             {errors.nombre[0]}
-          </p>
-        )}
-      </div>
-
-      <div className="space-y-2.5">
-        <Label htmlFor="apellido" className={etiquetaClases}>
-          Apellido
-        </Label>
-        <Input
-          id="apellido"
-          name="apellido"
-          required
-          className={campoClases}
-          aria-invalid={Boolean(errors.apellido)}
-          aria-describedby={errors.apellido ? "apellido-error" : undefined}
-        />
-        {errors.apellido && (
-          <p id="apellido-error" className="text-[0.7rem] text-destructive">
-            {errors.apellido[0]}
           </p>
         )}
       </div>

@@ -4,15 +4,19 @@ import { getDb } from "@/lib/db";
 
 // SQLite/D1 no tiene enums nativos: "tipo" es String en el schema, validado
 // como este union en la capa de aplicación (ver src/lib/validations/car.ts).
-export type TipoAuto = "NUEVO" | "USADO" | "DIPLOMATICO";
+// "DIPLOMATICO" existió como tercer valor y se sacó a pedido del cliente: en
+// la práctica generaba confusión con el select de Tipo (ya se comunica que
+// el negocio maneja vehículos diplomáticos por otro lado, ver lineasNegocio
+// en src/lib/site.ts) — un auto viejo con ese valor en la base simplemente
+// deja de mostrar tipo (tipoLabel devuelve null), no rompe nada.
+export type TipoAuto = "NUEVO" | "USADO";
 
 // Única fuente de verdad para las etiquetas en español de TipoAuto — antes
 // estaba copiado como TIPO_LABELS en dos páginas y como TIPO_OPTIONS en el
-// form del admin, los tres con los mismos 3 valores hardcodeados.
+// form del admin, los tres con los mismos valores hardcodeados.
 export const TIPO_LABELS: Record<TipoAuto, string> = {
   NUEVO: "Nuevo",
   USADO: "Usado",
-  DIPLOMATICO: "Diplomático",
 };
 
 export const TIPO_OPTIONS: { value: TipoAuto; label: string }[] = (
@@ -27,40 +31,19 @@ export function tipoLabel(tipo: string | null): string | null {
   return tipo && tipo in TIPO_LABELS ? TIPO_LABELS[tipo as TipoAuto] : null;
 }
 
-// Badge de estado comercial — independiente de `tipo` (categoría de
-// inventario): un auto DIPLOMATICO puede estar además EXONERADO o RESERVADO.
-// VENDIDO es un estado más de esta misma lista (no un campo booleano aparte)
-// a propósito: reutiliza el mismo badge/select que ya existía en vez de
-// sumar un segundo mecanismo de estado en el schema.
-export type EstadoAuto =
-  | "DISPONIBLE"
-  | "RESERVADO"
-  | "EXONERADO"
-  | "CUPO_DIPLOMATICO"
-  | "VENDIDO";
-
-export const ESTADO_LABELS: Record<EstadoAuto, string> = {
-  DISPONIBLE: "Disponible",
-  RESERVADO: "Reservado",
-  EXONERADO: "Exonerado",
-  CUPO_DIPLOMATICO: "Con cupo diplomático",
-  VENDIDO: "Vendido",
-};
-
-export const ESTADO_OPTIONS: { value: EstadoAuto; label: string }[] = (
-  Object.entries(ESTADO_LABELS) as [EstadoAuto, string][]
-).map(([value, label]) => ({ value, label }));
-
+// `Car.estado` guardaba antes un select de 5 valores (DISPONIBLE/RESERVADO/
+// EXONERADO/CUPO_DIPLOMATICO/VENDIDO) — el cliente pidió sacarlo del todo por
+// confuso; lo único que de verdad se usaba en el sitio era el badge de
+// "Vendido". Se mantiene la misma columna de texto libre en el schema (sin
+// migración) pero ahora sólo puede valer "VENDIDO" o null, controlado por un
+// checkbox aparte en el form (ver CarForm) en vez de un select.
 export function estadoLabel(estado: string | null): string | null {
-  return estado && estado in ESTADO_LABELS
-    ? ESTADO_LABELS[estado as EstadoAuto]
-    : null;
+  return esVendido(estado) ? "Vendido" : null;
 }
 
-/** `Car.estado` es texto libre en el schema — este helper es el único punto
- * que decide qué string cuenta como "vendido" para ordenar y para el
- * tratamiento visual (grid/tarjeta), en vez de comparar "VENDIDO" a mano en
- * cada lugar que lo necesita. */
+/** Único punto que decide qué string cuenta como "vendido", para ordenar y
+ * para el tratamiento visual (grid/tarjeta), en vez de comparar "VENDIDO" a
+ * mano en cada lugar que lo necesita. */
 export function esVendido(estado: string | null): boolean {
   return estado === "VENDIDO";
 }
@@ -101,8 +84,8 @@ export type AutoPublico = {
   transmision: string | null;
   combustible: string | null;
   color: string | null;
-  // string (no TipoAuto/EstadoAuto): el schema los guarda como texto libre en
-  // D1/SQLite; los union types sólo restringen los valores que la app escribe.
+  // string (no TipoAuto): el schema los guarda como texto libre en D1/SQLite;
+  // el union type sólo restringe los valores que la app escribe.
   tipo: string | null;
   estado: string | null;
   fotos: { url: string }[];

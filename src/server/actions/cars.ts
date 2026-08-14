@@ -31,7 +31,9 @@ function parseCarForm(formData: FormData) {
     color: formData.get("color"),
     descripcion: formData.get("descripcion"),
     tipo: formData.get("tipo"),
-    estado: formData.get("estado"),
+    // "Vendido" es un checkbox aparte (no un select de estado) — se traduce
+    // acá al único valor que la columna `estado` puede tener ahora.
+    estado: formData.get("vendido") === "on" ? "VENDIDO" : undefined,
     destacado: formData.get("destacado") === "on",
     activo: formData.get("activo") === "on",
   });

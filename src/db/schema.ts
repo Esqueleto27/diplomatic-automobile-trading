@@ -32,13 +32,15 @@ export const cars = sqliteTable("Car", {
   combustible: text("combustible"),
   color: text("color"),
   descripcion: text("descripcion"),
-  // "NUEVO" | "USADO" | "DIPLOMATICO" — SQLite/D1 no tiene enums nativos,
-  // se valida en la capa de aplicación (src/lib/validations/car.ts).
+  // "NUEVO" | "USADO" — SQLite/D1 no tiene enums nativos, se valida en la
+  // capa de aplicación (src/lib/validations/car.ts). Existió un tercer valor
+  // "DIPLOMATICO" que se sacó a pedido del cliente por confuso.
   tipo: text("tipo"),
-  // "DISPONIBLE" | "RESERVADO" | "EXONERADO" | "CUPO_DIPLOMATICO" — badge de
-  // estado que se muestra en la tarjeta/ficha. Independiente de `tipo`: un
-  // auto puede ser DIPLOMATICO (categoría de inventario) y estar además
-  // EXONERADO o RESERVADO (estado comercial), mismo patrón texto-libre.
+  // Sólo puede valer "VENDIDO" o null — antes era un select de 5 estados
+  // comerciales (DISPONIBLE/RESERVADO/EXONERADO/CUPO_DIPLOMATICO/VENDIDO) que
+  // el cliente pidió sacar por no tener sentido para su operación. Se
+  // mantiene la misma columna de texto libre (evita una migración) en vez de
+  // pasar a boolean; el form ahora la controla con un checkbox "Vendido".
   estado: text("estado"),
   destacado: integer("destacado", { mode: "boolean" })
     .notNull()
@@ -80,8 +82,9 @@ export const carPhotos = sqliteTable("CarPhoto", {
 // formulario sí se guarda para que el admin lo revise desde el panel.
 export const contactMessages = sqliteTable("ContactMessage", {
   id: text("id").primaryKey(),
+  // Un solo campo de nombre y apellido junto — el cliente pidió sacar el
+  // campo "Apellido" separado del formulario por sencillez.
   nombre: text("nombre").notNull(),
-  apellido: text("apellido").notNull(),
   email: text("email").notNull(),
   asunto: text("asunto").notNull(),
   mensaje: text("mensaje").notNull(),

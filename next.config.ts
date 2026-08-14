@@ -13,6 +13,12 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
+    // Next 15 sólo permite calidad 75 en el optimizador por defecto — un
+    // <Image quality={N}> con N fuera de esta lista devuelve 400 (fue
+    // exactamente el bug: car-media.tsx y car-gallery.tsx piden quality={90}
+    // y esa foto salía rota, mientras que las miniaturas sin `quality`
+    // explícito — 75 por default — cargaban bien).
+    qualities: [75, 90],
     remotePatterns: [
       // Host exacto del bucket, no un wildcard "*.r2.dev": con wildcard,
       // cualquiera puede pasarle a /_next/image la URL de OTRO bucket

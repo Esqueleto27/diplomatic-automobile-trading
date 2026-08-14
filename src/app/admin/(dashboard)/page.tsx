@@ -116,7 +116,7 @@ export default async function AdminDashboardPage() {
                     />
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-medium">
-                        {m.nombre} {m.apellido}
+                        {m.nombre}
                         <span className="ml-1.5 font-normal text-muted-foreground">
                           · {m.asunto}
                         </span>

@@ -39,7 +39,6 @@ export async function enviarMensajeContacto(
 
   const parsed = contactoSchema.safeParse({
     nombre: formData.get("nombre"),
-    apellido: formData.get("apellido"),
     email: formData.get("email"),
     asunto: formData.get("asunto"),
     mensaje: formData.get("mensaje"),

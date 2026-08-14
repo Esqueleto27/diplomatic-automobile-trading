@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { CarActionState } from "@/server/actions/cars";
-import { ESTADO_OPTIONS, TIPO_OPTIONS } from "@/lib/cars";
+import { esVendido, TIPO_OPTIONS } from "@/lib/cars";
 import { PhotoPicker } from "@/components/admin/photo-picker";
 
 const TRANSMISION_OPTIONS = [
@@ -247,7 +247,7 @@ export function CarForm({
           <CardTitle className="text-base">Precio y condición</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2">
             <Field
               label="Precio (USD)"
               htmlFor="precio"
@@ -265,7 +265,7 @@ export function CarForm({
             <Field
               label="Tipo"
               htmlFor="tipo"
-              hint="Sólo Usado o Diplomático aparecen en la portada del sitio."
+              hint="Nuevo sólo aparece en el inventario completo, no en la portada."
             >
               <Select
                 name="tipo"
@@ -273,10 +273,10 @@ export function CarForm({
                 // Al crear (conFotos === true, ver nota en la prop) arranca
                 // en "Usado" — la inmensa mayoría de las altas lo son, y
                 // dejarlo en blanco es la causa más común de "publiqué un
-                // auto pero no aparece en el home": el home sólo lista
-                // Usado/Diplomático (ver getAutosPorTipo), "Visible en el
-                // sitio" no alcanza por sí solo. Al editar se respeta el
-                // valor guardado tal cual, sin forzar nada.
+                // auto pero no aparece en el home": el home sólo destaca
+                // Usado (ver getAutosPorTipo), "Visible en el sitio" no
+                // alcanza por sí solo. Al editar se respeta el valor
+                // guardado tal cual, sin forzar nada.
                 defaultValue={defaultValues?.tipo ?? (conFotos ? "USADO" : undefined)}
               >
                 <SelectTrigger id="tipo" className="w-full">
@@ -284,29 +284,6 @@ export function CarForm({
                 </SelectTrigger>
                 <SelectContent>
                   {TIPO_OPTIONS.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </Field>
-
-            <Field
-              label="Estado"
-              htmlFor="estado"
-              hint="Badge en la tarjeta y la ficha del auto."
-            >
-              <Select
-                name="estado"
-                items={ESTADO_OPTIONS}
-                defaultValue={defaultValues?.estado ?? undefined}
-              >
-                <SelectTrigger id="estado" className="w-full">
-                  <SelectValue placeholder="Sin definir" />
-                </SelectTrigger>
-                <SelectContent>
-                  {ESTADO_OPTIONS.map((option) => (
                     <SelectItem key={option.value} value={option.value}>
                       {option.label}
                     </SelectItem>
@@ -333,6 +310,15 @@ export function CarForm({
                 defaultChecked={defaultValues?.activo ?? true}
               />
               <Label htmlFor="activo">Visible en el sitio</Label>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="vendido"
+                name="vendido"
+                defaultChecked={esVendido(defaultValues?.estado ?? null)}
+              />
+              <Label htmlFor="vendido">Vendido (badge en la tarjeta y la ficha)</Label>
             </div>
           </div>
         </CardContent>
