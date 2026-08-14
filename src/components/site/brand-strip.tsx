@@ -1,4 +1,5 @@
-import { confianza, marcas } from "@/lib/site";
+import { useTranslations } from "next-intl";
+import { marcas } from "@/lib/site";
 import { LogoMarca } from "@/components/site/logo-marca";
 import { cn } from "@/lib/utils";
 
@@ -25,15 +26,17 @@ const MARCAS_EN_MOVIL = 12;
  * aunque el texto sea distinto palabra por palabra.
  */
 export function BrandStrip() {
+  const t = useTranslations("brandStrip");
+
   return (
     <section
-      aria-label="Marcas que comercializamos"
+      aria-label={t("aria")}
       className="border-y border-border bg-surface"
     >
       <div className="mx-auto flex max-w-site flex-col items-center px-5 pt-10 sm:px-8 sm:pt-12">
         <span aria-hidden className="mb-4 h-px w-10 bg-gold/70" />
         <p className="max-w-[26rem] text-center text-sm leading-relaxed text-muted-foreground sm:max-w-none sm:text-base">
-          {confianza.frase}
+          {t("confianza")}
         </p>
       </div>
 

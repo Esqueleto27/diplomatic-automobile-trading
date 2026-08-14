@@ -1,33 +1,43 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { confianza, marcas, oficinaImageUrl } from "@/lib/site";
+import { getTranslations } from "next-intl/server";
+import { marcas, oficinaImageUrl } from "@/lib/site";
 import { SectionHeading } from "@/components/site/section-heading";
 import { SiteButton } from "@/components/site/button";
 import { Reveal } from "@/components/site/reveal";
 import { StatsBand } from "@/components/site/stats-band";
 import { LogoMarca } from "@/components/site/logo-marca";
 
-export const metadata: Metadata = {
-  title: "Sobre Nosotros",
-  description: confianza.frase,
-  alternates: { canonical: "/empresa" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const [t, tBrand] = await Promise.all([
+    getTranslations("metadata"),
+    getTranslations("brandStrip"),
+  ]);
+  return {
+    title: t("empresaTitulo"),
+    description: tBrand("confianza"),
+    alternates: { canonical: "/empresa" },
+  };
+}
 
-export default function EmpresaPage() {
+export default async function EmpresaPage() {
+  const [t, tBrand] = await Promise.all([
+    getTranslations("empresa"),
+    getTranslations("brandStrip"),
+  ]);
+
   return (
     <div className="mx-auto max-w-site px-5 py-14 sm:px-8 sm:py-32">
       <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
         <div>
-          <SectionHeading as="h1">Sobre Nosotros</SectionHeading>
+          <SectionHeading as="h1">{t("titulo")}</SectionHeading>
 
           <p className="mt-6 text-base leading-[1.8] text-foreground/85 sm:text-lg">
-            {confianza.frase} Trabajamos con las principales marcas del
-            segmento premium y nos encargamos de que la documentación de cada
-            vehículo esté completa y en regla desde el primer día.
+            {tBrand("confianza")} {t("textoExtra")}
           </p>
 
           <SiteButton href="/inventario" size="lg" className="mt-10">
-            Ver inventario
+            {t("ctaInventario")}
           </SiteButton>
         </div>
 
@@ -36,7 +46,7 @@ export default function EmpresaPage() {
         <div className="relative aspect-[3/4] overflow-hidden border border-white/[0.07] shadow-lift sm:mx-auto sm:max-w-sm lg:mx-0 lg:max-w-none">
           <Image
             src={oficinaImageUrl}
-            alt="Oficina de Diplomatic Automobile Trading"
+            alt={t("fotoAlt")}
             fill
             sizes="(max-width: 1024px) 90vw, 40vw"
             className="object-cover [filter:sepia(.25)_saturate(.85)_hue-rotate(-12deg)]"
@@ -60,14 +70,10 @@ export default function EmpresaPage() {
           en una fracción del alto y no exige scroll para llegar a lo que
           sigue. */}
       <div className="mt-24">
-        <SectionHeading>Marcas con las que trabajamos</SectionHeading>
+        <SectionHeading>{t("marcasTitulo")}</SectionHeading>
 
         <p className="mt-6 max-w-2xl text-base leading-[1.8] text-foreground/85 sm:text-lg">
-          Durante más de 30 años hemos construido relaciones de confianza con
-          las marcas más exigentes del mercado automotor, tanto de lujo como
-          generalistas. Ese respaldo nos permite asesorar con criterio real
-          en cada compra o venta: conocemos el vehículo, su documentación y
-          su valor en el mercado ecuatoriano, marca por marca.
+          {t("marcasTexto")}
         </p>
 
         {/* Grilla de 4 en móvil, fila que envuelve desde sm: con `flex-wrap`

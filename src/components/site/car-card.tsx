@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import type { AutoPublico } from "@/lib/cars";
-import { esVendido, estadoLabel } from "@/lib/cars";
+import { esVendido } from "@/lib/cars";
 import { CarMedia } from "@/components/site/car-media";
 import { SiteButton } from "@/components/site/button";
 import { cn } from "@/lib/utils";
@@ -19,19 +20,23 @@ export function especificaciones(auto: AutoPublico): string {
     .join(" · ");
 }
 
-export function precioLegible(auto: AutoPublico): string {
-  return auto.precio != null
-    ? formatoPrecio.format(auto.precio)
-    : "Precio bajo consulta";
+export async function precioLegible(auto: AutoPublico): Promise<string> {
+  if (auto.precio != null) return formatoPrecio.format(auto.precio);
+  const t = await getTranslations("auto");
+  return t("precioConsulta");
 }
 
 /** Tarjeta completa con specs y acciones, para vehículos usados/diplomáticos. */
-export function CarCardDetalle({ auto }: { auto: AutoPublico }) {
+export async function CarCardDetalle({ auto }: { auto: AutoPublico }) {
   const vendido = esVendido(auto.estado);
+  const [t, precio] = await Promise.all([
+    getTranslations("auto"),
+    precioLegible(auto),
+  ]);
   // El badge de estado ya dice "Vendido" cuando corresponde — mostrarlo dos
   // veces (el estado normal + un badge aparte) sería redundante, así que acá
   // sólo cambia el estilo del mismo badge en vez de sumar uno nuevo.
-  const estado = estadoLabel(auto.estado);
+  const estado = vendido ? t("estado.VENDIDO") : null;
   const sinPrecio = auto.precio == null;
 
   return (
@@ -91,12 +96,12 @@ export function CarCardDetalle({ auto }: { auto: AutoPublico }) {
               sinPrecio ? "text-base" : "text-[1.375rem]",
             )}
           >
-            {precioLegible(auto)}
+            {precio}
           </p>
 
           <div className="mt-5 flex flex-wrap gap-3 pt-1 sm:mt-6">
             <SiteButton href={`/autos/${auto.slug}`} size="sm">
-              {vendido ? "Ver detalle" : "Ver más"}
+              {vendido ? t("verDetalle") : t("verMas")}
             </SiteButton>
           </div>
         </div>

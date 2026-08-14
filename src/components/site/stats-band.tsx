@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { indicadores } from "@/lib/site";
 import { Reveal } from "@/components/site/reveal";
 import { cn } from "@/lib/utils";
@@ -17,11 +18,12 @@ import { cn } from "@/lib/utils";
  * nada al lado — acá se centra en cambio como una única pieza.
  */
 export function StatsBand() {
+  const t = useTranslations("stats");
   const unSoloIndicador = indicadores.length === 1;
 
   return (
     <section
-      aria-label="Nuestra trayectoria"
+      aria-label={t("aria")}
       className="border-b border-border bg-surface py-10 sm:py-14"
     >
       <div
@@ -32,9 +34,9 @@ export function StatsBand() {
             : "grid-cols-3 divide-x divide-border",
         )}
       >
-        {indicadores.map(({ valor, etiqueta }, i) => (
+        {indicadores.map(({ valor, key }, i) => (
           <Reveal
-            key={etiqueta}
+            key={key}
             delay={i * 0.08}
             className="px-2 text-center sm:px-6"
           >
@@ -42,7 +44,7 @@ export function StatsBand() {
               {valor}
             </p>
             <p className="mt-1 text-[0.6rem] uppercase leading-tight tracking-[0.14em] text-muted-foreground sm:mt-2 sm:text-[0.65rem] sm:tracking-[0.2em]">
-              {etiqueta}
+              {t(key)}
             </p>
           </Reveal>
         ))}

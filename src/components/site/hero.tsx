@@ -1,8 +1,10 @@
-import { siteConfig } from "@/lib/site";
+import { useTranslations } from "next-intl";
 import { HeroImage } from "@/components/site/hero-image";
 import { SiteButton } from "@/components/site/button";
 
 export function Hero() {
+  const t = useTranslations("hero");
+
   return (
     <section className="relative isolate -mt-20 min-h-[clamp(34rem,84vh,52rem)] overflow-hidden">
       {/* -mt-20 cancela el `pt-20` que el layout del sitio agrega para
@@ -49,8 +51,8 @@ export function Hero() {
             style={{ animationDelay: "0.1s" }}
             className="animate-fade-up-in mt-5 max-w-[22rem] text-[1.0625rem] leading-[1.55] tracking-wide text-foreground/85 sm:mt-6 sm:max-w-xl sm:text-[1.5rem] sm:leading-relaxed"
           >
-            <span className="sm:hidden">{siteConfig.taglineCorto}</span>
-            <span className="hidden sm:inline">{siteConfig.tagline}</span>
+            <span className="sm:hidden">{t("taglineCorto")}</span>
+            <span className="hidden sm:inline">{t("tagline")}</span>
           </p>
 
           <div
@@ -62,7 +64,7 @@ export function Hero() {
               size="xl"
               className="h-[3.625rem] w-full sm:h-14 sm:w-auto"
             >
-              Hablar con un Asesor
+              {t("ctaAsesor")}
             </SiteButton>
             <SiteButton
               href="/inventario"
@@ -70,7 +72,7 @@ export function Hero() {
               variant="outline"
               className="w-full bg-black/30 backdrop-blur-sm sm:w-auto"
             >
-              Ver Inventario
+              {t("ctaInventario")}
             </SiteButton>
           </div>
         </div>

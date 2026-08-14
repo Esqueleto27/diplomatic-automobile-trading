@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { servicios } from "@/lib/site";
 import { SectionHeading } from "@/components/site/section-heading";
 import { ServiceCard } from "@/components/site/service-card";
@@ -19,11 +20,13 @@ const DESTACADOS = 6;
 const DESTACADOS_EN_MOVIL = 4;
 
 export function ServiciosAdicionales() {
+  const t = useTranslations("servicios");
+
   return (
     <section className="section-py" aria-labelledby="servicios">
       <div className="mx-auto max-w-site px-5 sm:px-8">
         <SectionHeading>
-          <span id="servicios">Nuestros Servicios</span>
+          <span id="servicios">{t("tituloSeccion")}</span>
         </SectionHeading>
 
         {/* Grid parejo 3×2, sin asimetría: se probó una card grande
@@ -48,7 +51,7 @@ export function ServiciosAdicionales() {
 
         <div className="mt-10 flex justify-center sm:mt-12">
           <SiteButton href="/servicios" size="lg" variant="outline">
-            Ver todos los servicios
+            {t("ctaVerTodos")}
           </SiteButton>
         </div>
       </div>

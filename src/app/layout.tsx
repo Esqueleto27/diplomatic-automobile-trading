@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Jost } from "next/font/google";
+import { getLocale } from "next-intl/server";
 import { Toaster } from "@/components/ui/sonner";
 import { heroImageUrl, siteUrl } from "@/lib/site";
 import "./globals.css";
@@ -49,14 +50,19 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // El toggle ES/EN sólo vive en el sitio público (ver SiteLayout) — /admin
+  // nunca escribe otro valor en la cookie de idioma, así que esto no le
+  // cambia nada en la práctica, sólo evita un segundo mecanismo de `lang`.
+  const locale = await getLocale();
+
   return (
     <html
-      lang="es"
+      lang={locale}
       className={`${cormorant.variable} ${jost.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">

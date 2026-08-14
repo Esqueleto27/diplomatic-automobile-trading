@@ -1,0 +1,199 @@
+{
+  "nav": {
+    "inicio": "Inicio",
+    "empresa": "Empresa",
+    "inventario": "Inventario",
+    "servicios": "Servicios",
+    "contacto": "Contacto"
+  },
+  "header": {
+    "inicio": "Diplomatic Automobile Trading — Inicio",
+    "abrirMenu": "Abrir menú",
+    "cerrarMenu": "Cerrar menú",
+    "menuPrincipal": "Principal",
+    "menuPrincipalMovil": "Principal (móvil)",
+    "menuDialogo": "Menú principal"
+  },
+  "idioma": {
+    "es": "ES",
+    "en": "EN",
+    "aria": "Idioma"
+  },
+  "hero": {
+    "tagline": "Ofrecemos una selección de vehículos para clientes que buscan calidad, exclusividad y confianza, con una atención especializada para diplomáticos y clientes particulares que valoran un servicio a la altura de sus necesidades.",
+    "taglineCorto": "Vehículos de alta gama para diplomáticos, organismos internacionales y clientes que valoran un servicio a su altura.",
+    "ctaAsesor": "Hablar con un Asesor",
+    "ctaInventario": "Ver Inventario"
+  },
+  "brandStrip": {
+    "aria": "Marcas que comercializamos",
+    "confianza": "Más de 30 años asesorando a embajadas, misiones diplomáticas y organismos internacionales en la compra y venta de vehículos exonerados en Ecuador."
+  },
+  "stats": {
+    "aria": "Nuestra trayectoria",
+    "aniosEtiqueta": "Años en el mercado"
+  },
+  "oficinaTrust": {
+    "titulo": "Un mismo equipo, de principio a fin",
+    "texto": "Elegir el vehículo, armar la documentación y coordinar la entrega pasan por las mismas manos en nuestra oficina en Quito — sin derivar su proceso a terceros en el camino.",
+    "cta": "Conocer la empresa",
+    "fotoAlt": "Oficina de Diplomatic Automobile Trading"
+  },
+  "vehiculosUsados": {
+    "titulo": "Vehículos Usados",
+    "texto": "Unidades seleccionadas con historial comprobable y documentación al día, listas para entregar. También compramos su vehículo y coordinamos la importación del modelo nuevo que busque.",
+    "cta": "Ver inventario completo"
+  },
+  "servicios": {
+    "tituloSeccion": "Nuestros Servicios",
+    "ctaVerTodos": "Ver todos los servicios",
+    "verMas": "Ver más",
+    "descripcionPagina": "Más allá de la compra del vehículo, acompañamos los trámites que suelen consumir más tiempo al llegar o mudarse de país.",
+    "ctaConsultar": "Consultar",
+    "cierreTitulo": "¿Necesita ayuda con alguno de nuestros servicios?",
+    "cierreTexto": "Cuéntenos qué necesita y un especialista lo atenderá personalmente.",
+    "cierreCta": "Contáctenos",
+    "items": {
+      "importacion-vehiculos": {
+        "titulo": "Importación de Vehículos",
+        "resumen": "Gestionamos todo el proceso para traer su vehículo desde el exterior hasta la entrega.",
+        "descripcion": "¿Desea traer su vehículo desde el exterior? Nos encargamos de todo el proceso de importación, desde el trámite inicial hasta la entrega en su destino final en el país."
+      },
+      "importacion-mercaderias": {
+        "titulo": "Importación de Mercaderías con Cupo Diplomático",
+        "resumen": "Usamos su cupo diplomático anual para traer bienes y menaje de casa por vía aérea o marítima.",
+        "descripcion": "Si usted desea hacer uso de su cupo para la importación de bienes con cargo a su cupo diplomático anual, nosotros le ayudamos con la importación de su mercadería vía aérea o marítima, así como de su menaje de casa."
+      },
+      "matriculacion-vehicular": {
+        "titulo": "Matriculación Vehicular",
+        "resumen": "Un gestor tramita la matriculación ante las autoridades por usted, de inicio a fin.",
+        "descripcion": "Contamos con el servicio de un gestor que le ayuda con los procesos requeridos por nuestras autoridades para regularizar la matriculación de su vehículo, usted despreocúpese que nosotros somos su soporte."
+      },
+      "reexportacion-vehiculos": {
+        "titulo": "Reexportación de Vehículos",
+        "resumen": "Coordinamos la salida de su vehículo hacia su próximo destino al terminar su misión.",
+        "descripcion": "Al terminar su misión diplomática en el país, coordinamos con usted el proceso de reexportación de su vehículo, incluyendo la documentación aduanera y la logística de traslado hacia su próximo destino."
+      },
+      "seguro-vehiculos": {
+        "titulo": "Seguro de Vehículos",
+        "resumen": "Las mejores tasas del mercado, con financiamiento sin intereses hasta 12 meses.",
+        "descripcion": "Tenemos para usted las mejores tasas del mercado, con amplios planes de financiamiento y sin intereses hasta 12 meses plazo, para lo cual trabajamos con Aseguradoras de prestigio Nacional e Internacional que le garantizan una atención oportuna y de calidad."
+      },
+      "seguro-viajes": {
+        "titulo": "Seguro de Viajes",
+        "resumen": "Cobertura y asistencia 24/7 para salir del país tranquilo, por negocios o vacaciones.",
+        "descripcion": "Por negocios o vacaciones es importante estar siempre bien protegidos, ponemos a su disposición seguro de viajes que le permitan sentirse seguro y relajado al salir del país."
+      },
+      "seguro-salud": {
+        "titulo": "Seguro de Salud",
+        "resumen": "Una gama completa de prestadores médicos con las mejores alternativas para su familia.",
+        "descripcion": "Si usted o su familia requieren contar con un seguro médico, tenemos una gama completa de prestadores de servicios médicos que pueden ofrecerle las mejores alternativas."
+      }
+    }
+  },
+  "contactCta": {
+    "titulo": "Hablemos de su próximo vehículo",
+    "texto": "Un especialista le atiende personalmente para asesorarlo en la compra, importación o los trámites de su vehículo.",
+    "cta": "Contáctenos"
+  },
+  "footer": {
+    "contacto": "Contacto",
+    "navegacion": "Navegación",
+    "derechos": "Todos los derechos reservados."
+  },
+  "quickContact": {
+    "llamar": "Llamar a {telefono}",
+    "whatsapp": "Escribir por WhatsApp"
+  },
+  "auto": {
+    "volverInventario": "Inventario",
+    "precioConsulta": "Precio bajo consulta",
+    "verMas": "Ver más",
+    "verDetalle": "Ver detalle",
+    "ctaTestDrive": "Agende una Prueba de Manejo",
+    "ctaVerMasVehiculos": "Ver más vehículos",
+    "fotosPreparacion": "Fotografías en preparación",
+    "fotoAnterior": "Foto anterior",
+    "fotoSiguiente": "Foto siguiente",
+    "verFoto": "Ver foto {n}",
+    "fotoNde": "{n} de {total}",
+    "ficha": {
+      "marca": "Marca",
+      "anio": "Año",
+      "kilometraje": "Kilometraje",
+      "transmision": "Transmisión",
+      "combustible": "Combustible",
+      "color": "Color",
+      "condicion": "Condición",
+      "estado": "Estado"
+    },
+    "tipo": {
+      "NUEVO": "Nuevo",
+      "USADO": "Usado"
+    },
+    "estado": {
+      "VENDIDO": "Vendido"
+    }
+  },
+  "empresa": {
+    "titulo": "Sobre Nosotros",
+    "textoExtra": "Trabajamos con las principales marcas del segmento premium y nos encargamos de que la documentación de cada vehículo esté completa y en regla desde el primer día.",
+    "ctaInventario": "Ver inventario",
+    "marcasTitulo": "Marcas con las que trabajamos",
+    "marcasTexto": "Durante más de 30 años hemos construido relaciones de confianza con las marcas más exigentes del mercado automotor, tanto de lujo como generalistas. Ese respaldo nos permite asesorar con criterio real en cada compra o venta: conocemos el vehículo, su documentación y su valor en el mercado ecuatoriano, marca por marca.",
+    "fotoAlt": "Oficina de Diplomatic Automobile Trading"
+  },
+  "inventario": {
+    "titulo": "Inventario",
+    "texto": "Unidades disponibles hoy. Si busca un modelo que no aparece en la lista, podemos importarlo a pedido.",
+    "vacioTexto": "No hay vehículos publicados por el momento.",
+    "vacioLink": "Escríbanos",
+    "vacioFin": "y le avisamos apenas ingrese uno."
+  },
+  "contacto": {
+    "titulo": "Hablemos",
+    "texto": "Cuéntenos qué vehículo busca o qué trámite necesita resolver. Un especialista le responde por WhatsApp el mismo día.",
+    "ctaWhatsapp": "Escribir por WhatsApp",
+    "telefono": "Teléfono",
+    "email": "Email",
+    "sitio": "Sitio",
+    "direccion": "Dirección",
+    "fotoAlt": "Fachada del edificio La Moraleja Business Center, oficinas de Diplomatic Automobile Trading",
+    "escribanosTitulo": "Escríbanos",
+    "escribanosTexto": "Complete el formulario y un especialista le responde a la brevedad.",
+    "mapaTitulo": "Ubicación de Diplomatic Automobile Trading — Edificio La Moraleja Business Center",
+    "mensajeEspecialista": "Hola, me gustaría hablar con un especialista de Diplomatic Automobile Trading."
+  },
+  "contactForm": {
+    "honeypot": "No completar este campo",
+    "nombre": "Nombre y apellido",
+    "email": "Correo electrónico",
+    "asunto": "Asunto",
+    "mensaje": "Mensaje",
+    "enviar": "Enviar mensaje",
+    "enviando": "Enviando...",
+    "exito": "Mensaje enviado. Le responderemos a la brevedad.",
+    "errores": {
+      "nombre": "Ingrese su nombre y apellido",
+      "email": "Ingrese un correo válido",
+      "asunto": "Ingrese un asunto",
+      "mensaje": "Escriba su mensaje",
+      "rateLimit": "Demasiados intentos. Inténtelo de nuevo en un minuto."
+    }
+  },
+  "whatsapp": {
+    "testDrive": "Hola, me interesa agendar una prueba de manejo del {auto}.",
+    "consultaServicio": "Hola, quisiera información sobre el servicio de {servicio}."
+  },
+  "metadata": {
+    "empresaTitulo": "Sobre Nosotros",
+    "inventarioTitulo": "Inventario",
+    "inventarioDescripcion": "Vehículos usados y diplomáticos disponibles en Diplomatic Automobile Trading.",
+    "contactoTitulo": "Contacto",
+    "contactoDescripcion": "Hable con un especialista de Diplomatic Automobile Trading.",
+    "serviciosTitulo": "Servicios",
+    "serviciosDescripcion": "Matriculación, importación con cupo diplomático y seguros para el cuerpo diplomático.",
+    "vehiculoNoEncontrado": "Vehículo no encontrado",
+    "disponibleEn": "disponible en Diplomatic Automobile Trading."
+  }
+}

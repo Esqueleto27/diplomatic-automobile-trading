@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 import type { Servicio } from "@/lib/site";
 
@@ -20,7 +21,10 @@ import type { Servicio } from "@/lib/site";
  * directo por ancla.
  */
 export function ServiceCard({ servicio, delay = 0 }: { servicio: Servicio; delay?: number }) {
-  const { slug, titulo, resumen, icono: Icono, imagen } = servicio;
+  const { slug, icono: Icono, imagen } = servicio;
+  const t = useTranslations("servicios");
+  const titulo = t(`items.${slug}.titulo`);
+  const resumen = t(`items.${slug}.resumen`);
 
   return (
     <Link
@@ -82,7 +86,7 @@ export function ServiceCard({ servicio, delay = 0 }: { servicio: Servicio; delay
           {resumen}
         </p>
         <span className="mt-4 inline-flex items-center gap-1.5 text-[0.7rem] font-medium uppercase tracking-[0.18em] text-gold">
-          Ver más
+          {t("verMas")}
           <ArrowRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-1" />
         </span>
       </div>

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Watermark } from "@/components/site/watermark";
@@ -13,6 +14,7 @@ export function CarGallery({
   fotos: { id: string; url: string }[];
   nombre: string;
 }) {
+  const t = useTranslations("auto");
   const [activa, setActiva] = useState(0);
   const thumbRefs = useRef<(HTMLLIElement | null)[]>([]);
 
@@ -40,7 +42,7 @@ export function CarGallery({
           </span>
         </div>
         <p className="absolute inset-x-0 bottom-6 text-center text-xs tracking-wide text-muted-foreground">
-          Fotografías en preparación
+          {t("fotosPreparacion")}
         </p>
       </div>
     );
@@ -66,7 +68,7 @@ export function CarGallery({
       >
         <Image
           src={fotos[activa].url}
-          alt={`${nombre} — foto ${activa + 1} de ${fotos.length}`}
+          alt={`${nombre} — ${t("fotoNde", { n: activa + 1, total: fotos.length })}`}
           fill
           priority
           quality={90}
@@ -88,7 +90,7 @@ export function CarGallery({
             <button
               type="button"
               onClick={anterior}
-              aria-label="Foto anterior"
+              aria-label={t("fotoAnterior")}
               className="absolute left-3 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center border border-white/20 bg-background/70 text-foreground backdrop-blur-sm outline-none transition-colors hover:border-gold hover:text-gold focus-visible:ring-2 focus-visible:ring-gold"
             >
               <ChevronLeft className="size-5" />
@@ -96,13 +98,17 @@ export function CarGallery({
             <button
               type="button"
               onClick={siguiente}
-              aria-label="Foto siguiente"
+              aria-label={t("fotoSiguiente")}
               className="absolute right-3 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center border border-white/20 bg-background/70 text-foreground backdrop-blur-sm outline-none transition-colors hover:border-gold hover:text-gold focus-visible:ring-2 focus-visible:ring-gold"
             >
               <ChevronRight className="size-5" />
             </button>
             {/* A la izquierda, no a la derecha: el logo (Watermark) ya vive
                 ahí abajo a la derecha en esta misma foto grande — se pisaban. */}
+            {/* "n / total" con barra, no un texto tipo "n de total": el
+                formato con slash no necesita traducción (se lee igual en
+                cualquier idioma), a diferencia del alt de arriba, que sí es
+                una oración. */}
             <span className="absolute bottom-3 left-3 border border-white/20 bg-background/70 px-2.5 py-1 text-xs tabular-nums text-foreground backdrop-blur-sm">
               {activa + 1} / {fotos.length}
             </span>
@@ -128,7 +134,7 @@ export function CarGallery({
               <button
                 type="button"
                 onClick={() => setActiva(i)}
-                aria-label={`Ver foto ${i + 1}`}
+                aria-label={t("verFoto", { n: i + 1 })}
                 aria-current={i === activa}
                 className={cn(
                   "relative block aspect-[4/3] w-full overflow-hidden border transition-colors outline-none",

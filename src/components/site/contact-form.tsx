@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { CheckCircle2, TriangleAlert } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,6 +21,7 @@ const etiquetaClases =
   "text-[0.68rem] font-medium uppercase tracking-[0.2em] text-muted-foreground";
 
 export function ContactForm() {
+  const t = useTranslations("contactForm");
   const [state, formAction, isPending] = useActionState(
     enviarMensajeContacto,
     undefined,
@@ -42,7 +44,7 @@ export function ContactForm() {
     >
       {/* Honeypot: oculto para personas, visible para bots que rellenan todo. */}
       <div className="hidden" aria-hidden="true">
-        <label htmlFor="empresa_web">No completar este campo</label>
+        <label htmlFor="empresa_web">{t("honeypot")}</label>
         <input
           id="empresa_web"
           name="empresa_web"
@@ -54,7 +56,7 @@ export function ContactForm() {
 
       <div className="space-y-2.5 sm:col-span-2">
         <Label htmlFor="nombre" className={etiquetaClases}>
-          Nombre y apellido
+          {t("nombre")}
         </Label>
         <Input
           id="nombre"
@@ -73,7 +75,7 @@ export function ContactForm() {
 
       <div className="space-y-2.5 sm:col-span-2">
         <Label htmlFor="email" className={etiquetaClases}>
-          Correo electrónico
+          {t("email")}
         </Label>
         <Input
           id="email"
@@ -93,7 +95,7 @@ export function ContactForm() {
 
       <div className="space-y-2.5 sm:col-span-2">
         <Label htmlFor="asunto" className={etiquetaClases}>
-          Asunto
+          {t("asunto")}
         </Label>
         <Input
           id="asunto"
@@ -112,7 +114,7 @@ export function ContactForm() {
 
       <div className="space-y-2.5 sm:col-span-2">
         <Label htmlFor="mensaje" className={etiquetaClases}>
-          Mensaje
+          {t("mensaje")}
         </Label>
         <Textarea
           id="mensaje"
@@ -137,7 +139,7 @@ export function ContactForm() {
           size="lg"
           className="w-full sm:w-auto"
         >
-          {isPending ? "Enviando..." : "Enviar mensaje"}
+          {isPending ? t("enviando") : t("enviar")}
         </SiteButton>
 
         {state?.ok && (
@@ -146,7 +148,7 @@ export function ContactForm() {
             className="flex items-center gap-2 text-sm text-gold"
           >
             <CheckCircle2 className="size-4 shrink-0" aria-hidden />
-            Mensaje enviado. Le responderemos a la brevedad.
+            {t("exito")}
           </p>
         )}
 

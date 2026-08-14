@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { contacto, navLinks, siteConfig } from "@/lib/site";
 import { Wordmark } from "@/components/site/wordmark";
 
@@ -8,6 +9,9 @@ import { Wordmark } from "@/components/site/wordmark";
 const iconosRed: { label: string; href: string; path: string }[] = [];
 
 export function SiteFooter() {
+  const t = useTranslations("footer");
+  const tNav = useTranslations("nav");
+
   return (
     <footer className="border-t border-border bg-surface">
       {/* `pb-24` en móvil: el botón flotante de WhatsApp (QuickContact, fijo
@@ -28,7 +32,7 @@ export function SiteFooter() {
 
           <div>
             <h2 className="text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground">
-              Contacto
+              {t("contacto")}
             </h2>
             <ul className="mt-4 space-y-1.5 text-sm text-foreground/75">
               {contacto.telefonos.map((tel) => (
@@ -52,7 +56,7 @@ export function SiteFooter() {
 
           <div>
             <h2 className="text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground">
-              Navegación
+              {t("navegacion")}
             </h2>
             {/* En fila que envuelve mientras entre en dos renglones (móvil),
                 apilada desde sm. Los cinco links en columna sumaban ~160px de
@@ -62,7 +66,7 @@ export function SiteFooter() {
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link href={link.href} className="hover:text-gold">
-                    {link.label}
+                    {tNav(link.key)}
                   </Link>
                 </li>
               ))}
@@ -95,7 +99,7 @@ export function SiteFooter() {
         <div className="mt-9 border-t border-border pt-6 sm:mt-12">
           <p className="text-center text-[0.68rem] tracking-wide text-muted-foreground">
             © {new Date().getFullYear()} {siteConfig.nombre}{" "}
-            {siteConfig.apellido}. Todos los derechos reservados.
+            {siteConfig.apellido}. {t("derechos")}
           </p>
         </div>
       </div>

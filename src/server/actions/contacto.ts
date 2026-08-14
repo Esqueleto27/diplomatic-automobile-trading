@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { randomUUID } from "node:crypto";
 import { eq } from "drizzle-orm";
+import { getTranslations } from "next-intl/server";
 import { requireSession } from "@/lib/session";
 import { getDb } from "@/lib/db";
 import { contactMessages } from "@/db/schema";
@@ -28,16 +29,23 @@ export async function enviarMensajeContacto(
     return { ok: true };
   }
 
+  const t = await getTranslations("contactForm.errores");
+
   // Endpoint público sin sesión — el honeypot de arriba frena bots torpes,
   // no uno que hable el protocolo de Server Actions directo. 3 envíos por
   // minuto por IP alcanza de sobra para una persona real y evita que se
   // llene la tabla ContactMessage (y la bandeja del panel) a fuerza bruta.
   const limiter = await getRateLimiter("RATE_LIMITER_CONTACTO");
   if (!(await dentroDelLimite(limiter))) {
-    return { message: "Demasiados intentos. Inténtelo de nuevo en un minuto." };
+    return { message: t("rateLimit") };
   }
 
-  const parsed = contactoSchema.safeParse({
+  const parsed = contactoSchema({
+    nombre: t("nombre"),
+    email: t("email"),
+    asunto: t("asunto"),
+    mensaje: t("mensaje"),
+  }).safeParse({
     nombre: formData.get("nombre"),
     email: formData.get("email"),
     asunto: formData.get("asunto"),

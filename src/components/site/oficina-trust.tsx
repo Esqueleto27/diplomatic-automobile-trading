@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { oficinaImageUrl } from "@/lib/site";
 import { SectionHeading } from "@/components/site/section-heading";
 import { SiteButton } from "@/components/site/button";
@@ -24,6 +25,8 @@ import { Reveal } from "@/components/site/reveal";
  * una persona real — se deja pendiente hasta tenerlo confirmado.
  */
 export function OficinaTrust() {
+  const t = useTranslations("oficinaTrust");
+
   return (
     <section className="section-py bg-background" aria-labelledby="oficina">
       <div className="mx-auto grid max-w-site gap-9 px-5 sm:gap-12 sm:px-8 lg:grid-cols-2 lg:items-center lg:gap-16">
@@ -39,7 +42,7 @@ export function OficinaTrust() {
               en vez de leerse pegada de otra parte. */}
           <Image
             src={oficinaImageUrl}
-            alt="Oficina de Diplomatic Automobile Trading"
+            alt={t("fotoAlt")}
             fill
             sizes="(max-width: 1024px) 90vw, 40vw"
             className="object-cover [filter:sepia(.25)_saturate(.85)_hue-rotate(-12deg)]"
@@ -49,15 +52,13 @@ export function OficinaTrust() {
 
         <Reveal className="lg:order-2" delay={0.1}>
           <SectionHeading as="h2">
-            <span id="oficina">Un mismo equipo, de principio a fin</span>
+            <span id="oficina">{t("titulo")}</span>
           </SectionHeading>
           <p className="mt-6 max-w-md text-base leading-[1.8] text-muted-foreground">
-            Elegir el vehículo, armar la documentación y coordinar la entrega
-            pasan por las mismas manos en nuestra oficina en Quito — sin
-            derivar su proceso a terceros en el camino.
+            {t("texto")}
           </p>
           <SiteButton href="/empresa" size="md" variant="outline" className="mt-8">
-            Conocer la empresa
+            {t("cta")}
           </SiteButton>
         </Reveal>
       </div>

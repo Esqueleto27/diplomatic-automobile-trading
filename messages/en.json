@@ -1,0 +1,199 @@
+{
+  "nav": {
+    "inicio": "Home",
+    "empresa": "Company",
+    "inventario": "Inventory",
+    "servicios": "Services",
+    "contacto": "Contact"
+  },
+  "header": {
+    "inicio": "Diplomatic Automobile Trading — Home",
+    "abrirMenu": "Open menu",
+    "cerrarMenu": "Close menu",
+    "menuPrincipal": "Main",
+    "menuPrincipalMovil": "Main (mobile)",
+    "menuDialogo": "Main menu"
+  },
+  "idioma": {
+    "es": "ES",
+    "en": "EN",
+    "aria": "Language"
+  },
+  "hero": {
+    "tagline": "We offer a curated selection of vehicles for clients who value quality, exclusivity and trust, with specialized attention for diplomats and private clients who expect service that matches their needs.",
+    "taglineCorto": "High-end vehicles for diplomats, international organizations and clients who expect service that matches their standards.",
+    "ctaAsesor": "Talk to an Advisor",
+    "ctaInventario": "View Inventory"
+  },
+  "brandStrip": {
+    "aria": "Brands we work with",
+    "confianza": "Over 30 years advising embassies, diplomatic missions and international organizations on the purchase and sale of tax-exempt vehicles in Ecuador."
+  },
+  "stats": {
+    "aria": "Our track record",
+    "aniosEtiqueta": "Years in the market"
+  },
+  "oficinaTrust": {
+    "titulo": "One team, from start to finish",
+    "texto": "Choosing the vehicle, preparing the paperwork and coordinating delivery all go through the same hands at our office in Quito — your process is never handed off to a third party along the way.",
+    "cta": "Learn about us",
+    "fotoAlt": "Diplomatic Automobile Trading office"
+  },
+  "vehiculosUsados": {
+    "titulo": "Used Vehicles",
+    "texto": "Handpicked units with verifiable history and up-to-date paperwork, ready for delivery. We also buy your vehicle and coordinate the import of the new model you're looking for.",
+    "cta": "View full inventory"
+  },
+  "servicios": {
+    "tituloSeccion": "Our Services",
+    "ctaVerTodos": "View all services",
+    "verMas": "Learn more",
+    "descripcionPagina": "Beyond the purchase of the vehicle, we handle the paperwork that usually takes the most time when arriving or relocating to a new country.",
+    "ctaConsultar": "Inquire",
+    "cierreTitulo": "Need help with any of our services?",
+    "cierreTexto": "Tell us what you need and a specialist will assist you personally.",
+    "cierreCta": "Contact Us",
+    "items": {
+      "importacion-vehiculos": {
+        "titulo": "Vehicle Importation",
+        "resumen": "We manage the entire process of bringing your vehicle from abroad through to delivery.",
+        "descripcion": "Would you like to bring your vehicle from abroad? We handle the entire import process, from the initial paperwork through to delivery at its final destination in the country."
+      },
+      "importacion-mercaderias": {
+        "titulo": "Goods Importation with Diplomatic Quota",
+        "resumen": "We use your annual diplomatic quota to bring in goods and household items by air or sea.",
+        "descripcion": "If you wish to use your annual diplomatic quota for the importation of goods, we help you import your merchandise by air or sea, as well as your household goods."
+      },
+      "matriculacion-vehicular": {
+        "titulo": "Vehicle Registration",
+        "resumen": "A dedicated agent handles registration with the authorities on your behalf, start to finish.",
+        "descripcion": "We offer the service of a dedicated agent who assists you with the procedures required by our authorities to formalize your vehicle's registration — you can relax, we're your support throughout."
+      },
+      "reexportacion-vehiculos": {
+        "titulo": "Vehicle Re-exportation",
+        "resumen": "We coordinate your vehicle's departure to its next destination once your assignment ends.",
+        "descripcion": "When your diplomatic assignment in the country comes to an end, we coordinate with you the re-exportation of your vehicle, including customs documentation and shipping logistics to its next destination."
+      },
+      "seguro-vehiculos": {
+        "titulo": "Vehicle Insurance",
+        "resumen": "The best rates in the market, with interest-free financing plans of up to 12 months.",
+        "descripcion": "We offer you the best rates in the market, with extensive financing plans and interest-free terms of up to 12 months, working with National and International insurers of prestige who guarantee prompt, quality service."
+      },
+      "seguro-viajes": {
+        "titulo": "Travel Insurance",
+        "resumen": "24/7 coverage and assistance so you can leave the country with peace of mind, for business or vacation.",
+        "descripcion": "Whether for business or vacation, it's important to always be well protected — we offer travel insurance so you can feel safe and relaxed when leaving the country."
+      },
+      "seguro-salud": {
+        "titulo": "Health Insurance",
+        "resumen": "A full range of medical providers with the best options for your family.",
+        "descripcion": "If you or your family need health insurance, we offer a full range of medical service providers who can offer you the best alternatives."
+      }
+    }
+  },
+  "contactCta": {
+    "titulo": "Let's talk about your next vehicle",
+    "texto": "A specialist will assist you personally on the purchase, importation or paperwork for your vehicle.",
+    "cta": "Contact Us"
+  },
+  "footer": {
+    "contacto": "Contact",
+    "navegacion": "Navigation",
+    "derechos": "All rights reserved."
+  },
+  "quickContact": {
+    "llamar": "Call {telefono}",
+    "whatsapp": "Message us on WhatsApp"
+  },
+  "auto": {
+    "volverInventario": "Inventory",
+    "precioConsulta": "Price upon request",
+    "verMas": "Learn more",
+    "verDetalle": "View details",
+    "ctaTestDrive": "Schedule a Test Drive",
+    "ctaVerMasVehiculos": "View more vehicles",
+    "fotosPreparacion": "Photos coming soon",
+    "fotoAnterior": "Previous photo",
+    "fotoSiguiente": "Next photo",
+    "verFoto": "View photo {n}",
+    "fotoNde": "{n} of {total}",
+    "ficha": {
+      "marca": "Make",
+      "anio": "Year",
+      "kilometraje": "Mileage",
+      "transmision": "Transmission",
+      "combustible": "Fuel type",
+      "color": "Color",
+      "condicion": "Condition",
+      "estado": "Status"
+    },
+    "tipo": {
+      "NUEVO": "New",
+      "USADO": "Used"
+    },
+    "estado": {
+      "VENDIDO": "Sold"
+    }
+  },
+  "empresa": {
+    "titulo": "About Us",
+    "textoExtra": "We work with the leading premium brands, and we make sure every vehicle's paperwork is complete and in order from day one.",
+    "ctaInventario": "View inventory",
+    "marcasTitulo": "Brands we work with",
+    "marcasTexto": "For over 30 years we have built trusted relationships with the most demanding brands in the automotive market, both luxury and mainstream. That backing lets us advise with real expertise on every purchase or sale: we know the vehicle, its paperwork and its value in the Ecuadorian market, brand by brand.",
+    "fotoAlt": "Diplomatic Automobile Trading office"
+  },
+  "inventario": {
+    "titulo": "Inventory",
+    "texto": "Units available today. If you're looking for a model that isn't listed, we can import it on request.",
+    "vacioTexto": "No vehicles are published at the moment.",
+    "vacioLink": "Write to us",
+    "vacioFin": "and we'll let you know as soon as one is listed."
+  },
+  "contacto": {
+    "titulo": "Let's Talk",
+    "texto": "Tell us which vehicle you're looking for or what paperwork you need resolved. A specialist will reply on WhatsApp the same day.",
+    "ctaWhatsapp": "Message us on WhatsApp",
+    "telefono": "Phone",
+    "email": "Email",
+    "sitio": "Website",
+    "direccion": "Address",
+    "fotoAlt": "Facade of the La Moraleja Business Center building, Diplomatic Automobile Trading offices",
+    "escribanosTitulo": "Write to Us",
+    "escribanosTexto": "Fill out the form and a specialist will respond promptly.",
+    "mapaTitulo": "Diplomatic Automobile Trading location — La Moraleja Business Center Building",
+    "mensajeEspecialista": "Hello, I'd like to speak with a specialist from Diplomatic Automobile Trading."
+  },
+  "contactForm": {
+    "honeypot": "Do not fill in this field",
+    "nombre": "Full name",
+    "email": "Email address",
+    "asunto": "Subject",
+    "mensaje": "Message",
+    "enviar": "Send message",
+    "enviando": "Sending...",
+    "exito": "Message sent. We'll get back to you shortly.",
+    "errores": {
+      "nombre": "Please enter your full name",
+      "email": "Please enter a valid email address",
+      "asunto": "Please enter a subject",
+      "mensaje": "Please write your message",
+      "rateLimit": "Too many attempts. Please try again in a minute."
+    }
+  },
+  "whatsapp": {
+    "testDrive": "Hello, I'm interested in scheduling a test drive for the {auto}.",
+    "consultaServicio": "Hello, I'd like information about the {servicio} service."
+  },
+  "metadata": {
+    "empresaTitulo": "About Us",
+    "inventarioTitulo": "Inventory",
+    "inventarioDescripcion": "Used and diplomatic vehicles available at Diplomatic Automobile Trading.",
+    "contactoTitulo": "Contact",
+    "contactoDescripcion": "Talk to a Diplomatic Automobile Trading specialist.",
+    "serviciosTitulo": "Services",
+    "serviciosDescripcion": "Registration, diplomatic-quota importation and insurance for the diplomatic corps.",
+    "vehiculoNoEncontrado": "Vehicle not found",
+    "disponibleEn": "available at Diplomatic Automobile Trading."
+  }
+}

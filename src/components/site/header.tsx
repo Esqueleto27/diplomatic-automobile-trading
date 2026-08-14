@@ -3,12 +3,16 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { navLinks } from "@/lib/site";
 import { Wordmark } from "@/components/site/wordmark";
+import { LanguageToggle } from "@/components/site/language-toggle";
 
 export function SiteHeader() {
+  const t = useTranslations("header");
+  const tNav = useTranslations("nav");
   const [abierto, setAbierto] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
@@ -90,7 +94,7 @@ export function SiteHeader() {
         <div className="mx-auto grid h-full max-w-site grid-cols-[1fr_auto] items-center gap-6 px-5 sm:px-8 lg:grid-cols-[1fr_auto_1fr]">
           <Link
             href="/"
-            aria-label="Diplomatic Automobile Trading — Inicio"
+            aria-label={t("inicio")}
             className="justify-self-start outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background"
           >
             <Wordmark
@@ -106,7 +110,7 @@ export function SiteHeader() {
 
           <nav
             className="hidden items-center gap-9 lg:flex"
-            aria-label="Principal"
+            aria-label={t("menuPrincipal")}
           >
             {navLinks.map((link) => {
               const activo =
@@ -126,7 +130,7 @@ export function SiteHeader() {
                       : "text-foreground/60 hover:text-foreground",
                   )}
                 >
-                  {link.label}
+                  {tNav(link.key)}
                   {activo && (
                     <span
                       aria-hidden
@@ -138,14 +142,15 @@ export function SiteHeader() {
             })}
           </nav>
 
-          <div className="flex items-center justify-end gap-5">
+          <div className="flex items-center justify-end gap-4 sm:gap-5">
+            <LanguageToggle />
             <button
               ref={toggleRef}
               type="button"
               onClick={() => setAbierto((v) => !v)}
               aria-expanded={abierto}
               aria-controls="menu-movil"
-              aria-label={abierto ? "Cerrar menú" : "Abrir menú"}
+              aria-label={abierto ? t("cerrarMenu") : t("abrirMenu")}
               className="-mr-2 grid size-10 place-items-center text-foreground outline-none focus-visible:ring-2 focus-visible:ring-gold lg:hidden"
             >
               {abierto ? <X className="size-6" /> : <Menu className="size-6" />}
@@ -169,7 +174,7 @@ export function SiteHeader() {
         id="menu-movil"
         role="dialog"
         aria-modal="true"
-        aria-label="Menú principal"
+        aria-label={t("menuDialogo")}
         hidden={!abierto}
         className={cn(
           "fixed inset-x-0 bottom-0 z-40 flex flex-col overflow-y-auto bg-background lg:hidden",
@@ -178,7 +183,7 @@ export function SiteHeader() {
       >
         <nav
           className="flex flex-1 flex-col justify-center gap-2 px-6"
-          aria-label="Principal (móvil)"
+          aria-label={t("menuPrincipalMovil")}
         >
           {navLinks.map((link) => (
             <Link
@@ -187,7 +192,7 @@ export function SiteHeader() {
               onClick={() => setAbierto(false)}
               className="border-b border-border/60 py-5 text-[1.375rem] font-medium uppercase tracking-[0.04em] text-foreground/85 outline-none transition-colors last:border-b-0 hover:text-gold focus-visible:text-gold"
             >
-              {link.label}
+              {tNav(link.key)}
             </Link>
           ))}
         </nav>

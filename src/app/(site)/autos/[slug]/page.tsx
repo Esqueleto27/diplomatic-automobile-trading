@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { ChevronLeft } from "lucide-react";
-import { esVendido, estadoLabel, getAutoPorSlug, tipoLabel } from "@/lib/cars";
+import { esVendido, getAutoPorSlug } from "@/lib/cars";
 import { CarGallery } from "@/components/site/car-gallery";
 import { SiteButton } from "@/components/site/button";
 import { precioLegible } from "@/components/site/car-card";
@@ -18,12 +19,15 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const auto = await getAutoPorSlug(slug);
-  if (!auto) return { title: "Vehículo no encontrado" };
+  const [auto, t] = await Promise.all([
+    getAutoPorSlug(slug),
+    getTranslations("metadata"),
+  ]);
+  if (!auto) return { title: t("vehiculoNoEncontrado") };
 
   const descripcion =
     auto.descripcion ??
-    `${auto.nombre}${auto.marca ? ` ${auto.marca}` : ""} disponible en Diplomatic Automobile Trading.`;
+    `${auto.nombre}${auto.marca ? ` ${auto.marca}` : ""} ${t("disponibleEn")}`;
   const foto = auto.fotos[0]?.url;
 
   return {
@@ -46,7 +50,10 @@ export default async function AutoDetallePage({
 
   if (!auto) notFound();
 
-  const hrefTestDrive = await whatsappHref(mensajeTestDrive(auto.nombre));
+  const [hrefTestDrive, t] = await Promise.all([
+    whatsappHref(await mensajeTestDrive(auto.nombre)),
+    getTranslations("auto"),
+  ]);
   // Ver la nota junto al mismo patrón en SiteLayout.
   const nonce = (await headers()).get("x-nonce") ?? undefined;
 
@@ -71,21 +78,29 @@ export default async function AutoDetallePage({
     },
   };
 
+  // tipo/estado son texto libre en la base (ver TipoAuto/estado en
+  // lib/cars.ts) — sólo pueden valer NUEVO/USADO y VENDIDO/null, así que se
+  // traducen acá con esas claves fijas en vez de con tipoLabel/estadoLabel
+  // (que devuelven el string en español a secas, usado por /admin).
+  const tipoTraducido =
+    auto.tipo === "NUEVO" || auto.tipo === "USADO" ? t(`tipo.${auto.tipo}`) : null;
+  const estadoTraducido = esVendido(auto.estado) ? t("estado.VENDIDO") : null;
+
   const fichaTecnica = [
-    { etiqueta: "Marca", valor: auto.marca },
-    { etiqueta: "Año", valor: auto.anio?.toString() },
+    { etiqueta: t("ficha.marca"), valor: auto.marca },
+    { etiqueta: t("ficha.anio"), valor: auto.anio?.toString() },
     {
-      etiqueta: "Kilometraje",
+      etiqueta: t("ficha.kilometraje"),
       valor:
         auto.kilometraje != null
           ? `${formatoNumero.format(auto.kilometraje)} km`
           : null,
     },
-    { etiqueta: "Transmisión", valor: auto.transmision },
-    { etiqueta: "Combustible", valor: auto.combustible },
-    { etiqueta: "Color", valor: auto.color },
-    { etiqueta: "Condición", valor: tipoLabel(auto.tipo) },
-    { etiqueta: "Estado", valor: estadoLabel(auto.estado) },
+    { etiqueta: t("ficha.transmision"), valor: auto.transmision },
+    { etiqueta: t("ficha.combustible"), valor: auto.combustible },
+    { etiqueta: t("ficha.color"), valor: auto.color },
+    { etiqueta: t("ficha.condicion"), valor: tipoTraducido },
+    { etiqueta: t("ficha.estado"), valor: estadoTraducido },
   ].filter((fila) => Boolean(fila.valor));
 
   return (
@@ -105,7 +120,7 @@ export default async function AutoDetallePage({
         className="inline-flex items-center gap-1.5 text-[0.7rem] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-gold"
       >
         <ChevronLeft className="size-3.5" />
-        Inventario
+        {t("volverInventario")}
       </Link>
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:gap-14">
@@ -122,7 +137,7 @@ export default async function AutoDetallePage({
           )}
 
           <p className="mt-8 font-display text-2xl font-semibold text-gold">
-            {precioLegible(auto)}
+            {await precioLegible(auto)}
           </p>
 
           {auto.descripcion && (
@@ -155,7 +170,7 @@ export default async function AutoDetallePage({
               rel="noopener noreferrer"
               className="w-full sm:w-auto"
             >
-              Agende una Prueba de Manejo
+              {t("ctaTestDrive")}
             </SiteButton>
             <SiteButton
               href="/inventario"
@@ -163,7 +178,7 @@ export default async function AutoDetallePage({
               variant="outline"
               className="w-full sm:w-auto"
             >
-              Ver más vehículos
+              {t("ctaVerMasVehiculos")}
             </SiteButton>
           </div>
         </div>

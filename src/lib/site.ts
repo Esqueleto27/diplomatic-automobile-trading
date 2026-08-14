@@ -26,16 +26,12 @@ import {
 const ASSETS_BASE_URL =
   "https://pub-2a4b20ea6c834e9d8fda32f7a54be906.r2.dev/sitio";
 
+// nombre/apellido son el nombre de marca (no se traducen). El tagline del
+// hero se sacó de acá — vive en messages/{locale}.json (namespace "hero"),
+// ver Hero, para que el toggle ES/EN lo traduzca.
 export const siteConfig = {
   nombre: "Diplomatic",
   apellido: "Automobile Trading",
-  tagline:
-    "Ofrecemos una selección de vehículos para clientes que buscan calidad, exclusividad y confianza, con una atención especializada para diplomáticos y clientes particulares que valoran un servicio a la altura de sus necesidades.",
-  // Misma promesa, condensada: en un teléfono el tagline largo ocupa seis
-  // renglones debajo del título y empuja los dos botones fuera de la primera
-  // pantalla. El Hero usa esta versión hasta 640px y la larga desde ahí.
-  taglineCorto:
-    "Vehículos de alta gama para diplomáticos, organismos internacionales y clientes que valoran un servicio a su altura.",
 };
 
 // Dominio de producción del sitio nuevo (reemplaza al sitio actual en el
@@ -57,25 +53,24 @@ export const edificioImageUrl = `${ASSETS_BASE_URL}/empresa/edificio.png`;
 // de esa página ahora es sólo texto sobre el fondo plano del tema.
 export const contactoCtaImageUrl = `${ASSETS_BASE_URL}/contacto-cta.jpg`;
 
-// Texto propio (no copiado de la competencia). A propósito NO se estructura
-// como un bloque aislado de "bienvenida + historia breve" — ese patrón
-// (saludo, párrafo institucional, debajo tres categorías idénticas a las de
-// otro dealer del mismo rubro) es justo lo que hace que dos sitios se lean
-// como calcados aunque el texto cambie palabra por palabra. Se integra en
-// cambio como una línea de confianza más discreta (ver TrustBand) y el resto
-// del contenido institucional completo vive sólo en /empresa.
-export const confianza = {
-  frase:
-    "Más de 30 años asesorando a embajadas, misiones diplomáticas y organismos internacionales en la compra y venta de vehículos exonerados en Ecuador.",
-};
+// La frase de confianza (+30 años) vivía acá; se movió a
+// messages/{locale}.json (namespace "brandStrip", clave "confianza") para
+// que el toggle ES/EN la traduzca — BrandStrip y /empresa la leen desde ahí.
+// A propósito NO se estructura como un bloque aislado de "bienvenida +
+// historia breve": ese patrón (saludo, párrafo institucional, tres
+// categorías idénticas a las de otro dealer del mismo rubro) es justo lo
+// que hace que dos sitios se lean calcados aunque el texto cambie palabra
+// por palabra. Se integra en cambio como una línea de confianza discreta.
 
 // "100+ embajadas atendidas" y "800+ vehículos vendidos" se sacaron de acá:
 // eran placeholders sin confirmar por el cliente que igual estaban en vivo
 // en la home y en /empresa — afirmaciones concretas sobre un negocio real
 // que nadie verificó. Sólo queda el dato que sí es real (30+ años, mismo
-// que confianza.frase). Si el cliente confirma cifras reales, se agregan
-// acá — StatsBand ya sabe mostrar 1 o varios (ver ese componente).
-export const indicadores = [{ valor: "30+", etiqueta: "Años en el mercado" }];
+// que brandStrip.confianza en los mensajes). Si el cliente confirma cifras
+// reales, se agregan acá — StatsBand ya sabe mostrar 1 o varios.
+// `key` (no `etiqueta` fija): la etiqueta sale de messages/{locale}.json
+// (namespace "stats"), ver StatsBand.
+export const indicadores = [{ valor: "30+", key: "aniosEtiqueta" }] as const;
 
 export type LineaNegocio = {
   slug: string;
@@ -104,13 +99,16 @@ export const lineasNegocio: LineaNegocio[] = [
   },
 ];
 
+// `key` en vez de un `label` fijo: el label sale de messages/{locale}.json
+// (namespace "nav", ver header.tsx/footer.tsx) para que el menú se traduzca
+// con el toggle ES/EN sin tocar esta lista.
 export const navLinks = [
-  { href: "/", label: "Inicio" },
-  { href: "/empresa", label: "Empresa" },
-  { href: "/inventario", label: "Inventario" },
-  { href: "/servicios", label: "Servicios" },
-  { href: "/contacto", label: "Contacto" },
-];
+  { href: "/", key: "inicio" },
+  { href: "/empresa", key: "empresa" },
+  { href: "/inventario", key: "inventario" },
+  { href: "/servicios", key: "servicios" },
+  { href: "/contacto", key: "contacto" },
+] as const;
 
 // PENDIENTE: reemplazar por los datos reales del cliente antes de publicar.
 export const contacto = {
@@ -175,14 +173,6 @@ export const marcas: { nombre: string; logo?: string; escala?: number }[] = [
 
 export type Servicio = {
   slug: string;
-  // Nombre completo — título de la card y de su sección con ancla en
-  // /servicios.
-  titulo: string;
-  // Versión corta (máx. 2 líneas visuales) para la card de descubrimiento en
-  // la home y en /servicios.
-  resumen: string;
-  // Párrafo completo, para la sección propia del servicio en /servicios.
-  descripcion: string;
   icono: LucideIcon;
   // Foto del servicio (webp, en R2 sitio/servicios/) — se usa tanto en la
   // card de descubrimiento como en su sección dentro de /servicios.
@@ -194,6 +184,11 @@ export type Servicio = {
   imagen?: string;
 };
 
+// Título/resumen/descripción de cada servicio viven en
+// messages/{locale}.json (namespace "servicios.items.<slug>"), no acá — así
+// el toggle ES/EN los traduce sin tocar este archivo. Este array sólo tiene
+// lo que NO se traduce: slug (clave hacia el mensaje), ícono y foto.
+//
 // Orden a propósito: los dos servicios "core" del negocio (importar el
 // vehículo en sí, y usar el cupo diplomático para traer bienes) van primero
 // — son los que más valen, y ServiciosAdicionales los destaca ocupando los
@@ -202,31 +197,16 @@ export type Servicio = {
 export const servicios: Servicio[] = [
   {
     slug: "importacion-vehiculos",
-    titulo: "Importación de Vehículos",
-    descripcion:
-      "¿Desea traer su vehículo desde el exterior? Nos encargamos de todo el proceso de importación, desde el trámite inicial hasta la entrega en su destino final en el país.",
-    resumen:
-      "Gestionamos todo el proceso para traer su vehículo desde el exterior hasta la entrega.",
     icono: Truck,
     imagen: `${ASSETS_BASE_URL}/servicios/importacion-vehiculos.webp`,
   },
   {
     slug: "importacion-mercaderias",
-    titulo: "Importación de Mercaderías con Cupo Diplomático",
-    descripcion:
-      "Si usted desea hacer uso de su cupo para la importación de bienes con cargo a su cupo diplomático anual, nosotros le ayudamos con la importación de su mercadería vía aérea o marítima, así como de su menaje de casa.",
-    resumen:
-      "Usamos su cupo diplomático anual para traer bienes y menaje de casa por vía aérea o marítima.",
     icono: Container,
     imagen: `${ASSETS_BASE_URL}/servicios/importacion-mercaderias.webp`,
   },
   {
     slug: "matriculacion-vehicular",
-    titulo: "Matriculación Vehicular",
-    descripcion:
-      "Contamos con el servicio de un gestor que le ayuda con los procesos requeridos por nuestras autoridades para regularizar la matriculación de su vehículo, usted despreocúpese que nosotros somos su soporte.",
-    resumen:
-      "Un gestor tramita la matriculación ante las autoridades por usted, de inicio a fin.",
     icono: BadgeCheck,
     // Reemplazada: la foto original (lámpara de escritorio) no comunicaba
     // nada del servicio. Ahora es un sello siendo estampado sobre un
@@ -241,11 +221,6 @@ export const servicios: Servicio[] = [
     // ("importar o exportar"); se separaron en dos servicios porque son
     // procesos y momentos distintos para el cliente.
     slug: "reexportacion-vehiculos",
-    titulo: "Reexportación de Vehículos",
-    descripcion:
-      "Al terminar su misión diplomática en el país, coordinamos con usted el proceso de reexportación de su vehículo, incluyendo la documentación aduanera y la logística de traslado hacia su próximo destino.",
-    resumen:
-      "Coordinamos la salida de su vehículo hacia su próximo destino al terminar su misión.",
     icono: PlaneTakeoff,
     // Única foto de servicio sin auto en cuadro: los dos intentos previos
     // (auto en el puerto, auto bajo funda) salieron con parrilla y emblema
@@ -256,31 +231,16 @@ export const servicios: Servicio[] = [
   },
   {
     slug: "seguro-vehiculos",
-    titulo: "Seguro de Vehículos",
-    descripcion:
-      "Tenemos para usted las mejores tasas del mercado, con amplios planes de financiamiento y sin intereses hasta 12 meses plazo, para lo cual trabajamos con Aseguradoras de prestigio Nacional e Internacional que le garantizan una atención oportuna y de calidad.",
-    resumen:
-      "Las mejores tasas del mercado, con financiamiento sin intereses hasta 12 meses.",
     icono: ShieldCheck,
     imagen: `${ASSETS_BASE_URL}/servicios/seguro-vehiculos.webp`,
   },
   {
     slug: "seguro-viajes",
-    titulo: "Seguro de Viajes",
-    descripcion:
-      "Por negocios o vacaciones es importante estar siempre bien protegidos, ponemos a su disposición seguro de viajes que le permitan sentirse seguro y relajado al salir del país.",
-    resumen:
-      "Cobertura y asistencia 24/7 para salir del país tranquilo, por negocios o vacaciones.",
     icono: Plane,
     imagen: `${ASSETS_BASE_URL}/servicios/seguro-viajes.webp`,
   },
   {
     slug: "seguro-salud",
-    titulo: "Seguro de Salud",
-    descripcion:
-      "Si usted o su familia requieren contar con un seguro médico, tenemos una gama completa de prestadores de servicios médicos que pueden ofrecerle las mejores alternativas.",
-    resumen:
-      "Una gama completa de prestadores médicos con las mejores alternativas para su familia.",
     icono: HeartPulse,
     imagen: `${ASSETS_BASE_URL}/servicios/seguro-salud.webp`,
   },

@@ -1,4 +1,5 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { getTranslations } from "next-intl/server";
 
 /** Igual que getDb()/getPhotosBucket(): los bindings/vars de Workers sólo
  * existen en el contexto de request, no como process.env estático. */
@@ -23,10 +24,12 @@ export async function whatsappHref(mensaje: string): Promise<string> {
   return buildWhatsappHref(numero, mensaje);
 }
 
-export function mensajeTestDrive(nombreAuto: string): string {
-  return `Hola, me interesa agendar una prueba de manejo del ${nombreAuto}.`;
+export async function mensajeTestDrive(nombreAuto: string): Promise<string> {
+  const t = await getTranslations("whatsapp");
+  return t("testDrive", { auto: nombreAuto });
 }
 
-export function mensajeConsultaServicio(servicio: string): string {
-  return `Hola, quisiera información sobre el servicio de ${servicio}.`;
-}
+// Sin equivalente "mensajeConsultaServicio": el único caller (servicios/page.tsx)
+// ya recorre servicios dentro de un .map() no-async — ahí es más simple leer
+// la traducción "whatsapp.consultaServicio" directo con getTranslations que
+// envolver el map en Promise.all sólo para poder hacer await acá.

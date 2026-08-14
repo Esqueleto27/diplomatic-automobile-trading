@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { Phone } from "lucide-react";
 import { contacto } from "@/lib/site";
 import { buildWhatsappHref, getWhatsappNumber } from "@/lib/whatsapp";
@@ -9,11 +10,12 @@ import { buildWhatsappHref, getWhatsappNumber } from "@/lib/whatsapp";
  * acá sería ruido, no conversión extra.
  */
 export async function QuickContact() {
-  const numero = await getWhatsappNumber();
-  const hrefWhatsapp = buildWhatsappHref(
-    numero,
-    "Hola, me gustaría hablar con un especialista de Diplomatic Automobile Trading.",
-  );
+  const [numero, t, tContacto] = await Promise.all([
+    getWhatsappNumber(),
+    getTranslations("quickContact"),
+    getTranslations("contacto"),
+  ]);
+  const hrefWhatsapp = buildWhatsappHref(numero, tContacto("mensajeEspecialista"));
   const telefono = contacto.telefonos[0];
 
   return (
@@ -27,7 +29,7 @@ export async function QuickContact() {
       {telefono && (
         <a
           href={`tel:${telefono.replace(/\s/g, "")}`}
-          aria-label={`Llamar a ${telefono}`}
+          aria-label={t("llamar", { telefono })}
           className="hidden size-12 place-items-center rounded-full border border-gold/40 bg-surface text-gold shadow-[0_10px_28px_-12px_rgba(0,0,0,0.7)] outline-none transition-all duration-200 hover:-translate-y-0.5 hover:border-gold hover:bg-gold/10 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:grid"
         >
           <Phone className="size-5" aria-hidden />
@@ -37,7 +39,7 @@ export async function QuickContact() {
         href={hrefWhatsapp}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Escribir por WhatsApp"
+        aria-label={t("whatsapp")}
         className="grid size-12 place-items-center rounded-full bg-gold text-gold-foreground shadow-glow outline-none transition-all duration-200 hover:-translate-y-0.5 hover:bg-gold-strong hover:shadow-glow-hover focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background sm:size-14"
       >
         <svg

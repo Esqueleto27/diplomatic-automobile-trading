@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 import { contacto, edificioImageUrl } from "@/lib/site";
 import { SectionHeading } from "@/components/site/section-heading";
 import { ContactForm } from "@/components/site/contact-form";
@@ -13,17 +14,18 @@ import { whatsappHref } from "@/lib/whatsapp";
 // hasta el próximo build.
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Contacto",
-  description:
-    "Hable con un especialista de Diplomatic Automobile Trading.",
-  alternates: { canonical: "/contacto" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("metadata");
+  return {
+    title: t("contactoTitulo"),
+    description: t("contactoDescripcion"),
+    alternates: { canonical: "/contacto" },
+  };
+}
 
 export default async function ContactoPage() {
-  const hrefEspecialista = await whatsappHref(
-    "Hola, me gustaría hablar con un especialista de Diplomatic Automobile Trading.",
-  );
+  const t = await getTranslations("contacto");
+  const hrefEspecialista = await whatsappHref(t("mensajeEspecialista"));
 
   return (
     <>
@@ -31,10 +33,9 @@ export default async function ContactoPage() {
         <div className="mx-auto max-w-site px-5 sm:px-8">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
             <div>
-              <SectionHeading as="h1">Hablemos</SectionHeading>
+              <SectionHeading as="h1">{t("titulo")}</SectionHeading>
               <p className="mt-6 max-w-md text-base leading-[1.8] text-muted-foreground sm:text-lg">
-                Cuéntenos qué vehículo busca o qué trámite necesita resolver.
-                Un especialista le responde por WhatsApp el mismo día.
+                {t("texto")}
               </p>
 
               <SiteButton
@@ -44,13 +45,13 @@ export default async function ContactoPage() {
                 rel="noopener noreferrer"
                 className="mt-10"
               >
-                Escribir por WhatsApp
+                {t("ctaWhatsapp")}
               </SiteButton>
 
               <dl className="mt-14 space-y-px">
                 <div className="border-t border-border py-5">
                   <dt className="text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground">
-                    Teléfono
+                    {t("telefono")}
                   </dt>
                   <dd className="mt-2 space-y-1 text-base">
                     {contacto.telefonos.map((tel) => (
@@ -68,7 +69,7 @@ export default async function ContactoPage() {
 
                 <div className="border-t border-border py-5">
                   <dt className="text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground">
-                    Email
+                    {t("email")}
                   </dt>
                   <dd className="mt-2 text-base">
                     <a
@@ -82,7 +83,7 @@ export default async function ContactoPage() {
 
                 <div className="border-y border-border py-5">
                   <dt className="text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground">
-                    Sitio
+                    {t("sitio")}
                   </dt>
                   <dd className="mt-2 text-base text-foreground/85">
                     {contacto.sitio}
@@ -91,7 +92,7 @@ export default async function ContactoPage() {
 
                 <div className="border-y border-border py-5">
                   <dt className="text-[0.65rem] uppercase tracking-[0.24em] text-muted-foreground">
-                    Dirección
+                    {t("direccion")}
                   </dt>
                   <dd className="mt-2 text-base text-foreground/85">
                     {contacto.direccion}
@@ -108,7 +109,7 @@ export default async function ContactoPage() {
             <div className="relative aspect-[3/4] overflow-hidden border border-white/[0.07] shadow-lift sm:mx-auto sm:max-w-sm lg:mx-0 lg:max-w-none">
               <Image
                 src={edificioImageUrl}
-                alt="Fachada del edificio La Moraleja Business Center, oficinas de Diplomatic Automobile Trading"
+                alt={t("fotoAlt")}
                 fill
                 sizes="(max-width: 1024px) 90vw, 40vw"
                 className="object-cover"
@@ -120,10 +121,9 @@ export default async function ContactoPage() {
 
       <div className="border-t border-border bg-surface">
         <div className="mx-auto max-w-site px-5 py-16 sm:px-8 sm:py-20">
-          <SectionHeading as="h2">Escríbanos</SectionHeading>
+          <SectionHeading as="h2">{t("escribanosTitulo")}</SectionHeading>
           <p className="mt-3 max-w-md text-base leading-[1.8] text-muted-foreground sm:text-lg">
-            Complete el formulario y un especialista le responde a la
-            brevedad.
+            {t("escribanosTexto")}
           </p>
 
           {/* Formulario y mapa lado a lado en desktop: son dos formas
@@ -144,7 +144,7 @@ export default async function ContactoPage() {
                 luminosidad y devuelve el tono a su sitio. */}
             <div className="min-h-[320px] self-stretch overflow-hidden border border-border">
               <iframe
-                title="Ubicación de Diplomatic Automobile Trading — Edificio La Moraleja Business Center"
+                title={t("mapaTitulo")}
                 src="https://www.google.com/maps?q=Av.+La+Coru%C3%B1a+N27-36+y+Av.+Francisco+de+Orellana,+Quito&output=embed"
                 className="block h-full min-h-[320px] w-full"
                 style={{

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { Reveal } from "@/components/site/reveal";
 import { SiteButton } from "@/components/site/button";
 import { contactoCtaImageUrl } from "@/lib/site";
@@ -13,6 +14,8 @@ import { contactoCtaImageUrl } from "@/lib/site";
  * específicamente el centro, donde cae el título.
  */
 export function ContactCta() {
+  const t = useTranslations("contactCta");
+
   return (
     <section
       className="relative isolate overflow-hidden border-t border-border py-20 sm:py-32"
@@ -38,14 +41,13 @@ export function ContactCta() {
             id="contacto-cta"
             className="font-display text-[clamp(1.75rem,3.6vw,2.75rem)] font-light leading-[1.1] tracking-wide"
           >
-            Hablemos de su próximo vehículo
+            {t("titulo")}
           </h2>
           <p className="mt-6 max-w-xl text-base leading-[1.8] text-muted-foreground sm:text-lg">
-            Un especialista le atiende personalmente para asesorarlo en la
-            compra, importación o los trámites de su vehículo.
+            {t("texto")}
           </p>
           <SiteButton href="/contacto" size="lg" className="mt-9 sm:mt-10">
-            Contáctenos
+            {t("cta")}
           </SiteButton>
         </Reveal>
       </div>

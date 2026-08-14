@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import type { AutoPublico } from "@/lib/cars";
 import { AUTOS_EN_PORTADA } from "@/lib/cars";
 import { CarCardDetalle } from "@/components/site/car-card";
@@ -6,6 +7,7 @@ import { Reveal } from "@/components/site/reveal";
 import { SiteButton } from "@/components/site/button";
 
 export function VehiculosUsados({ autos }: { autos: AutoPublico[] }) {
+  const t = useTranslations("vehiculosUsados");
   // La home ya pide exactamente esta cantidad, pero el slice queda como
   // red de seguridad: este componente nunca debe romper el grid de 3
   // columnas si alguien le pasa una lista más larga.
@@ -19,13 +21,11 @@ export function VehiculosUsados({ autos }: { autos: AutoPublico[] }) {
       <div className="mx-auto max-w-site px-5 sm:px-8">
         <Reveal direction="left">
           <SectionHeading>
-            <span id="vehiculos-usados">Vehículos Usados</span>
+            <span id="vehiculos-usados">{t("titulo")}</span>
           </SectionHeading>
 
           <p className="mt-6 max-w-2xl text-base leading-[1.8] text-muted-foreground">
-            Unidades seleccionadas con historial comprobable y documentación
-            al día, listas para entregar. También compramos su vehículo y
-            coordinamos la importación del modelo nuevo que busque.
+            {t("texto")}
           </p>
         </Reveal>
 
@@ -41,7 +41,7 @@ export function VehiculosUsados({ autos }: { autos: AutoPublico[] }) {
 
         <div className="mt-10 flex justify-center sm:mt-14">
           <SiteButton href="/inventario" size="lg">
-            Ver inventario completo
+            {t("cta")}
           </SiteButton>
         </div>
       </div>
