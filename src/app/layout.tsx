@@ -43,6 +43,12 @@ export async function generateMetadata(): Promise<Metadata> {
     robots: { index: true, follow: true },
     openGraph: {
       type: "website",
+      // "es_EC" en español (el negocio opera en Ecuador, dato real) pero
+      // sólo "en" en inglés, sin país — a pedido del cliente: el público de
+      // habla inglesa es internacional (embajadas, organismos), no
+      // específicamente de EE.UU. ni Reino Unido, así que atarlo a "en_US"
+      // sugería lo contrario sin corresponder a ningún hecho real del
+      // negocio (a diferencia de "es_EC", que sí describe dónde opera).
       locale: t("ogLocale"),
       url: siteUrl,
       siteName: "Diplomatic Automobile Trading",
