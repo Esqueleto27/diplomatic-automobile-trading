@@ -106,7 +106,15 @@ export default async function ContactoPage() {
                 forzarla a una caja panorámica que le recorte el encuadre
                 vertical dramático que ya tiene. Ayuda a reconocer el
                 edificio en persona; el mapa, más abajo, ayuda a llegar. */}
-            <div className="relative aspect-[3/4] overflow-hidden border border-white/[0.07] shadow-lift sm:mx-auto sm:max-w-sm lg:mx-0 lg:max-w-none">
+            {/* `w-full` es obligatorio junto con `sm:mx-auto`: en un item de
+                grid, poner márgenes automáticos desactiva el `stretch` por
+                defecto y el elemento pasa a medir según su contenido — y acá
+                el contenido es un `<Image fill>`, que va absolute y no ocupa
+                lugar en el flujo. Sin `w-full` la caja colapsaba a 2px (sólo
+                los bordes) entre 640px y 1023px, o sea toda la franja de
+                tablet: la foto simplemente no se veía. Mismo caso en
+                /empresa y en OficinaTrust. */}
+            <div className="relative aspect-[3/4] w-full overflow-hidden border border-white/[0.07] shadow-lift sm:mx-auto sm:max-w-sm lg:mx-0 lg:max-w-none">
               <Image
                 src={edificioImageUrl}
                 alt={t("fotoAlt")}

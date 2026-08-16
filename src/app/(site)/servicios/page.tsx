@@ -39,7 +39,7 @@ export default async function ServiciosPage() {
       {/* Fondo alternado por servicio (bg-background / bg-surface, los dos
           negros ya definidos en el tema) — cada sección va de borde a borde
           para que el cambio de tono se note y sea claro dónde termina un
-          servicio y empieza el siguiente, en vez de que los 7 se lean como
+          servicio y empieza el siguiente, en vez de que los 9 se lean como
           un solo bloque largo. */}
       {servicios.map(({ slug, icono: Icono, imagen }, i) => {
         const titulo = t(`items.${slug}.titulo`);

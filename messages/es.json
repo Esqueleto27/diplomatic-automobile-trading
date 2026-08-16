@@ -20,21 +20,20 @@
     "aria": "Idioma"
   },
   "hero": {
-    "tagline": "Ofrecemos una selección de vehículos para clientes que buscan calidad, exclusividad y confianza, con una atención especializada para diplomáticos y clientes particulares que valoran un servicio a la altura de sus necesidades.",
-    "taglineCorto": "Vehículos de alta gama para diplomáticos, organismos internacionales y clientes que valoran un servicio a su altura.",
-    "ctaAsesor": "Hablar con un Asesor",
+    "tagline": "A luxury car sales company.",
+    "ctaServicios": "Ver Nuestros Servicios",
     "ctaInventario": "Ver Inventario"
   },
   "brandStrip": {
     "aria": "Marcas que comercializamos",
-    "confianza": "Más de 30 años asesorando a embajadas, misiones diplomáticas y organismos internacionales en la compra y venta de vehículos exonerados en Ecuador."
+    "confianza": "Más de 30 años asesorando a embajadas, organismos internacionales, funcionarios diplomáticos y de asistencia técnica en la compra y venta de vehículos exonerados en Ecuador."
   },
   "stats": {
     "aria": "Nuestra trayectoria",
     "aniosEtiqueta": "Años en el mercado"
   },
   "oficinaTrust": {
-    "titulo": "Un mismo equipo, de principio a fin",
+    "titulo": "Atención personalizada en cada detalle",
     "texto": "Elegir el vehículo, armar la documentación y coordinar la entrega pasan por las mismas manos en nuestra oficina en Quito — sin derivar su proceso a terceros en el camino.",
     "cta": "Conocer la empresa",
     "fotoAlt": "Oficina de Diplomatic Automobile Trading"
@@ -74,6 +73,11 @@
         "resumen": "Coordinamos la salida de su vehículo hacia su próximo destino al terminar su misión.",
         "descripcion": "Al terminar su misión diplomática en el país, coordinamos con usted el proceso de reexportación de su vehículo, incluyendo la documentación aduanera y la logística de traslado hacia su próximo destino."
       },
+      "blindaje-vehiculos": {
+        "titulo": "Blindaje de Vehículos",
+        "resumen": "Coordinamos el blindaje certificado de su vehículo con talleres especializados.",
+        "descripcion": "Si su función lo expone a un riesgo mayor, coordinamos el blindaje de su vehículo con talleres especializados, en el nivel de protección que usted necesite y respetando las normas del fabricante. Nos encargamos de la cotización, el seguimiento del trabajo y los trámites que exige la autoridad para circular con un vehículo blindado."
+      },
       "seguro-vehiculos": {
         "titulo": "Seguro de Vehículos",
         "resumen": "Las mejores tasas del mercado, con financiamiento sin intereses hasta 12 meses.",
@@ -88,6 +92,11 @@
         "titulo": "Seguro de Salud",
         "resumen": "Una gama completa de prestadores médicos con las mejores alternativas para su familia.",
         "descripcion": "Si usted o su familia requieren contar con un seguro médico, tenemos una gama completa de prestadores de servicios médicos que pueden ofrecerle las mejores alternativas."
+      },
+      "importacion-discapacidad": {
+        "titulo": "Importación de Vehículos para Personas con Discapacidad",
+        "resumen": "Gestionamos la compra e importación de su vehículo aprovechando las exoneraciones tributarias para personas con discapacidad.",
+        "descripcion": "Ayudamos a personas con discapacidad a gestionar el proceso de compra e importación de vehículos desde el exterior, aprovechando los beneficios y exoneraciones tributarias establecidos por la normativa ecuatoriana. Te acompañamos durante todo el proceso, desde la selección y compra del vehículo hasta su importación y nacionalización en Ecuador."
       }
     }
   },
@@ -137,7 +146,6 @@
   },
   "empresa": {
     "titulo": "Sobre Nosotros",
-    "textoExtra": "Trabajamos con las principales marcas del segmento premium y nos encargamos de que la documentación de cada vehículo esté completa y en regla desde el primer día.",
     "ctaInventario": "Ver inventario",
     "marcasTitulo": "Marcas con las que trabajamos",
     "marcasTexto": "Durante más de 30 años hemos construido relaciones de confianza con las marcas más exigentes del mercado automotor, tanto de lujo como generalistas. Ese respaldo nos permite asesorar con criterio real en cada compra o venta: conocemos el vehículo, su documentación y su valor en el mercado ecuatoriano, marca por marca.",

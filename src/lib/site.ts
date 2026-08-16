@@ -1,4 +1,5 @@
 import {
+  Accessibility,
   BadgeCheck,
   Container,
   Globe2,
@@ -7,6 +8,7 @@ import {
   Plane,
   PlaneTakeoff,
   ShieldCheck,
+  ShieldHalf,
   Truck,
   type LucideIcon,
 } from "lucide-react";
@@ -142,7 +144,10 @@ export const marcas: { nombre: string; logo?: string; escala?: number }[] = [
   { nombre: "Porsche", logo: `${ASSETS_BASE_URL}/marcas/porsche.svg` },
   { nombre: "Aston Martin", logo: `${ASSETS_BASE_URL}/marcas/astonmartin.svg`, escala: 1.7 },
   { nombre: "Maserati", logo: `${ASSETS_BASE_URL}/marcas/maserati.svg`, escala: 1.05 },
-  { nombre: "McLaren", logo: `${ASSETS_BASE_URL}/marcas/mclaren.svg`, escala: 1.75 },
+  // McLaren se sacó a pedido del cliente y se reemplazó por Fiat en el mismo
+  // lugar de la lista. SVG de simple-icons, mismo tratamiento (blanco,
+  // fill="#ffffff") que el resto — subido a R2 en sitio/marcas/fiat.svg.
+  { nombre: "Fiat", logo: `${ASSETS_BASE_URL}/marcas/fiat.svg` },
   { nombre: "Volvo", logo: `${ASSETS_BASE_URL}/marcas/volvo.svg`, escala: 1.05 },
   { nombre: "Cadillac", logo: `${ASSETS_BASE_URL}/marcas/cadillac.svg`, escala: 1.3 },
   { nombre: "Toyota", logo: `${ASSETS_BASE_URL}/marcas/toyota.svg`, escala: 1.35 },
@@ -230,6 +235,14 @@ export const servicios: Servicio[] = [
     imagen: `${ASSETS_BASE_URL}/servicios/reexportacion-vehiculos.webp`,
   },
   {
+    // Cierra el bloque de servicios sobre el vehículo en sí (importar,
+    // matricular, reexportar) antes de los tres seguros: el cliente no
+    // compra blindaje como una póliza, es una intervención sobre el auto.
+    slug: "blindaje-vehiculos",
+    icono: ShieldHalf,
+    imagen: `${ASSETS_BASE_URL}/servicios/blindaje-vehiculos.webp`,
+  },
+  {
     slug: "seguro-vehiculos",
     icono: ShieldCheck,
     imagen: `${ASSETS_BASE_URL}/servicios/seguro-vehiculos.webp`,
@@ -243,5 +256,18 @@ export const servicios: Servicio[] = [
     slug: "seguro-salud",
     icono: HeartPulse,
     imagen: `${ASSETS_BASE_URL}/servicios/seguro-salud.webp`,
+  },
+  {
+    // Al final, no arriba con los otros "importación": ese primer bloque
+    // (importacion-vehiculos / importacion-mercaderias) está marcado como
+    // "los dos core, van primero" — insertar acá arriba habría corrido esa
+    // jerarquía sin que nadie lo pidiera. Como cae en la posición 9, no
+    // entra en los 6 que ServiciosAdicionales destaca en el home
+    // (DESTACADOS = 6, ver ese archivo) — sólo se ve en /servicios, mismo
+    // trato que seguro-viajes/seguro-salud. Si el cliente quiere que
+    // aparezca en el home, avisar para reordenar el array.
+    slug: "importacion-discapacidad",
+    icono: Accessibility,
+    imagen: `${ASSETS_BASE_URL}/servicios/importacion-discapacidad.webp`,
   },
 ];

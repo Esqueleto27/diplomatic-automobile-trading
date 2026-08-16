@@ -28,43 +28,38 @@ export function LanguageToggle() {
     });
   }
 
+  // El idioma activo va con fondo dorado lleno, no sólo con el texto en
+  // dorado: buena parte del público es extranjero (cuerpo diplomático,
+  // organismos internacionales) y para ellos cambiar de idioma es de las
+  // primeras acciones del sitio, no un ajuste secundario. Antes era texto
+  // de 11px al 50% de opacidad en la esquina — se perdía contra el header.
+  // El recuadro además lo identifica como control y no como dos palabras
+  // sueltas del menú.
+  const opcion = (value: Locale, label: string) => (
+    <button
+      type="button"
+      onClick={() => cambiar(value)}
+      aria-pressed={locale === value}
+      disabled={isPending}
+      className={cn(
+        "px-2.5 py-1 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-gold disabled:cursor-wait",
+        locale === value
+          ? "bg-gold text-gold-foreground"
+          : "text-foreground/75 hover:bg-white/10 hover:text-foreground",
+      )}
+    >
+      {label}
+    </button>
+  );
+
   return (
     <div
       role="group"
       aria-label={t("aria")}
-      className="flex items-center gap-1 text-[0.7rem] font-medium tracking-[0.08em]"
+      className="flex items-center overflow-hidden border border-white/20 text-[0.78rem] font-medium tracking-[0.08em]"
     >
-      <button
-        type="button"
-        onClick={() => cambiar("es")}
-        aria-pressed={locale === "es"}
-        disabled={isPending}
-        className={cn(
-          "px-1.5 py-1 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-gold disabled:cursor-wait",
-          locale === "es"
-            ? "text-gold"
-            : "text-foreground/50 hover:text-foreground",
-        )}
-      >
-        {t("es")}
-      </button>
-      <span aria-hidden className="text-foreground/30">
-        /
-      </span>
-      <button
-        type="button"
-        onClick={() => cambiar("en")}
-        aria-pressed={locale === "en"}
-        disabled={isPending}
-        className={cn(
-          "px-1.5 py-1 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-gold disabled:cursor-wait",
-          locale === "en"
-            ? "text-gold"
-            : "text-foreground/50 hover:text-foreground",
-        )}
-      >
-        {t("en")}
-      </button>
+      {opcion("es", t("es"))}
+      {opcion("en", t("en"))}
     </div>
   );
 }

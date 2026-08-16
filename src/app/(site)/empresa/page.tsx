@@ -32,8 +32,11 @@ export default async function EmpresaPage() {
         <div>
           <SectionHeading as="h1">{t("titulo")}</SectionHeading>
 
+          {/* A pedido del cliente, el párrafo termina en la frase de
+              confianza (hasta "...en Ecuador.") — se sacó la oración extra
+              sobre marcas/documentación que seguía después. */}
           <p className="mt-6 text-base leading-[1.8] text-foreground/85 sm:text-lg">
-            {tBrand("confianza")} {t("textoExtra")}
+            {tBrand("confianza")}
           </p>
 
           <SiteButton href="/inventario" size="lg" className="mt-10">
@@ -42,8 +45,17 @@ export default async function EmpresaPage() {
         </div>
 
         {/* Foto real de la oficina, no generada — a diferencia del hero y los
-            fondos de servicios, acá el punto es mostrar el lugar real. */}
-        <div className="relative aspect-[3/4] overflow-hidden border border-white/[0.07] shadow-lift sm:mx-auto sm:max-w-sm lg:mx-0 lg:max-w-none">
+            fondos de servicios, acá el punto es mostrar el lugar real.
+
+            El retrato 3/4 sólo se sostiene hasta `sm:`, donde la foto va
+            centrada y acotada a `max-w-sm` (384px → 512px de alto). Desde
+            `lg:` el layout pasa a dos columnas de 576px y ese mismo 3/4
+            daba 768px de foto contra ~275px de texto: el texto quedaba
+            flotando en el medio con casi 250px de vacío arriba y abajo. En
+            `lg:` la foto pasa a 5/4 (~460px) para acercarse al alto de la
+            columna de texto — mismo criterio de proporción que las
+            secciones de /servicios. */}
+        <div className="relative aspect-[3/4] w-full overflow-hidden border border-white/[0.07] shadow-lift sm:mx-auto sm:max-w-sm lg:mx-0 lg:aspect-[5/4] lg:max-w-none">
           <Image
             src={oficinaImageUrl}
             alt={t("fotoAlt")}

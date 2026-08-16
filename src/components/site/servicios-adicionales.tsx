@@ -6,8 +6,8 @@ import { SiteButton } from "@/components/site/button";
 import { Reveal } from "@/components/site/reveal";
 import { cn } from "@/lib/utils";
 
-// La home muestra una grilla completa de 3x2, no los 7 servicios: con 7 en
-// tres columnas la última fila queda con una card sola y dos huecos, que se
+// La home muestra una grilla completa de 3x2, no los 9 servicios: con 9 en
+// tres columnas la última fila queda coja (dos cards y un hueco), que se
 // lee como si faltara algo. Esta sección es de descubrimiento — el listado
 // completo, con la descripción larga de cada uno, vive en /servicios, a un
 // clic del botón de abajo.

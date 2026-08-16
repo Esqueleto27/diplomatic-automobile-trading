@@ -1,13 +1,6 @@
 import { useTranslations } from "next-intl";
 import { marcas } from "@/lib/site";
 import { LogoMarca } from "@/components/site/logo-marca";
-import { cn } from "@/lib/utils";
-
-// En móvil sólo entran las primeras 12 (tres filas justas de cuatro). No es
-// un recorte de contenido importante: el muro de marcas es una señal de
-// respaldo, no un listado que alguien lea entero — y las 20 en una columna de
-// 390px daban cinco filas de puro logo. Desde `sm:` aparecen todas.
-const MARCAS_EN_MOVIL = 12;
 
 /**
  * Muro de marcas: todas visibles a la vez, sin flechas, sin auto-scroll y
@@ -35,19 +28,30 @@ export function BrandStrip() {
     >
       <div className="mx-auto flex max-w-site flex-col items-center px-5 pt-10 sm:px-8 sm:pt-12">
         <span aria-hidden className="mb-4 h-px w-10 bg-gold/70" />
-        <p className="max-w-[26rem] text-center text-sm leading-relaxed text-muted-foreground sm:max-w-none sm:text-base">
+        {/* Un poco más grande en móvil (antes text-sm/14px, se leía chico
+            para un dato que la empresa considera importante — los +30
+            años) y con más ancho/interlineado para que respire en vez de
+            apretarse en varias líneas cortas.
+            `text-foreground/90` en vez de `text-muted-foreground`: es el
+            mensaje de posicionamiento del negocio (a quién le venden y
+            desde cuándo), no una leyenda secundaria — con el gris apagado
+            se leía como letra chica. */}
+        <p className="max-w-[28rem] text-center text-[0.9375rem] leading-[1.7] text-foreground/90 sm:max-w-none sm:text-base sm:leading-relaxed">
           {t("confianza")}
         </p>
       </div>
 
-      <ul className="mx-auto grid max-w-site grid-cols-4 items-center justify-items-center gap-x-6 gap-y-7 px-5 py-9 sm:grid-cols-6 sm:gap-x-10 sm:px-8 sm:py-12 md:flex md:flex-wrap md:justify-center md:gap-x-14 md:gap-y-9">
-        {marcas.map((marca, i) => (
+      {/* Todas las marcas visibles siempre, también en móvil — antes se
+          cortaba a las primeras 12 (tres filas de cuatro) y el resto sólo
+          aparecía desde `sm:`. El cliente pidió mostrarlas todas: en vez de
+          cortar, se achica el logo (`h-9` en vez de `h-11`) y se suman
+          columnas (`grid-cols-5` en vez de 4) para que las ~20 entren sin
+          que la sección se alargue demasiado. */}
+      <ul className="mx-auto grid max-w-site grid-cols-5 items-center justify-items-center gap-x-4 gap-y-6 px-5 py-9 sm:grid-cols-6 sm:gap-x-10 sm:gap-y-7 sm:px-8 sm:py-12 md:flex md:flex-wrap md:justify-center md:gap-x-14 md:gap-y-9">
+        {marcas.map((marca) => (
           <li
             key={marca.nombre}
-            className={cn(
-              "grid h-11 place-items-center sm:h-14 md:h-16 md:shrink-0",
-              i >= MARCAS_EN_MOVIL && "hidden sm:grid",
-            )}
+            className="grid h-9 place-items-center sm:h-14 md:h-16 md:shrink-0"
           >
             <LogoMarca marca={marca} />
           </li>

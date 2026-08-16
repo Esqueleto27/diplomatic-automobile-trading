@@ -8,8 +8,12 @@ import { cn } from "@/lib/utils";
 
 const variantes = {
   gold: "bg-gold text-gold-foreground shadow-glow hover:bg-gold-strong hover:shadow-glow-hover",
+  // Hover reforzado (antes `bg-gold/10` a secas): como variante secundaria
+  // el borde dorado sobre negro ya es sutil en reposo — si además el hover
+  // apenas se nota, el botón no se lee como accionable. El relleno al 20%
+  // más la sombra dorada lo confirman sin llegar al peso del botón lleno.
   outline:
-    "border border-gold/60 bg-transparent text-gold hover:border-gold hover:bg-gold/10",
+    "border border-gold/60 bg-transparent text-gold hover:border-gold hover:bg-gold/20 hover:shadow-[0_10px_28px_-14px_rgba(199,163,84,0.55)]",
 };
 
 // Tracking bajado de ~0.12–0.2em a un rango 0.08–0.1em: al tamaño de texto

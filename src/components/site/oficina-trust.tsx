@@ -34,7 +34,12 @@ export function OficinaTrust() {
           // Apaisada en móvil, vertical desde sm: un 3/4 a 350px de ancho mide
           // ~466px de alto, casi una pantalla entera de teléfono ocupada por
           // una sola foto antes de llegar al texto que la acompaña.
-          className="relative aspect-[4/3] overflow-hidden border border-white/[0.07] shadow-lift sm:mx-auto sm:aspect-[3/4] sm:max-w-sm lg:mx-0 lg:order-1 lg:max-w-none"
+          // `w-full` no es decorativo: con `sm:mx-auto`, un item de grid deja
+          // de estirarse y mide según su contenido — que acá es un
+          // `<Image fill>` (absolute, fuera del flujo). Sin esto la caja
+          // colapsaba a 2px entre 640px y 1023px y la foto desaparecía en
+          // toda la franja de tablet. Ver la misma nota en /contacto.
+          className="relative aspect-[4/3] w-full overflow-hidden border border-white/[0.07] shadow-lift sm:mx-auto sm:aspect-[3/4] sm:max-w-sm lg:mx-0 lg:order-1 lg:max-w-none"
           direction="left"
         >
           {/* La foto tira a frío (azul-cian) — un filtro cálido la acerca a

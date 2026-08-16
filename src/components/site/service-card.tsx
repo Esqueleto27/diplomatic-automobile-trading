@@ -10,7 +10,7 @@ import type { Servicio } from "@/lib/site";
  *
  * `aspect-[4/3]` es a propósito fijo (no depende del alto del contenido):
  * dentro de una misma grilla, todas las columnas tienen el mismo ancho, así
- * que fijar el aspect-ratio garantiza que las 7 cards midan exactamente lo
+ * que fijar el aspect-ratio garantiza que todas las cards midan exactamente lo
  * mismo sin importar si el título o el resumen de una es más largo que el
  * de otra — antes de esto, una versión sin imagen y sin aspect-ratio fijo
  * quedaba con alturas irregulares.
