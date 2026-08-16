@@ -10,6 +10,7 @@ import { SiteButton } from "@/components/site/button";
 import { precioLegible, valorDeCatalogo } from "@/components/site/car-card";
 import { mensajeTestDrive, whatsappHref } from "@/lib/whatsapp";
 import { numeroDe } from "@/lib/format";
+import { jsonLd } from "@/lib/json-ld";
 
 export const dynamic = "force-dynamic";
 
@@ -120,7 +121,7 @@ export default async function AutoDetallePage({
         // del HTML del servidor distinto del DOM y avisa por hidratación. Es
         // comportamiento esperado del navegador, no un bug del componente.
         suppressHydrationWarning
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(vehiculoSchema) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(vehiculoSchema) }}
       />
       <Link
         href="/inventario"

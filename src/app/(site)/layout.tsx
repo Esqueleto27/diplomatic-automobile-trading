@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/site/header";
 import { SiteFooter } from "@/components/site/footer";
 import { QuickContact } from "@/components/site/quick-contact";
 import { contacto, siteUrl } from "@/lib/site";
+import { jsonLd } from "@/lib/json-ld";
 
 // AutomotiveBusiness (Schema.org): describe el negocio para resultados
 // enriquecidos de búsqueda (nombre, dirección, teléfono). Va sólo en el
@@ -54,7 +55,7 @@ export default async function SiteLayout({
           // del HTML del servidor distinto del DOM y avisa por hidratación. Es
           // comportamiento esperado del navegador, no un bug del componente.
           suppressHydrationWarning
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizacionSchema()) }}
+          dangerouslySetInnerHTML={{ __html: jsonLd(organizacionSchema()) }}
         />
         <SiteHeader />
         {/* El header pasó a `fixed` (para poder ir transparente sobre el hero
