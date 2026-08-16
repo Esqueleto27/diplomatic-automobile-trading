@@ -1,10 +1,12 @@
 import {
   Accessibility,
+  Award,
   BadgeCheck,
   Container,
   Globe2,
   HeartPulse,
   Landmark,
+  Handshake,
   Plane,
   PlaneTakeoff,
   ShieldCheck,
@@ -55,6 +57,14 @@ export const edificioImageUrl = `${ASSETS_BASE_URL}/empresa/edificio.png`;
 // de esa página ahora es sólo texto sobre el fondo plano del tema.
 export const contactoCtaImageUrl = `${ASSETS_BASE_URL}/contacto-cta.jpg`;
 
+// Las tres de /empresa sí son generadas (no fotos del negocio), con el mismo
+// criterio que los fondos de servicios: sin logos, sin texto legible y sin
+// caras reconocibles. Se subieron ya convertidas a webp (~100-230 KB cada
+// una, contra 3 MB del JPG original).
+export const trayectoriaImageUrl = `${ASSETS_BASE_URL}/empresa/trayectoria.webp`;
+export const experienciaImageUrl = `${ASSETS_BASE_URL}/empresa/experiencia.webp`;
+export const alianzasImageUrl = `${ASSETS_BASE_URL}/empresa/alianzas.webp`;
+
 // La frase de confianza (+30 años) vivía acá; se movió a
 // messages/{locale}.json (namespace "brandStrip", clave "confianza") para
 // que el toggle ES/EN la traduzca — BrandStrip y /empresa la leen desde ahí.
@@ -64,15 +74,14 @@ export const contactoCtaImageUrl = `${ASSETS_BASE_URL}/contacto-cta.jpg`;
 // que hace que dos sitios se lean calcados aunque el texto cambie palabra
 // por palabra. Se integra en cambio como una línea de confianza discreta.
 
-// "100+ embajadas atendidas" y "800+ vehículos vendidos" se sacaron de acá:
-// eran placeholders sin confirmar por el cliente que igual estaban en vivo
-// en la home y en /empresa — afirmaciones concretas sobre un negocio real
-// que nadie verificó. Sólo queda el dato que sí es real (30+ años, mismo
-// que brandStrip.confianza en los mensajes). Si el cliente confirma cifras
-// reales, se agregan acá — StatsBand ya sabe mostrar 1 o varios.
-// `key` (no `etiqueta` fija): la etiqueta sale de messages/{locale}.json
-// (namespace "stats"), ver StatsBand.
-export const indicadores = [{ valor: "30+", key: "aniosEtiqueta" }] as const;
+// "100+ embajadas atendidas" y "800+ vehículos vendidos" existieron acá
+// como `indicadores` (con su franja StatsBand): eran placeholders sin
+// confirmar por el cliente que igual estaban en vivo — afirmaciones
+// concretas sobre un negocio real que nadie verificó. Quedó sólo el dato
+// real (30+ años), y hoy vive como texto en messages/{locale}.json
+// ("empresa.aniosValor"/"empresa.aniosEtiqueta"), dentro de la presentación
+// de /empresa. Si el cliente confirma cifras reales y quieren volver a una
+// franja de indicadores, esto se rearma.
 
 export type LineaNegocio = {
   slug: string;
@@ -114,7 +123,11 @@ export const navLinks = [
 
 // PENDIENTE: reemplazar por los datos reales del cliente antes de publicar.
 export const contacto = {
-  telefonos: ["+593 99 980 8067"],
+  // El primero es el principal: es el que usan el WhatsApp flotante
+  // (QuickContact), los botones de WhatsApp de cada auto y el JSON-LD del
+  // layout, que toman telefonos[0]. Los dos se listan completos en
+  // /contacto y en el footer, que recorren el array entero.
+  telefonos: ["+593 99 980 8067", "+593 98 431 2146"],
   email: "info@diplomatic-trading.com",
   sitio: "diplomatic-trading.com",
   direccion:
@@ -176,6 +189,19 @@ export const marcas: { nombre: string; logo?: string; escala?: number }[] = [
   { nombre: "Mercedes-Benz", logo: `${ASSETS_BASE_URL}/marcas/mercedes.svg`, escala: 1.05 },
 ];
 
+/**
+ * "¿Por qué confiar en nosotros?" de /empresa. Igual que `servicios`, acá
+ * viven sólo el orden y el ícono: título y texto salen de
+ * messages/{locale}.json ("empresa.razones.<slug>") para que el toggle ES/EN
+ * los traduzca. Agregar, quitar o reordenar una razón es tocar este array.
+ */
+export const razonesConfianza: { slug: string; icono: LucideIcon }[] = [
+  { slug: "experiencia", icono: Award },
+  { slug: "atencion", icono: Handshake },
+  { slug: "confianza", icono: ShieldCheck },
+  { slug: "respaldo", icono: BadgeCheck },
+];
+
 export type Servicio = {
   slug: string;
   icono: LucideIcon;
@@ -187,6 +213,13 @@ export type Servicio = {
   // registrada. Cuando el cliente entregue fotos propias, reemplazar el
   // archivo en R2 con el mismo nombre y no hace falta tocar este archivo.
   imagen?: string;
+  /**
+   * Los seguros los atiende una segunda línea telefónica del negocio: su
+   * botón de WhatsApp en /servicios va a WHATSAPP_NUMBER_SEGUROS y no al
+   * número principal (ver getWhatsappNumberSeguros en src/lib/whatsapp.ts).
+   * Sin la marca, el servicio usa el número de siempre.
+   */
+  lineaSeguros?: boolean;
 };
 
 // Título/resumen/descripción de cada servicio viven en
@@ -245,16 +278,19 @@ export const servicios: Servicio[] = [
   {
     slug: "seguro-vehiculos",
     icono: ShieldCheck,
+    lineaSeguros: true,
     imagen: `${ASSETS_BASE_URL}/servicios/seguro-vehiculos.webp`,
   },
   {
     slug: "seguro-viajes",
     icono: Plane,
+    lineaSeguros: true,
     imagen: `${ASSETS_BASE_URL}/servicios/seguro-viajes.webp`,
   },
   {
     slug: "seguro-salud",
     icono: HeartPulse,
+    lineaSeguros: true,
     imagen: `${ASSETS_BASE_URL}/servicios/seguro-salud.webp`,
   },
   {

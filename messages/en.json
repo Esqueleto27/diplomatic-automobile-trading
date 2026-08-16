@@ -28,13 +28,9 @@
     "aria": "Brands we work with",
     "confianza": "Over 30 years advising embassies, international organizations, diplomatic officials and technical assistance staff on the purchase and sale of tax-exempt vehicles in Ecuador."
   },
-  "stats": {
-    "aria": "Our track record",
-    "aniosEtiqueta": "Years in the market"
-  },
   "oficinaTrust": {
-    "titulo": "Personalized attention to every detail",
-    "texto": "Choosing the vehicle, preparing the paperwork and coordinating delivery all go through the same hands at our office in Quito — your process is never handed off to a third party along the way.",
+    "titulo": "Over 30 years building trust",
+    "texto": "We are with you throughout the entire process, from choosing your vehicle to handling the paperwork and the delivery. Our team is at your disposal to offer close, transparent and personalized attention, making every step simpler and more secure.",
     "cta": "Learn about us",
     "fotoAlt": "Diplomatic Automobile Trading office"
   },
@@ -80,8 +76,8 @@
       },
       "seguro-vehiculos": {
         "titulo": "Vehicle Insurance",
-        "resumen": "The best rates in the market, with interest-free financing plans of up to 12 months.",
-        "descripcion": "We offer you the best rates in the market, with extensive financing plans and interest-free terms of up to 12 months, working with National and International insurers of prestige who guarantee prompt, quality service."
+        "resumen": "Reliable coverage against accidents, theft and damage, with well-established insurers.",
+        "descripcion": "Protect your vehicle and drive with greater peace of mind. We offer vehicle insurance designed to back you up in the event of accidents, theft, damage and other unexpected situations that may arise on the road. We work with well-established insurance companies to provide you with reliable coverage and efficient service."
       },
       "seguro-viajes": {
         "titulo": "Travel Insurance",
@@ -101,9 +97,9 @@
     }
   },
   "contactCta": {
-    "titulo": "Let's talk about your next vehicle",
-    "texto": "A specialist will assist you personally on the purchase, importation or paperwork for your vehicle.",
-    "cta": "Contact Us"
+    "titulo": "Contact Us",
+    "texto": "We are at your disposal to assist you personally and directly. Write to us to request a vehicle or any of our services.",
+    "cta": "Write to Us"
   },
   "footer": {
     "contacto": "Contact",
@@ -142,14 +138,49 @@
     },
     "estado": {
       "VENDIDO": "Sold"
+    },
+    "transmision": {
+      "Automática": "Automatic",
+      "Manual": "Manual"
+    },
+    "combustible": {
+      "Gasolina": "Gasoline",
+      "Diésel": "Diesel",
+      "Híbrido": "Hybrid",
+      "Eléctrico": "Electric"
     }
   },
   "empresa": {
     "titulo": "About Us",
-    "ctaInventario": "View inventory",
-    "marcasTitulo": "Brands we work with",
-    "marcasTexto": "For over 30 years we have built trusted relationships with the most demanding brands in the automotive market, both luxury and mainstream. That backing lets us advise with real expertise on every purchase or sale: we know the vehicle, its paperwork and its value in the Ecuadorian market, brand by brand.",
-    "fotoAlt": "Diplomatic Automobile Trading office"
+    "intro": "We are an Ecuadorian company with more than 30 years of experience providing specialized solutions and advice to national and international clients. Our commitment is built on trust, personalized attention and a thorough command of every process, delivering professional service from start to finish.",
+    "historiaTitulo": "A track record built on trust",
+    "historiaTexto": "Three decades of work are not built on one job done well, but on many, one after another. Over that time the service grew from buying and selling vehicles to covering everything around them — importation, registration, insurance, re-exportation — and the relationships formed along the way are what hold the business together today.",
+    "razonesTitulo": "Why trust us?",
+    "razones": {
+      "experiencia": {
+        "titulo": "Experience",
+        "texto": "More than 30 years in the business let us understand every process and advise from real, first-hand experience."
+      },
+      "atencion": {
+        "titulo": "Personalized attention",
+        "texto": "Every client has different needs. That is why we offer close support and solutions tailored to each case."
+      },
+      "confianza": {
+        "titulo": "Trust",
+        "texto": "We build long-term relationships based on transparency, accountability and follow-through."
+      },
+      "respaldo": {
+        "titulo": "Backing",
+        "texto": "We work with recognized brands, companies and partners to offer reliable, professional solutions."
+      }
+    },
+    "experienciaTitulo": "Experience backed by major clients",
+    "experienciaTexto": "We have worked alongside embassies, international organizations, diplomatic officials and technical assistance professionals in Ecuador, with specialized advice on every process involving their vehicle and on the services that go with it.",
+    "marcasTitulo": "Alliances that strengthen our service",
+    "fotoAlt": "Diplomatic Automobile Trading office",
+    "historiaFotoAlt": "Aged documents tied with cord on a wooden desk, lit by a lamp",
+    "experienciaFotoAlt": "Dark sedan parked at night in front of the colonnaded entrance of an institutional building",
+    "alianzasFotoAlt": "Two people in suits shaking hands in a warmly lit lobby"
   },
   "inventario": {
     "titulo": "Inventory",
@@ -194,6 +225,8 @@
     "consultaServicio": "Hello, I'd like information about the {servicio} service."
   },
   "metadata": {
+    "sitioDescripcion": "Purchase, sale and importation of high-end vehicles in Ecuador, with advisory services for embassies, international organizations and diplomatic officials.",
+    "ogLocale": "en_US",
     "empresaTitulo": "About Us",
     "inventarioTitulo": "Inventory",
     "inventarioDescripcion": "Used and diplomatic vehicles available at Diplomatic Automobile Trading.",

@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { ChevronLeft } from "lucide-react";
 import { esVendido, getAutoPorSlug } from "@/lib/cars";
 import { CarGallery } from "@/components/site/car-gallery";
 import { SiteButton } from "@/components/site/button";
-import { precioLegible } from "@/components/site/car-card";
+import { precioLegible, valorDeCatalogo } from "@/components/site/car-card";
 import { mensajeTestDrive, whatsappHref } from "@/lib/whatsapp";
-import { formatoNumero } from "@/lib/format";
+import { numeroDe } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
@@ -50,9 +50,10 @@ export default async function AutoDetallePage({
 
   if (!auto) notFound();
 
-  const [hrefTestDrive, t] = await Promise.all([
+  const [hrefTestDrive, t, locale] = await Promise.all([
     whatsappHref(await mensajeTestDrive(auto.nombre)),
     getTranslations("auto"),
+    getLocale(),
   ]);
   // Ver la nota junto al mismo patrón en SiteLayout.
   const nonce = (await headers()).get("x-nonce") ?? undefined;
@@ -93,11 +94,17 @@ export default async function AutoDetallePage({
       etiqueta: t("ficha.kilometraje"),
       valor:
         auto.kilometraje != null
-          ? `${formatoNumero.format(auto.kilometraje)} km`
+          ? `${numeroDe(locale).format(auto.kilometraje)} km`
           : null,
     },
-    { etiqueta: t("ficha.transmision"), valor: auto.transmision },
-    { etiqueta: t("ficha.combustible"), valor: auto.combustible },
+    {
+      etiqueta: t("ficha.transmision"),
+      valor: valorDeCatalogo(t, "transmision", auto.transmision),
+    },
+    {
+      etiqueta: t("ficha.combustible"),
+      valor: valorDeCatalogo(t, "combustible", auto.combustible),
+    },
     { etiqueta: t("ficha.color"), valor: auto.color },
     { etiqueta: t("ficha.condicion"), valor: tipoTraducido },
     { etiqueta: t("ficha.estado"), valor: estadoTraducido },

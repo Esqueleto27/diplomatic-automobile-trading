@@ -95,6 +95,14 @@ export async function middleware(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("x-nonce", nonce);
   requestHeaders.set("Content-Security-Policy", csp);
+  // El layout raíz necesita saber si está sirviendo /admin para fijar
+  // `<html lang="es">` ahí: el panel es interno y siempre está en español,
+  // pero la cookie de idioma la comparte con el sitio público, así que un
+  // visitante que dejó el sitio en inglés hacía que el admin se anunciara
+  // como `lang="en"` con todo el texto en español. En App Router un Server
+  // Component no puede leer el pathname por su cuenta — tiene que llegar
+  // por header desde acá.
+  requestHeaders.set("x-pathname", pathname);
 
   return withSecurityHeaders(
     NextResponse.next({ request: { headers: requestHeaders } }),

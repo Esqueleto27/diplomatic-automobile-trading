@@ -63,7 +63,11 @@
 		// Número de WhatsApp para el botón "Agendar Test Drive" / "Consultar".
 		// No es secreto (es el mismo teléfono público del sitio), por eso va
 		// acá igual que R2_PUBLIC_URL en vez de con `wrangler secret put`.
-		"WHATSAPP_NUMBER": "+593999808067"
+		"WHATSAPP_NUMBER": "+593999808067",
+		// Segunda línea del negocio: atiende los tres seguros (vehículos,
+		// viajes y salud). El resto de los servicios sigue yendo a
+		// WHATSAPP_NUMBER — ver la marca `lineaSeguros` en src/lib/site.ts.
+		"WHATSAPP_NUMBER_SEGUROS": "+593984312146"
 		// AUTH_SECRET NO va acá: si un `var` con ese nombre existe en este
 		// archivo, `wrangler deploy` lo usa y BORRA el secret real puesto con
 		// `wrangler secret put` (es al revés de lo que parece — el var pisa al

@@ -9,6 +9,20 @@ export async function getWhatsappNumber(): Promise<string> {
 }
 
 /**
+ * Los seguros (vehículos, viajes y salud) los atiende otra línea del
+ * negocio, no la misma que la compra/importación de vehículos.
+ *
+ * Cae a getWhatsappNumber() si la var no está definida: es preferible que
+ * una consulta de seguros llegue al número principal a que el botón caiga
+ * a /contacto por un valor faltante en un entorno mal configurado.
+ */
+export async function getWhatsappNumberSeguros(): Promise<string> {
+  const { env } = await getCloudflareContext({ async: true });
+  const numero = env.WHATSAPP_NUMBER_SEGUROS?.replace(/\D/g, "");
+  return numero || getWhatsappNumber();
+}
+
+/**
  * Link de contacto por WhatsApp con mensaje prellenado.
  * Si todavía no se configuró WHATSAPP_NUMBER, cae a la página de contacto
  * en vez de generar un enlace roto a wa.me.

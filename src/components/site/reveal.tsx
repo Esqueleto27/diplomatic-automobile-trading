@@ -35,7 +35,15 @@ export function Reveal({
     <motion.div
       initial={inicial}
       whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: "-80px" }}
+      // "-80px 0px" y no "-80px": un solo valor encoge la caja de detección
+      // por los cuatro lados, también a izquierda y derecha. En un teléfono de
+      // 390px eso deja una franja activa de apenas 230px (de x=80 a x=310), y
+      // cualquier elemento angosto pegado a un borde — las columnas 1 y 4 de
+      // la grilla de logos de /empresa — nunca la tocaba: se quedaban en
+      // opacity 0 para siempre, o sea que la mitad de las marcas no se veían
+      // en móvil. El margen sólo tenía sentido en vertical (disparar 80px
+      // antes de que el elemento entre desde abajo).
+      viewport={{ once: true, margin: "-80px 0px" }}
       transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
       className={className}
     >

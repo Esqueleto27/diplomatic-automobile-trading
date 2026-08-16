@@ -8,3 +8,9 @@ R2_PUBLIC_URL=
 
 # Generar con: node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 AUTH_SECRET=
+
+# Teléfonos de WhatsApp del negocio (los mismos que aparecen en el sitio).
+# El principal atiende vehículos y trámites; el de seguros atiende los tres
+# seguros (vehículos, viajes y salud) — ver `lineaSeguros` en src/lib/site.ts.
+WHATSAPP_NUMBER=
+WHATSAPP_NUMBER_SEGUROS=

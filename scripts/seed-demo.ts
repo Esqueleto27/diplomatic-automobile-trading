@@ -25,8 +25,8 @@ const AUTOS = [
   { nombre: "Urus Performante", marca: "Lamborghini", anio: 2024, precio: 312000, tipo: "NUEVO", transmision: "Automática", combustible: "Gasolina", color: "Amarillo Auge" },
   { nombre: "Bentayga EWB", marca: "Bentley", anio: 2025, precio: 289000, tipo: "NUEVO", transmision: "Automática", combustible: "Gasolina", color: "Azul Sequin" },
   { nombre: "Cayenne Turbo GT", marca: "Porsche", anio: 2024, precio: 226000, tipo: "NUEVO", transmision: "Automática", combustible: "Gasolina", color: "Blanco Carrara" },
-  { nombre: "S-Class 450", marca: "Mercedes-Benz", anio: 2022, precio: 112000, kilometraje: 38000, tipo: "DIPLOMATICO", transmision: "Automática", combustible: "Gasolina", color: "Negro" },
-  { nombre: "Q7 55 TFSI quattro", marca: "Audi", anio: 2021, precio: null, kilometraje: 54200, tipo: "DIPLOMATICO", transmision: "Automática", combustible: "Gasolina", color: "Azul Navarra" },
+  { nombre: "S-Class 450", marca: "Mercedes-Benz", anio: 2022, precio: 112000, kilometraje: 38000, tipo: "USADO", transmision: "Automática", combustible: "Gasolina", color: "Negro" },
+  { nombre: "Q7 55 TFSI quattro", marca: "Audi", anio: 2021, precio: null, kilometraje: 54200, tipo: "USADO", transmision: "Automática", combustible: "Gasolina", color: "Azul Navarra" },
   { nombre: "Serie 7 740i", marca: "BMW", anio: 2022, precio: 98500, kilometraje: 41800, tipo: "USADO", transmision: "Automática", combustible: "Gasolina", color: "Gris mineral" },
   { nombre: "Continental GT", marca: "Bentley", anio: 2020, precio: 175000, kilometraje: 29500, tipo: "USADO", transmision: "Automática", combustible: "Gasolina", color: "Verde Cumbria" },
 ] as const;

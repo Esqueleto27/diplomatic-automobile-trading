@@ -71,20 +71,38 @@ export function SiteHeader() {
     <>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-[background-color,height,box-shadow,backdrop-filter] duration-300",
+          // Sólo el alto se anima acá. El fondo vive en dos capas hermanas
+          // (abajo) que se cruzan por opacidad en vez de intercambiarse.
+          "fixed inset-x-0 top-0 z-50 transition-[height] duration-300 ease-out",
           scrolled ? "h-16" : "h-20",
-          // El alto depende sólo del scroll (el panel de abajo se ancla a él),
-          // pero el fondo también del menú: con el menú abierto arriba del
-          // hero, la franja del header seguía siendo un degradado translúcido
-          // y se veía la foto por detrás justo encima de un panel opaco.
-          scrolled || abierto
-            ? cn(
-                "border-b border-border shadow-[0_10px_30px_-18px_rgba(0,0,0,0.6)] backdrop-blur-md",
-                abierto ? "bg-background" : "bg-background/85",
-              )
-            : "bg-gradient-to-b from-black/70 to-transparent",
         )}
       >
+        {/* Dos capas de fondo superpuestas que hacen cross-fade, en vez de
+            cambiar las clases de fondo del propio header.
+            `background-image` (el degradado sobre el hero) no es animable:
+            al cruzar el umbral de scroll desaparecía de golpe mientras el
+            color sólido recién empezaba a aparecer, y eso es el parpadeo que
+            se veía al empezar a bajar en el teléfono. Dos capas con
+            `transition-opacity` sí se funden, y de paso el desenfoque deja
+            de animarse (animar `backdrop-filter` es de lo más caro que hay
+            en un móvil y entrecortaba el scroll). */}
+        <div
+          aria-hidden
+          className={cn(
+            "absolute inset-0 -z-10 bg-gradient-to-b from-black/70 to-transparent transition-opacity duration-300 ease-out",
+            scrolled || abierto ? "opacity-0" : "opacity-100",
+          )}
+        />
+        <div
+          aria-hidden
+          className={cn(
+            "absolute inset-0 -z-10 border-b border-border shadow-[0_10px_30px_-18px_rgba(0,0,0,0.6)] backdrop-blur-md transition-[opacity,background-color] duration-300 ease-out",
+            scrolled || abierto ? "opacity-100" : "opacity-0",
+            // Con el menú abierto arriba del hero, la franja translúcida
+            // dejaba ver la foto justo encima de un panel opaco.
+            abierto ? "bg-background" : "bg-background/85",
+          )}
+        />
         {/* Dos columnas en móvil, tres desde lg. El nav del medio es
             `hidden lg:flex`, o sea `display:none` en móvil — y un ítem con
             display:none desaparece del grid por completo. Con tres columnas
@@ -177,7 +195,7 @@ export function SiteHeader() {
         aria-label={t("menuDialogo")}
         hidden={!abierto}
         className={cn(
-          "fixed inset-x-0 bottom-0 z-40 flex flex-col overflow-y-auto bg-background lg:hidden",
+          "fixed inset-x-0 bottom-0 z-40 flex flex-col overflow-y-auto bg-background transition-[top] duration-300 ease-out lg:hidden",
           scrolled ? "top-16" : "top-20",
         )}
       >

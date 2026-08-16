@@ -4,7 +4,11 @@ import { getTranslations } from "next-intl/server";
 import { servicios } from "@/lib/site";
 import { SectionHeading } from "@/components/site/section-heading";
 import { SiteButton } from "@/components/site/button";
-import { buildWhatsappHref, getWhatsappNumber } from "@/lib/whatsapp";
+import {
+  buildWhatsappHref,
+  getWhatsappNumber,
+  getWhatsappNumberSeguros,
+} from "@/lib/whatsapp";
 
 // Mismo motivo que /contacto: sin esto Next prerenderiza la página estática
 // en build y el número de WhatsApp queda horneado desde .dev.vars en vez
@@ -21,8 +25,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ServiciosPage() {
-  const [numeroWhatsapp, t, tWhatsapp] = await Promise.all([
+  // Dos números: los seguros los atiende otra línea del negocio (ver
+  // `lineaSeguros` en src/lib/site.ts), el resto de los servicios va al
+  // número principal.
+  const [numeroWhatsapp, numeroSeguros, t, tWhatsapp] = await Promise.all([
     getWhatsappNumber(),
+    getWhatsappNumberSeguros(),
     getTranslations("servicios"),
     getTranslations("whatsapp"),
   ]);
@@ -41,7 +49,7 @@ export default async function ServiciosPage() {
           para que el cambio de tono se note y sea claro dónde termina un
           servicio y empieza el siguiente, en vez de que los 9 se lean como
           un solo bloque largo. */}
-      {servicios.map(({ slug, icono: Icono, imagen }, i) => {
+      {servicios.map(({ slug, icono: Icono, imagen, lineaSeguros }, i) => {
         const titulo = t(`items.${slug}.titulo`);
         const descripcion = t(`items.${slug}.descripcion`);
         return (
@@ -82,7 +90,7 @@ export default async function ServiciosPage() {
                 </p>
                 <SiteButton
                   href={buildWhatsappHref(
-                    numeroWhatsapp,
+                    lineaSeguros ? numeroSeguros : numeroWhatsapp,
                     tWhatsapp("consultaServicio", { servicio: titulo }),
                   )}
                   size="md"

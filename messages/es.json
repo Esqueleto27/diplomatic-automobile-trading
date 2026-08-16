@@ -28,13 +28,9 @@
     "aria": "Marcas que comercializamos",
     "confianza": "Más de 30 años asesorando a embajadas, organismos internacionales, funcionarios diplomáticos y de asistencia técnica en la compra y venta de vehículos exonerados en Ecuador."
   },
-  "stats": {
-    "aria": "Nuestra trayectoria",
-    "aniosEtiqueta": "Años en el mercado"
-  },
   "oficinaTrust": {
-    "titulo": "Atención personalizada en cada detalle",
-    "texto": "Elegir el vehículo, armar la documentación y coordinar la entrega pasan por las mismas manos en nuestra oficina en Quito — sin derivar su proceso a terceros en el camino.",
+    "titulo": "Más de 30 años construyendo confianza",
+    "texto": "Le acompañamos durante todo el proceso, desde la elección de su vehículo hasta la gestión de documentos y la entrega. Nuestro equipo está a su disposición para brindarle una atención cercana, transparente y personalizada, haciendo que cada paso sea más sencillo y seguro.",
     "cta": "Conocer la empresa",
     "fotoAlt": "Oficina de Diplomatic Automobile Trading"
   },
@@ -80,8 +76,8 @@
       },
       "seguro-vehiculos": {
         "titulo": "Seguro de Vehículos",
-        "resumen": "Las mejores tasas del mercado, con financiamiento sin intereses hasta 12 meses.",
-        "descripcion": "Tenemos para usted las mejores tasas del mercado, con amplios planes de financiamiento y sin intereses hasta 12 meses plazo, para lo cual trabajamos con Aseguradoras de prestigio Nacional e Internacional que le garantizan una atención oportuna y de calidad."
+        "resumen": "Coberturas confiables ante accidentes, robos y daños, con aseguradoras reconocidas.",
+        "descripcion": "Proteja su vehículo y conduzca con mayor tranquilidad. Ofrecemos seguros de vehículos diseñados para brindarle respaldo ante accidentes, robos, daños y otros imprevistos que puedan presentarse en el camino. Trabajamos con compañías aseguradoras reconocidas para ofrecerle coberturas confiables y atención eficiente."
       },
       "seguro-viajes": {
         "titulo": "Seguro de Viajes",
@@ -101,9 +97,9 @@
     }
   },
   "contactCta": {
-    "titulo": "Hablemos de su próximo vehículo",
-    "texto": "Un especialista le atiende personalmente para asesorarlo en la compra, importación o los trámites de su vehículo.",
-    "cta": "Contáctenos"
+    "titulo": "Contáctenos",
+    "texto": "Estamos a su disposición para atenderlo de forma personal y directa. Escríbanos para solicitar un vehículo o cualquiera de nuestros servicios.",
+    "cta": "Escríbanos"
   },
   "footer": {
     "contacto": "Contacto",
@@ -142,14 +138,49 @@
     },
     "estado": {
       "VENDIDO": "Vendido"
+    },
+    "transmision": {
+      "Automática": "Automática",
+      "Manual": "Manual"
+    },
+    "combustible": {
+      "Gasolina": "Gasolina",
+      "Diésel": "Diésel",
+      "Híbrido": "Híbrido",
+      "Eléctrico": "Eléctrico"
     }
   },
   "empresa": {
     "titulo": "Sobre Nosotros",
-    "ctaInventario": "Ver inventario",
-    "marcasTitulo": "Marcas con las que trabajamos",
-    "marcasTexto": "Durante más de 30 años hemos construido relaciones de confianza con las marcas más exigentes del mercado automotor, tanto de lujo como generalistas. Ese respaldo nos permite asesorar con criterio real en cada compra o venta: conocemos el vehículo, su documentación y su valor en el mercado ecuatoriano, marca por marca.",
-    "fotoAlt": "Oficina de Diplomatic Automobile Trading"
+    "intro": "Somos una empresa ecuatoriana con más de 30 años de experiencia brindando soluciones y asesoría especializada a clientes nacionales e internacionales. Nuestro compromiso se basa en la confianza, la atención personalizada y el conocimiento de cada proceso, ofreciendo un servicio profesional de principio a fin.",
+    "historiaTitulo": "Una trayectoria construida con confianza",
+    "historiaTexto": "Tres décadas de trabajo no se construyen con una sola operación bien hecha, sino con muchas, una detrás de otra. En ese tiempo el servicio fue creciendo desde la compra y venta de vehículos hasta cubrir todo lo que la rodea —importación, matriculación, seguros, reexportación—, y las relaciones que se formaron en el camino son las que hoy sostienen el negocio.",
+    "razonesTitulo": "¿Por qué confiar en nosotros?",
+    "razones": {
+      "experiencia": {
+        "titulo": "Experiencia",
+        "texto": "Más de 30 años de trayectoria nos permiten conocer cada proceso y brindar una asesoría basada en experiencia real."
+      },
+      "atencion": {
+        "titulo": "Atención personalizada",
+        "texto": "Cada cliente tiene necesidades diferentes. Por eso ofrecemos acompañamiento cercano y soluciones adaptadas a cada caso."
+      },
+      "confianza": {
+        "titulo": "Confianza",
+        "texto": "Construimos relaciones a largo plazo basadas en transparencia, responsabilidad y cumplimiento."
+      },
+      "respaldo": {
+        "titulo": "Respaldo",
+        "texto": "Trabajamos con marcas, empresas y aliados reconocidos para ofrecer soluciones confiables y profesionales."
+      }
+    },
+    "experienciaTitulo": "Una experiencia respaldada por grandes clientes",
+    "experienciaTexto": "Hemos acompañado a embajadas, organismos internacionales, funcionarios diplomáticos y profesionales de asistencia técnica en Ecuador, con asesoría especializada en cada proceso relacionado con su vehículo y en los servicios que lo acompañan.",
+    "marcasTitulo": "Alianzas que fortalecen nuestro servicio",
+    "fotoAlt": "Oficina de Diplomatic Automobile Trading",
+    "historiaFotoAlt": "Documentos antiguos atados con cordel sobre un escritorio de madera, iluminados por una lámpara",
+    "experienciaFotoAlt": "Sedán oscuro estacionado de noche frente a la entrada con columnas de un edificio institucional",
+    "alianzasFotoAlt": "Dos personas de traje estrechándose la mano en un vestíbulo con luz cálida"
   },
   "inventario": {
     "titulo": "Inventario",
@@ -194,6 +225,8 @@
     "consultaServicio": "Hola, quisiera información sobre el servicio de {servicio}."
   },
   "metadata": {
+    "sitioDescripcion": "Compra, venta e importación de vehículos de alta gama en Ecuador, con asesoría para embajadas, organismos internacionales y funcionarios diplomáticos.",
+    "ogLocale": "es_EC",
     "empresaTitulo": "Sobre Nosotros",
     "inventarioTitulo": "Inventario",
     "inventarioDescripcion": "Vehículos usados y diplomáticos disponibles en Diplomatic Automobile Trading.",

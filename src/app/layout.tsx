@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Jost } from "next/font/google";
-import { getLocale } from "next-intl/server";
+import { headers } from "next/headers";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Toaster } from "@/components/ui/sonner";
 import { heroImageUrl, siteUrl } from "@/lib/site";
 import "./globals.css";
@@ -22,47 +23,60 @@ const jost = Jost({
   display: "swap",
 });
 
-const description =
-  "Dealer especializado en vehículos diplomáticos y de alta gama en Ecuador: compra, venta, importación y trámites para embajadas, organismos internacionales y clientes globales.";
+// `generateMetadata` y no un objeto `metadata` fijo: la descripción y el
+// `og:locale` tienen que seguir al idioma elegido con el toggle ES/EN. Con
+// el objeto estático quedaban siempre en español — el buscador y las vistas
+// previas al compartir (WhatsApp, redes) mostraban texto en español incluso
+// a un visitante que estaba viendo el sitio en inglés, que es justo el
+// público extranjero al que apunta el negocio.
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("metadata");
+  const description = t("sitioDescripcion");
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: "Diplomatic Automobile Trading",
-    template: "%s — Diplomatic Automobile Trading",
-  },
-  description,
-  robots: { index: true, follow: true },
-  openGraph: {
-    type: "website",
-    locale: "es_EC",
-    url: siteUrl,
-    siteName: "Diplomatic Automobile Trading",
-    title: "Diplomatic Automobile Trading",
+  return {
+    metadataBase: new URL(siteUrl),
+    title: {
+      default: "Diplomatic Automobile Trading",
+      template: "%s — Diplomatic Automobile Trading",
+    },
     description,
-    images: [{ url: heroImageUrl, width: 1600, height: 900 }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Diplomatic Automobile Trading",
-    description,
-    images: [heroImageUrl],
-  },
-};
+    robots: { index: true, follow: true },
+    openGraph: {
+      type: "website",
+      locale: t("ogLocale"),
+      url: siteUrl,
+      siteName: "Diplomatic Automobile Trading",
+      title: "Diplomatic Automobile Trading",
+      description,
+      images: [{ url: heroImageUrl, width: 1600, height: 900 }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Diplomatic Automobile Trading",
+      description,
+      images: [heroImageUrl],
+    },
+  };
+}
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // El toggle ES/EN sólo vive en el sitio público (ver SiteLayout) — /admin
-  // nunca escribe otro valor en la cookie de idioma, así que esto no le
-  // cambia nada en la práctica, sólo evita un segundo mecanismo de `lang`.
-  const locale = await getLocale();
+  // El toggle ES/EN sólo vive en el sitio público (ver SiteLayout). /admin
+  // comparte la cookie de idioma pero su interfaz está siempre en español,
+  // así que si el visitante dejó el sitio público en inglés el panel se
+  // anunciaba como `lang="en"` con todo el texto en español — un lector de
+  // pantalla lo leería con pronunciación equivocada. El pathname llega por
+  // header desde el middleware (un Server Component no puede leerlo solo).
+  const [locale, headerList] = await Promise.all([getLocale(), headers()]);
+  const esAdmin = (headerList.get("x-pathname") ?? "").startsWith("/admin");
+  const lang = esAdmin ? "es" : locale;
 
   return (
     <html
-      lang={locale}
+      lang={lang}
       className={`${cormorant.variable} ${jost.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">

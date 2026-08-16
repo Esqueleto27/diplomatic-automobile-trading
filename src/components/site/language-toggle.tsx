@@ -28,37 +28,59 @@ export function LanguageToggle() {
     });
   }
 
-  // El idioma activo va con fondo dorado lleno, no sólo con el texto en
-  // dorado: buena parte del público es extranjero (cuerpo diplomático,
-  // organismos internacionales) y para ellos cambiar de idioma es de las
-  // primeras acciones del sitio, no un ajuste secundario. Antes era texto
-  // de 11px al 50% de opacidad en la esquina — se perdía contra el header.
-  // El recuadro además lo identifica como control y no como dos palabras
-  // sueltas del menú.
-  const opcion = (value: Locale, label: string) => (
-    <button
-      type="button"
-      onClick={() => cambiar(value)}
-      aria-pressed={locale === value}
-      disabled={isPending}
-      className={cn(
-        "px-2.5 py-1 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-gold disabled:cursor-wait",
-        locale === value
-          ? "bg-gold text-gold-foreground"
-          : "text-foreground/75 hover:bg-white/10 hover:text-foreground",
-      )}
-    >
-      {label}
-    </button>
-  );
+  // Subrayado dorado en vez de recuadro con relleno: la versión anterior era
+  // una caja con el idioma activo sobre dorado sólido, que al lado del serif
+  // y del dorado como hairline del resto del sitio (la rayita de
+  // SectionHeading, los bordes de las tarjetas) se leía como widget pegado
+  // encima, no como parte de la marca.
+  //
+  // Sigue siendo evidente que es un control — que era el motivo del recuadro,
+  // porque buena parte del público es extranjero y cambiar de idioma es de
+  // las primeras acciones del sitio: el activo va en marfil pleno con la
+  // línea dorada debajo, el inactivo apagado, y al pasar el mouse por el
+  // inactivo su propia línea crece desde la izquierda anticipando el cambio.
+  const opcion = (value: Locale, label: string) => {
+    const activo = locale === value;
+
+    return (
+      <button
+        type="button"
+        onClick={() => cambiar(value)}
+        aria-pressed={activo}
+        disabled={isPending}
+        className={cn(
+          "group relative cursor-pointer pb-1.5 outline-none transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background disabled:cursor-wait",
+          activo
+            ? "text-foreground"
+            : "text-foreground/45 hover:text-foreground/85",
+        )}
+      >
+        {label}
+        <span
+          aria-hidden
+          className={cn(
+            "absolute inset-x-0 bottom-0 h-px origin-left bg-gold transition-transform duration-300 ease-out",
+            activo ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100",
+            !activo && "bg-gold/40",
+          )}
+        />
+      </button>
+    );
+  };
 
   return (
     <div
       role="group"
       aria-label={t("aria")}
-      className="flex items-center overflow-hidden border border-white/20 text-[0.78rem] font-medium tracking-[0.08em]"
+      // tracking 0.1em, no más: es el techo que ya se fijó para el texto de
+      // 11–12px del sitio (ver la nota de tamaños en SiteButton) — por
+      // encima de eso, a este cuerpo se lee espaciado en exceso.
+      className="flex items-center gap-2.5 text-[0.75rem] font-medium uppercase tracking-[0.1em]"
     >
       {opcion("es", t("es"))}
+      <span aria-hidden className="pb-1.5 text-foreground/20">
+        ·
+      </span>
       {opcion("en", t("en"))}
     </div>
   );

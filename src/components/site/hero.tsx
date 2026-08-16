@@ -6,30 +6,35 @@ export function Hero() {
   const t = useTranslations("hero");
 
   return (
-    <section className="relative isolate -mt-20 min-h-[100dvh] overflow-hidden sm:min-h-[clamp(34rem,84vh,52rem)]">
+    // svh y no dvh: `dvh` es la altura del viewport *en este instante*, que
+    // en un teléfono cambia sola mientras se scrollea porque el navegador
+    // esconde y muestra su barra de direcciones. Con dvh el hero se estiraba
+    // y encogía durante el scroll, empujando todo lo de abajo — se lee como
+    // que la página "salta" justo al empezar a bajar. `svh` es la altura con
+    // la barra visible: no cambia nunca, así que nada se mueve.
+    <section className="relative isolate -mt-20 min-h-[100svh] overflow-hidden sm:min-h-[clamp(34rem,84vh,52rem)]">
       {/* -mt-20 cancela el `pt-20` que el layout del sitio agrega para
           compensar el header `fixed` (ver SiteLayout): así la foto arranca
           en el borde superior real de la ventana, debajo del header
           transparente, en vez de dejar un hueco de fondo sólido arriba. */}
       <HeroImage />
 
-      {/* El velo cambia de forma según el viewport: en desktop el texto vive
-          a la izquierda, así que un degradado horizontal (oscuro→claro)
-          alcanza y deja ver el auto a la derecha. En móvil el texto está
-          centrado y cae encima del auto (puede tocar zonas claras — faro,
-          cromados — en cualquier punto de la foto), así que ahí va un velo
-          parejo y más oscuro sobre toda la imagen en vez de un degradado
-          direccional: no hay "lado seguro" para el texto en móvil. */}
-      {/* Reforzado tras una auditoría de contraste: el velo anterior
-          (black/50 en móvil, gradiente que arrancaba en .68 en desktop)
-          dejaba el título en mayúsculas cayendo sobre zonas claras de la
-          foto — cielo, cromados, faros — donde el texto blanco se perdía.
-          Ahora el lado del texto arranca en .82 y baja más despacio, así
-          la legibilidad no depende de qué parte de la foto toque en cada
-          resolución. El auto sigue despejado del 70% para la derecha. */}
+      {/* El velo es direccional en los dos tamaños, y en cada uno apunta a
+          donde vive el texto — no es un oscurecido parejo de la foto.
+
+          Móvil: el contenido está anclado abajo (`items-end`, ver más
+          abajo), así que el degradado es VERTICAL: arriba apenas 22% para
+          que el auto se vea claro y con color, y recién baja a 84% en la
+          franja inferior donde caen título, párrafo y botones. Un velo
+          plano al 62% (lo que había) apagaba la foto entera para proteger
+          un texto que sólo ocupa el tercio de abajo.
+
+          Desktop: el texto vive a la izquierda, así que el degradado es
+          HORIZONTAL. Arranca en 72% sobre la columna de texto y se abre a
+          transparente pasado el 72% del ancho, dejando el auto limpio. */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-black/62 md:bg-[linear-gradient(90deg,rgba(0,0,0,.82)_0%,rgba(0,0,0,.74)_28%,rgba(0,0,0,.46)_50%,rgba(0,0,0,.12)_72%,transparent_88%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(0,0,0,.22)_0%,rgba(0,0,0,.28)_30%,rgba(0,0,0,.62)_58%,rgba(0,0,0,.86)_100%)] md:bg-[linear-gradient(90deg,rgba(0,0,0,.72)_0%,rgba(0,0,0,.60)_34%,rgba(0,0,0,.30)_52%,rgba(0,0,0,.08)_72%,transparent_88%)]"
       />
 
       {/* Fade en el borde inferior para fundir con la página. */}
@@ -40,12 +45,12 @@ export function Hero() {
 
       {/* En móvil el contenido se ancla abajo (`items-end` + `pb-14`), no al
           centro: con `items-center` en una sección que ahora ocupa toda la
-          pantalla (100dvh, ver arriba) quedaba mucho aire oscuro parejo
+          pantalla (100svh, ver arriba) quedaba mucho aire oscuro parejo
           arriba y abajo del bloque de texto — se sentía "flotando" en vez
           de cinematográfico. Anclado abajo, se ve más foto del auto arriba
           antes de llegar al título, que es el efecto que se buscaba. Desde
           `sm:` se recupera el centrado vertical original. */}
-      <div className="mx-auto flex min-h-[100dvh] max-w-site items-end px-5 pb-14 pt-24 sm:min-h-[clamp(34rem,84vh,52rem)] sm:items-center sm:px-8 sm:py-24">
+      <div className="mx-auto flex min-h-[100svh] max-w-site items-end px-5 pb-14 pt-24 sm:min-h-[clamp(34rem,84vh,52rem)] sm:items-center sm:px-8 sm:py-24">
         <div className="max-w-xl">
           {/* Breakpoint móvil propio, no el mismo clamp que desktop: en
               ≤640px el título+párrafo+dos botones competían por muy poco

@@ -1,27 +1,65 @@
 import Link from "next/link";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { AutoPublico } from "@/lib/cars";
 import { esVendido } from "@/lib/cars";
 import { CarMedia } from "@/components/site/car-media";
 import { SiteButton } from "@/components/site/button";
 import { cn } from "@/lib/utils";
-import { formatoNumero, formatoPrecio } from "@/lib/format";
+import { numeroDe, precioDe } from "@/lib/format";
 
-export function especificaciones(auto: AutoPublico): string {
+/** Traductor mínimo que necesita `valorDeCatalogo` — se tipa así (y no con
+ * el tipo completo del translator de next-intl) para que la función sirva
+ * tanto con `getTranslations` como con `useTranslations`. */
+type Traductor = {
+  (key: string): string;
+  has: (key: string) => boolean;
+};
+
+/**
+ * Traduce un valor que la base guarda como texto libre pero que en la
+ * práctica sale de un desplegable cerrado del admin (transmisión:
+ * Automática/Manual; combustible: Gasolina/Diésel/Híbrido/Eléctrico, ver
+ * CarForm). Sin esto, un visitante en inglés leía "Automática · Gasolina"
+ * en medio de una página en inglés.
+ *
+ * Si el valor no está en el catálogo —datos viejos, o un admin que en el
+ * futuro escriba otra cosa— se devuelve tal cual en vez de romper: el
+ * campo sigue siendo texto libre en el schema y no se puede asumir cerrado.
+ */
+export function valorDeCatalogo(
+  t: Traductor,
+  grupo: "transmision" | "combustible",
+  valor: string | null,
+): string | null {
+  if (!valor) return valor;
+  const key = `${grupo}.${valor}`;
+  return t.has(key) ? t(key) : valor;
+}
+
+/** `locale` y `t` explícitos, no leídos acá adentro: esta función también la
+ * usa la ficha de auto, que ya los resolvió para otras cosas — pedirlos como
+ * argumento evita repetir el await en cada llamada. */
+export function especificaciones(
+  auto: AutoPublico,
+  locale: string,
+  t: Traductor,
+): string {
   return [
     auto.anio?.toString(),
     auto.kilometraje != null
-      ? `${formatoNumero.format(auto.kilometraje)} km`
+      ? `${numeroDe(locale).format(auto.kilometraje)} km`
       : null,
-    auto.transmision,
-    auto.combustible,
+    valorDeCatalogo(t, "transmision", auto.transmision),
+    valorDeCatalogo(t, "combustible", auto.combustible),
   ]
     .filter(Boolean)
     .join(" · ");
 }
 
 export async function precioLegible(auto: AutoPublico): Promise<string> {
-  if (auto.precio != null) return formatoPrecio.format(auto.precio);
+  if (auto.precio != null) {
+    return precioDe(await getLocale()).format(auto.precio);
+  }
   const t = await getTranslations("auto");
   return t("precioConsulta");
 }
@@ -29,9 +67,10 @@ export async function precioLegible(auto: AutoPublico): Promise<string> {
 /** Tarjeta completa con specs y acciones, para vehículos usados/diplomáticos. */
 export async function CarCardDetalle({ auto }: { auto: AutoPublico }) {
   const vendido = esVendido(auto.estado);
-  const [t, precio] = await Promise.all([
+  const [t, precio, locale] = await Promise.all([
     getTranslations("auto"),
     precioLegible(auto),
+    getLocale(),
   ]);
   // El badge de estado ya dice "Vendido" cuando corresponde — mostrarlo dos
   // veces (el estado normal + un badge aparte) sería redundante, así que acá
@@ -83,7 +122,7 @@ export async function CarCardDetalle({ auto }: { auto: AutoPublico }) {
         </h3>
 
         <p className="mt-3 text-sm tracking-wide text-muted-foreground">
-          {especificaciones(auto)}
+          {especificaciones(auto, locale, t)}
         </p>
 
         {/* mt-auto ancla precio + CTA al fondo de la card: sin esto, un
