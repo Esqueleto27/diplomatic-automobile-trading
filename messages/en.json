@@ -36,7 +36,7 @@
   },
   "vehiculosUsados": {
     "titulo": "Used Vehicles",
-    "texto": "Handpicked units with verifiable history and up-to-date paperwork, ready for delivery. We also buy your vehicle and coordinate the import of the new model you're looking for.",
+    "texto": "These are the units available today. If you do not find the one you are looking for, we source it for you: we bring it in from abroad exactly as you want it, or we help you find a new vehicle here in Ecuador.",
     "cta": "View full inventory"
   },
   "servicios": {
@@ -154,8 +154,7 @@
     "titulo": "About Us",
     "intro": "We are an Ecuadorian company with more than 30 years of experience providing specialized solutions and advice to national and international clients. Our commitment is built on trust, personalized attention and a thorough command of every process, delivering professional service from start to finish.",
     "historiaTitulo": "A track record built on trust",
-    "historiaTexto": "Three decades of work are not built on one job done well, but on many, one after another. Over that time the service grew from buying and selling vehicles to covering everything around them — importation, registration, insurance, re-exportation — and the relationships formed along the way are what hold the business together today.",
-    "razonesTitulo": "Why trust us?",
+    "historiaTexto": "For more than three decades we have supported our clients at every stage of the process, adapting to their needs and expanding our services to offer increasingly complete solutions. Our experience shows not only in what we do, but in the relationships we have built and kept over the years. Today that track record is the foundation of a service designed to respond with assurance, closeness and professionalism.",
     "razones": {
       "experiencia": {
         "titulo": "Experience",
@@ -179,8 +178,7 @@
     "marcasTitulo": "Alliances that strengthen our service",
     "fotoAlt": "Diplomatic Automobile Trading office",
     "historiaFotoAlt": "Aged documents tied with cord on a wooden desk, lit by a lamp",
-    "experienciaFotoAlt": "Dark sedan parked at night in front of the colonnaded entrance of an institutional building",
-    "alianzasFotoAlt": "Two people in suits shaking hands in a warmly lit lobby"
+    "experienciaFotoAlt": "Dark sedan parked at night in front of the colonnaded entrance of an institutional building"
   },
   "inventario": {
     "titulo": "Inventory",

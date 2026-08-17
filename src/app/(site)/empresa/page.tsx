@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import {
-  alianzasImageUrl,
   experienciaImageUrl,
   marcas,
   oficinaImageUrl,
@@ -105,14 +104,14 @@ export default async function EmpresaPage() {
         </div>
       </section>
 
-      {/* 3. ¿Por qué confiar en nosotros? */}
+      {/* 3. Razones para confiar — sin título de sección a pedido del
+          cliente: las cuatro tarjetas se explican solas y el encabezado
+          agregaba una pregunta retórica de más. */}
       <section className="mx-auto max-w-site px-5 py-16 sm:px-8 sm:py-24">
-        <SectionHeading>{t("razonesTitulo")}</SectionHeading>
-
         {/* Una sola columna en móvil: con dos, los títulos de dos palabras
             ("Atención personalizada") parten en tres líneas y las tarjetas
             de la fila quedan de altos distintos. */}
-        <ul className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {razonesConfianza.map(({ slug, icono: Icono }, i) => (
             <li key={slug}>
               <Reveal delay={i * 0.06} className="h-full">
@@ -131,41 +130,29 @@ export default async function EmpresaPage() {
         </ul>
       </section>
 
-      {/* 4. Nuestra experiencia — regla dorada al costado y no una tarjeta
-          más: es la única sección de la página cuyo peso está en a quién se
-          atiende, y con el mismo tratamiento que la historia (párrafo suelto
-          sobre fondo alterno) las dos se leerían como el mismo bloque
-          repetido dos veces. */}
-      <section className="relative isolate overflow-hidden border-y border-border">
-        {/* Mismo tratamiento de tres capas que ContactCta: el filtro desatura
-            y oscurece la foto, el negro parejo asegura contraste para el
-            texto y el degradado direccional hunde el lado donde cae el
-            párrafo. Sin esto, los faroles cálidos de la foto se comen el
-            texto blanco.
+      {/* 4. Nuestra experiencia — dos columnas, foto a la izquierda y texto
+          a la derecha, igual que la historia (a pedido del cliente). Antes la
+          foto iba de fondo a sangre con velo oscuro. */}
+      <section className="border-y border-border bg-surface">
+        <div className="mx-auto grid max-w-site gap-10 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-2 lg:items-center lg:gap-16">
+          <Reveal
+            direction="left"
+            className="relative aspect-[3/2] w-full overflow-hidden border border-white/[0.07] shadow-lift"
+          >
+            <Image
+              src={experienciaImageUrl}
+              alt={t("experienciaFotoAlt")}
+              fill
+              sizes="(max-width: 1024px) 90vw, 45vw"
+              className="object-cover"
+            />
+          </Reveal>
 
-            El degradado direccional va sólo desde `md:`: en un teléfono el
-            texto ocupa todo el ancho, así que no hay "lado seguro" — sumado
-            al velo parejo dejaba la sección casi negra y la foto no se veía.
-            Mismo criterio que el velo del Hero. */}
-        <Image
-          src={experienciaImageUrl}
-          alt=""
-          fill
-          sizes="100vw"
-          className="-z-10 object-cover object-center [filter:grayscale(.3)_brightness(.5)_saturate(.85)]"
-        />
-        <div aria-hidden className="absolute inset-0 -z-10 bg-black/65" />
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-10 md:bg-[linear-gradient(90deg,rgba(0,0,0,.75)_0%,rgba(0,0,0,.5)_55%,transparent_100%)]"
-        />
-
-        <div className="mx-auto max-w-site px-5 py-20 sm:px-8 sm:py-28">
-          <Reveal className="max-w-3xl border-l-2 border-gold/60 pl-6 sm:pl-10">
+          <Reveal>
             <h2 className="font-display text-[clamp(1.6rem,3.2vw,2.4rem)] font-light leading-[1.2] tracking-wide">
               {t("experienciaTitulo")}
             </h2>
-            <p className="mt-6 text-base leading-[1.8] text-foreground/90 sm:text-lg">
+            <p className="mt-6 text-base leading-[1.8] text-foreground/85 sm:text-lg">
               {t("experienciaTexto")}
             </p>
           </Reveal>
@@ -178,20 +165,6 @@ export default async function EmpresaPage() {
           una página entera de solo logos. */}
       <section className="mx-auto max-w-site px-5 py-16 sm:px-8 sm:py-24">
         <SectionHeading>{t("marcasTitulo")}</SectionHeading>
-
-        {/* Banda apaisada, no una foto al costado: la sección es título +
-            muro de logos, y una columna de texto que no existe dejaría la
-            mitad vacía. Además separa el título de los logos, que si no se
-            pegan uno encima del otro. */}
-        <Reveal className="relative mt-10 aspect-[16/9] w-full overflow-hidden border border-white/[0.07] shadow-lift sm:aspect-[3/1]">
-          <Image
-            src={alianzasImageUrl}
-            alt={t("alianzasFotoAlt")}
-            fill
-            sizes="100vw"
-            className="object-cover object-center"
-          />
-        </Reveal>
 
         {/* Grilla de 4 en móvil, fila que envuelve desde sm: con `flex-wrap`
             y `gap-x-16` en 390px entraban dos logos por renglón y las 20

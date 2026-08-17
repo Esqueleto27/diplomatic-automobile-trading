@@ -63,7 +63,6 @@ export const contactoCtaImageUrl = `${ASSETS_BASE_URL}/contacto-cta.jpg`;
 // una, contra 3 MB del JPG original).
 export const trayectoriaImageUrl = `${ASSETS_BASE_URL}/empresa/trayectoria.webp`;
 export const experienciaImageUrl = `${ASSETS_BASE_URL}/empresa/experiencia.webp`;
-export const alianzasImageUrl = `${ASSETS_BASE_URL}/empresa/alianzas.webp`;
 
 // La frase de confianza (+30 años) vivía acá; se movió a
 // messages/{locale}.json (namespace "brandStrip", clave "confianza") para

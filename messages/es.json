@@ -36,7 +36,7 @@
   },
   "vehiculosUsados": {
     "titulo": "Vehículos Usados",
-    "texto": "Unidades seleccionadas con historial comprobable y documentación al día, listas para entregar. También compramos su vehículo y coordinamos la importación del modelo nuevo que busque.",
+    "texto": "Estas son las unidades disponibles hoy. Si no encuentra la que busca, la conseguimos por usted: la traemos del exterior a su gusto o lo ayudamos a encontrar un vehículo nuevo aquí en Ecuador.",
     "cta": "Ver inventario completo"
   },
   "servicios": {
@@ -154,8 +154,7 @@
     "titulo": "Sobre Nosotros",
     "intro": "Somos una empresa ecuatoriana con más de 30 años de experiencia brindando soluciones y asesoría especializada a clientes nacionales e internacionales. Nuestro compromiso se basa en la confianza, la atención personalizada y el conocimiento de cada proceso, ofreciendo un servicio profesional de principio a fin.",
     "historiaTitulo": "Una trayectoria construida con confianza",
-    "historiaTexto": "Tres décadas de trabajo no se construyen con una sola operación bien hecha, sino con muchas, una detrás de otra. En ese tiempo el servicio fue creciendo desde la compra y venta de vehículos hasta cubrir todo lo que la rodea —importación, matriculación, seguros, reexportación—, y las relaciones que se formaron en el camino son las que hoy sostienen el negocio.",
-    "razonesTitulo": "¿Por qué confiar en nosotros?",
+    "historiaTexto": "Durante más de tres décadas hemos acompañado a nuestros clientes en cada etapa del proceso, adaptándonos a sus necesidades y ampliando nuestros servicios para ofrecer soluciones cada vez más completas. Nuestra experiencia no solo se refleja en lo que hacemos, sino en las relaciones que hemos construido y mantenido a lo largo de los años. Hoy, esa trayectoria es la base de un servicio pensado para responder con seguridad, cercanía y profesionalismo.",
     "razones": {
       "experiencia": {
         "titulo": "Experiencia",
@@ -179,8 +178,7 @@
     "marcasTitulo": "Alianzas que fortalecen nuestro servicio",
     "fotoAlt": "Oficina de Diplomatic Automobile Trading",
     "historiaFotoAlt": "Documentos antiguos atados con cordel sobre un escritorio de madera, iluminados por una lámpara",
-    "experienciaFotoAlt": "Sedán oscuro estacionado de noche frente a la entrada con columnas de un edificio institucional",
-    "alianzasFotoAlt": "Dos personas de traje estrechándose la mano en un vestíbulo con luz cálida"
+    "experienciaFotoAlt": "Sedán oscuro estacionado de noche frente a la entrada con columnas de un edificio institucional"
   },
   "inventario": {
     "titulo": "Inventario",
