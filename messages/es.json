@@ -36,7 +36,8 @@
   },
   "vehiculosUsados": {
     "titulo": "Vehículos Usados",
-    "texto": "Estas son las unidades disponibles hoy. Si no encuentra la que busca, la conseguimos por usted: la traemos del exterior a su gusto o lo ayudamos a encontrar un vehículo nuevo aquí en Ecuador.",
+    "texto": "Descubra nuestro inventario de vehículos usados disponibles para usted.",
+    "textoSecundario": "¿Busca un vehículo en particular? Podemos encontrarlo por usted, ya sea en Ecuador o en el exterior, y encargarnos de traerlo hasta usted.",
     "cta": "Ver inventario completo"
   },
   "servicios": {

@@ -27,6 +27,10 @@ export function VehiculosUsados({ autos }: { autos: AutoPublico[] }) {
           <p className="mt-6 max-w-2xl text-base leading-[1.8] text-muted-foreground">
             {t("texto")}
           </p>
+
+          <p className="mt-4 max-w-2xl text-base leading-[1.8] text-muted-foreground">
+            {t("textoSecundario")}
+          </p>
         </Reveal>
 
         <ul className="mt-10 grid grid-cols-1 gap-5 sm:mt-14 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">

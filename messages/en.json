@@ -36,7 +36,8 @@
   },
   "vehiculosUsados": {
     "titulo": "Used Vehicles",
-    "texto": "These are the units available today. If you do not find the one you are looking for, we source it for you: we bring it in from abroad exactly as you want it, or we help you find a new vehicle here in Ecuador.",
+    "texto": "Discover our inventory of used vehicles available for you.",
+    "textoSecundario": "Looking for a particular vehicle? We can find it for you, whether in Ecuador or abroad, and take care of bringing it to you.",
     "cta": "View full inventory"
   },
   "servicios": {
