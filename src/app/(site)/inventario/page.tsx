@@ -30,8 +30,12 @@ export default async function InventarioPage() {
   return (
     <div className="mx-auto max-w-site px-5 py-14 sm:px-8 sm:py-32">
       <SectionHeading as="h1">{t("titulo")}</SectionHeading>
-      <p className="mt-6 max-w-lg text-base leading-[1.8] text-muted-foreground sm:text-lg">
+      <p className="mt-6 max-w-2xl text-base leading-[1.8] text-muted-foreground sm:text-lg">
         {t("texto")}
+      </p>
+
+      <p className="mt-4 max-w-2xl text-base leading-[1.8] text-muted-foreground sm:text-lg">
+        {t("textoSecundario")}
       </p>
 
       {autos.length === 0 ? (

@@ -183,7 +183,8 @@
   },
   "inventario": {
     "titulo": "Inventario",
-    "texto": "Unidades disponibles hoy. Si busca un modelo que no aparece en la lista, podemos importarlo a pedido.",
+    "texto": "Descubra nuestro inventario de vehículos usados disponibles para usted.",
+    "textoSecundario": "¿Busca un vehículo en particular? Podemos encontrarlo por usted, ya sea en Ecuador o en el exterior, y encargarnos de traerlo hasta usted.",
     "vacioTexto": "No hay vehículos publicados por el momento.",
     "vacioLink": "Escríbanos",
     "vacioFin": "y le avisamos apenas ingrese uno."

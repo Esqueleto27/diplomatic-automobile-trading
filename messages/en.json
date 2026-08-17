@@ -183,7 +183,8 @@
   },
   "inventario": {
     "titulo": "Inventory",
-    "texto": "Units available today. If you're looking for a model that isn't listed, we can import it on request.",
+    "texto": "Discover our inventory of used vehicles available for you.",
+    "textoSecundario": "Looking for a particular vehicle? We can find it for you, whether in Ecuador or abroad, and take care of bringing it to you.",
     "vacioTexto": "No vehicles are published at the moment.",
     "vacioLink": "Write to us",
     "vacioFin": "and we'll let you know as soon as one is listed."
