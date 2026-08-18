@@ -79,5 +79,20 @@
 		// Enable image optimization
 		// see https://opennext.js.org/cloudflare/howtos/image
 		"binding": "IMAGES"
-	}
+	},
+	"send_email": [
+		{
+			// Notificación por correo cada vez que alguien completa el
+			// formulario de /contacto (ver enviarMensajeContacto en
+			// src/server/actions/contacto.ts). El mensaje sigue guardándose
+			// en ContactMessage igual que antes — esto es un aviso extra,
+			// no reemplaza el panel /admin/mensajes. La dirección tiene que
+			// estar verificada como destino en Cloudflare Email Routing
+			// (`wrangler email routing addresses create <correo>`) antes de
+			// que el envío funcione — si no, falla en silencio (el mensaje
+			// igual queda guardado, ver notificarNuevoMensaje).
+			"name": "EMAIL",
+			"destination_address": "diplomatic.trading@hotmail.com"
+		}
+	]
 }
