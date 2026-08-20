@@ -206,28 +206,21 @@ export type Servicio = {
   icono: LucideIcon;
   // Foto del servicio (webp, en R2 sitio/servicios/) — se usa tanto en la
   // card de descubrimiento como en su sección dentro de /servicios.
-  // 2026-08-20 v5: quinta pasada, todas generadas con IA (Higgsfield,
-  // nano_banana_pro) sobre un mismo "mundo" — hora azul del atardecer
-  // (cielo índigo, luces prácticas doradas), gama cinematográfica
-  // desaturada, para que las 9 se lean como parte de un mismo set en vez
-  // de fotos sueltas.
   //
-  // La categoría de mayor riesgo de marca real siguió siendo cualquier
-  // plano de auto con la parrilla/faros visibles — el modelo reproduce
-  // diseños reales reconocibles (Rolls-Royce Ghost, Range Rover, Lucid
-  // Air, Mercedes-Maybach) pese a pedir explícitamente "unbranded,
-  // generic, no real manufacturer cues". Mitigaciones que sí funcionaron:
-  // 1) planos de detalle (rueda/guardabarros) que sacan la parrilla y los
-  //    faros del cuadro — ojo igual con el texto real de neumático
-  //    (Michelin, Continental salieron legibles en dos intentos antes de
-  //    dar con uno sin texto visible);
-  // 2) para "importación de mercaderías", abandonar la idea de un SUV de
-  //    lujo (3/3 intentos salieron Range Rover) y resolverlo con un objeto
-  //    sin auto (baúles de viaje de cuero en un muelle);
-  // 3) para "blindaje", un plano donde el auto queda mayormente oscuro/
-  //    fuera de foco detrás de la persona trabajando.
-  // Cuando el cliente entregue fotos propias, reemplazar el archivo en R2
-  // con el mismo nombre y no hace falta tocar este archivo.
+  // Origen de las fotos: 7 de las 9 ya son fotos reales entregadas por el
+  // cliente (reemplazaron a las generadas con IA el 2026-08-20, subidas a
+  // R2 con el mismo key — este archivo no se tocó para ese cambio). Las 2
+  // que siguen generadas con IA (importacion-vehiculos y seguro-vehiculos)
+  // conservan el tratamiento de la quinta pasada de Higgsfield
+  // (nano_banana_pro): hora azul del atardecer, gama cinematográfica
+  // desaturada, planos que evitan parrilla/faros para no reproducir diseños
+  // reales reconocibles (Rolls-Royce Ghost, Range Rover, Lucid Air,
+  // Mercedes-Maybach) pese a pedir explícitamente "unbranded, generic, no
+  // real manufacturer cues". Mitigaciones que sí funcionaron: planos de
+  // detalle (rueda/guardabarros), objetos sin auto, o el auto mayormente
+  // oscuro/fuera de foco. Cuando el cliente entregue la foto que falta,
+  // reemplazar el archivo en R2 con el mismo nombre y no hace falta tocar
+  // este archivo.
   imagen?: string;
   /**
    * Los seguros los atiende una segunda línea telefónica del negocio: su
@@ -262,19 +255,15 @@ export const servicios: Servicio[] = [
   {
     slug: "importacion-mercaderias",
     icono: Container,
-    // 2026-08-20 v5: baúles de viaje de cuero apilados en un muelle
-    // privado a la hora azul, con un farol encendido — se abandonó la
-    // idea de un auto/SUV de lujo (3/3 intentos salieron Range Rover
-    // real, ver nota en `imagen` arriba) y se resolvió con un objeto que
-    // igual comunica "sus pertenencias llegando con estilo".
+    // Foto real entregada por el cliente (reemplazó a la generada con IA
+    // de baúles de viaje en un muelle — ver nota en `imagen` del type).
     imagen: `${ASSETS_BASE_URL}/servicios/importacion-mercaderias.webp`,
   },
   {
     slug: "matriculacion-vehicular",
     icono: BadgeCheck,
-    // 2026-08-20 v5: portafolio de cuero con documentos, pluma dorada y
-    // llave de auto sobre un escritorio de madera oscura, luz de
-    // lámpara cálida contra la ventana a la hora azul.
+    // Foto real entregada por el cliente (reemplazó a la generada con IA
+    // de documentos sobre un escritorio — ver nota en `imagen` del type).
     imagen: `${ASSETS_BASE_URL}/servicios/matriculacion-vehicular.webp`,
   },
   {
@@ -285,10 +274,8 @@ export const servicios: Servicio[] = [
     // procesos y momentos distintos para el cliente.
     slug: "reexportacion-vehiculos",
     icono: PlaneTakeoff,
-    // Única foto de servicio sin auto en cuadro. 2026-08-20 v5: buque
-    // portacontenedores saliendo de puerto a la hora azul, luces cálidas
-    // en el casco — mismo concepto que versiones anteriores, sin naviera
-    // ni auto.
+    // Foto real entregada por el cliente (reemplazó a la generada con IA
+    // del buque en puerto — ver nota en `imagen` del type).
     imagen: `${ASSETS_BASE_URL}/servicios/reexportacion-vehiculos.webp`,
   },
   {
@@ -297,11 +284,8 @@ export const servicios: Servicio[] = [
     // compra blindaje como una póliza, es una intervención sobre el auto.
     slug: "blindaje-vehiculos",
     icono: ShieldHalf,
-    // 2026-08-20 v5: técnico instalando un panel de blindaje en la puerta
-    // de un sedán, taller en penumbra con una sola luz de trabajo cálida
-    // — a pedido explícito del cliente ("una persona trabajando en los
-    // vehículos, como poniendo eso"), en vez del soldador genérico de la
-    // v4 que no mostraba un auto de por medio.
+    // Foto real entregada por el cliente (reemplazó a la generada con IA
+    // del técnico instalando el blindaje — ver nota en `imagen` del type).
     imagen: `${ASSETS_BASE_URL}/servicios/blindaje-vehiculos.webp`,
   },
   {
@@ -317,19 +301,16 @@ export const servicios: Servicio[] = [
     slug: "seguro-viajes",
     icono: Plane,
     lineaSeguros: true,
-    // 2026-08-20 v5: viajero con maleta y sombrero frente al ventanal de
-    // una terminal aérea a la hora azul, avión sin librea visible en la
-    // pista — a pedido del cliente ("una persona en un aeropuerto"), en
-    // vez del arco de piedra genérico de la v4.
+    // Foto real entregada por el cliente (reemplazó a la generada con IA
+    // del viajero en la terminal aérea — ver nota en `imagen` del type).
     imagen: `${ASSETS_BASE_URL}/servicios/seguro-viajes.webp`,
   },
   {
     slug: "seguro-salud",
     icono: HeartPulse,
     lineaSeguros: true,
-    // 2026-08-20 v5: mismo concepto (mano con estetoscopio), con un
-    // resplandor índigo de fondo a través de una ventana de clínica en
-    // vez del negro neutro de la v4, para que combine con el resto.
+    // Foto real entregada por el cliente (reemplazó a la generada con IA
+    // de la mano con estetoscopio — ver nota en `imagen` del type).
     imagen: `${ASSETS_BASE_URL}/servicios/seguro-salud.webp`,
   },
   {
@@ -343,11 +324,9 @@ export const servicios: Servicio[] = [
     // aparezca en el home, avisar para reordenar el array.
     slug: "importacion-discapacidad",
     icono: Accessibility,
-    // 2026-08-20 v5: auto sin marca de espaldas en una calle a la hora
-    // azul, con el símbolo internacional de accesibilidad en el vidrio
-    // trasero — a pedido explícito del cliente ("un auto de espaldas y
-    // en el vidrio poner el símbolo de discapacitados"), en vez de la
-    // rampa/elevador de la v4.
+    // Foto real entregada por el cliente (reemplazó a la generada con IA
+    // del auto con el símbolo de accesibilidad — ver nota en `imagen` del
+    // type).
     imagen: `${ASSETS_BASE_URL}/servicios/importacion-discapacidad.webp`,
   },
 ];
