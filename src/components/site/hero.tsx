@@ -35,42 +35,49 @@ export function Hero() {
         className="absolute inset-x-0 bottom-0 -z-10 h-32 bg-gradient-to-t from-background to-transparent"
       />
 
-      {/* Una sola columna, título + tagline + botones apilados — el cliente
-          probó la versión en dos columnas (título a la izquierda, tagline y
-          botones a la derecha) y pidió volver a tenerlo todo junto, debajo
-          del título. Se mantiene igual el anclaje abajo (`items-end`, ver
-          nota más abajo). */}
+      {/* Dos columnas desde `sm:`: título + tagline juntos a la izquierda,
+          botones solos a la derecha — versión final tras dos rondas de
+          feedback. La primera versión en dos columnas separaba el tagline
+          de los botones (tagline quedaba con los botones a la derecha); acá
+          el tagline vuelve con el título, y sólo los botones quedan del
+          otro lado. En móvil todo se apila igual que siempre, sin columnas
+          (no hay ancho para dos). */}
       <div className="mx-auto flex min-h-[100svh] max-w-site items-end px-5 pb-14 pt-24 sm:min-h-[clamp(34rem,84vh,52rem)] sm:pb-16 sm:px-8 sm:pt-24">
-        <div className="max-w-xl">
-          {/* Breakpoint móvil propio, no el mismo clamp que desktop: en
-              ≤640px el título+párrafo+dos botones competían por muy poco
-              alto de pantalla (feedback directo del cliente sobre un
-              iPhone SE) — acá el tamaño/interlineado bajan de forma fija,
-              desde sm: se recupera el clamp original sin tocar nada de
-              tablet/desktop para arriba. */}
-          <h1 className="animate-fade-up-in font-display text-[2.35rem] font-light uppercase leading-[1.15] tracking-[0.01em] sm:text-[clamp(2.2rem,6vw,4.2rem)] sm:leading-[0.88] sm:tracking-[0.02em]">
-            Diplomatic
-            <br />
-            Automobile
-            <br />
-            Trading
-          </h1>
+        <div className="flex w-full flex-col gap-8 sm:flex-row sm:items-end sm:justify-between sm:gap-12">
+          <div className="max-w-xl">
+            {/* Breakpoint móvil propio, no el mismo clamp que desktop: en
+                ≤640px el título+párrafo+dos botones competían por muy poco
+                alto de pantalla (feedback directo del cliente sobre un
+                iPhone SE) — acá el tamaño/interlineado bajan de forma fija,
+                desde sm: se recupera el clamp original sin tocar nada de
+                tablet/desktop para arriba. */}
+            <h1 className="animate-fade-up-in font-display text-[2.35rem] font-light uppercase leading-[1.15] tracking-[0.01em] sm:text-[clamp(2.2rem,5.5vw,4rem)] sm:leading-[0.88] sm:tracking-[0.02em]">
+              Diplomatic
+              <br />
+              Automobile
+              <br />
+              Trading
+            </h1>
 
-          {/* A pedido del cliente, el mismo texto en inglés se usa en las
-              dos versiones del sitio (ES y EN) — no es un olvido de
-              traducción, es la frase elegida tal cual para ambos idiomas. */}
-          <p
-            style={{ animationDelay: "0.1s" }}
-            className="animate-fade-up-in mt-5 max-w-[22rem] text-[1.0625rem] leading-[1.55] tracking-wide text-foreground sm:mt-6 sm:max-w-xl sm:text-[1.5rem] sm:leading-relaxed"
-          >
-            {t("tagline")}
-          </p>
+            {/* A pedido del cliente, el mismo texto en inglés se usa en las
+                dos versiones del sitio (ES y EN) — no es un olvido de
+                traducción, es la frase elegida tal cual para ambos idiomas. */}
+            <p
+              style={{ animationDelay: "0.1s" }}
+              className="animate-fade-up-in mt-5 max-w-[22rem] text-[1.0625rem] leading-[1.55] tracking-wide text-foreground sm:mt-6 sm:max-w-md sm:text-[1.375rem] sm:leading-relaxed"
+            >
+              {t("tagline")}
+            </p>
+          </div>
 
           {/* gap-3 (12px) en móvil, no gap-2 (8px): más separación entre
-              botones para que se toquen cómodos sin errar de uno a otro. */}
+              botones para que se toquen cómodos sin errar de uno a otro. En
+              `sm:` quedan en su propia columna a la derecha, apilados
+              (`sm:flex-col`, no `sm:flex-row`: lado a lado en una columna
+              angosta se apretaban demasiado). */}
           <div
             style={{ animationDelay: "0.2s" }}
-            className="animate-fade-up-in mt-7 flex flex-col gap-3 sm:mt-9 sm:flex-row sm:flex-wrap sm:gap-4"
+            className="animate-fade-up-in flex flex-col gap-3 sm:w-auto sm:shrink-0 sm:gap-4"
           >
             <SiteButton
               href="/servicios"
