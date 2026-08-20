@@ -206,11 +206,16 @@ export type Servicio = {
   icono: LucideIcon;
   // Foto del servicio (webp, en R2 sitio/servicios/) — se usa tanto en la
   // card de descubrimiento como en su sección dentro de /servicios.
-  // Generadas con IA (Higgsfield/z_image) como placeholder distintivo por
-  // servicio — genéricas a propósito (sin autos de marca reconocible, sin
-  // texto legible, sin logos) para evitar cualquier problema de marca
-  // registrada. Cuando el cliente entregue fotos propias, reemplazar el
-  // archivo en R2 con el mismo nombre y no hace falta tocar este archivo.
+  // 2026-08-20: reemplazadas las 9 por fotos reales libres de derechos
+  // (Unsplash License / Pexels License, uso comercial sin atribución) — el
+  // cliente pidió sacar las generadas con IA porque "se veía horrible".
+  // Elegidas con el mismo criterio que las de IA: sin logos ni texto legible
+  // de marcas reales (auto, naviera, etc.) — varias candidatas se
+  // descartaron por eso (autos con insignia visible en un ferry, un buque
+  // MSC/Maersk con el nombre pintado en el casco, un llavero con el escudo
+  // de Porsche, un auto a escala con forma de Mercedes-Benz reconocible).
+  // Cuando el cliente entregue fotos propias, reemplazar el archivo en R2
+  // con el mismo nombre y no hace falta tocar este archivo.
   imagen?: string;
   /**
    * Los seguros los atiende una segunda línea telefónica del negocio: su
@@ -245,11 +250,7 @@ export const servicios: Servicio[] = [
   {
     slug: "matriculacion-vehicular",
     icono: BadgeCheck,
-    // Reemplazada: la foto original (lámpara de escritorio) no comunicaba
-    // nada del servicio. Ahora es un sello siendo estampado sobre un
-    // documento junto a una llave de auto — sin texto legible, sin sello
-    // gubernamental real, sin marcas.
-    imagen: `${ASSETS_BASE_URL}/servicios/matriculacion-vehicular.png`,
+    imagen: `${ASSETS_BASE_URL}/servicios/matriculacion-vehicular.webp`,
   },
   {
     // Contraparte de "importacion-vehiculos": ese servicio es sólo para
@@ -259,11 +260,9 @@ export const servicios: Servicio[] = [
     // procesos y momentos distintos para el cliente.
     slug: "reexportacion-vehiculos",
     icono: PlaneTakeoff,
-    // Única foto de servicio sin auto en cuadro: los dos intentos previos
-    // (auto en el puerto, auto bajo funda) salieron con parrilla y emblema
-    // reconocibles pese a pedir lo contrario en el prompt, así que se
-    // resolvió con el buque RoRo y la rampa de carga — comunica lo mismo
-    // (el vehículo sale del país) sin riesgo de marca registrada.
+    // Única foto de servicio sin auto en cuadro: grúas de puerto a
+    // contraluz (siluetas, sin naviera legible) — comunica lo mismo (el
+    // vehículo sale del país por puerto) sin mostrar ningún auto ni marca.
     imagen: `${ASSETS_BASE_URL}/servicios/reexportacion-vehiculos.webp`,
   },
   {
