@@ -44,12 +44,7 @@ export const siteConfig = {
 // ASSETS_BASE_URL: es estable y cambiarla ya implica tocar código.
 export const siteUrl = "https://diplomatic-trading.com";
 
-// PROVISORIO: foto nueva del hero (showroom) todavía sin subir a R2 — se
-// sirve desde public/hero.jpg. Al subirla al bucket (key `sitio/hero.jpg`),
-// volver a `${ASSETS_BASE_URL}/hero.jpg` y borrar el archivo de public/.
-// Es ruta relativa, no absoluta: el metadataBase de src/app/layout.tsx la
-// resuelve a URL absoluta en los tags de Open Graph.
-export const heroImageUrl = "/hero.jpg";
+export const heroImageUrl = `${ASSETS_BASE_URL}/hero.jpg`;
 export const logoUrl = `${ASSETS_BASE_URL}/logo/logo-300x74.png`;
 // Foto real de la oficina (no generada), usada en /empresa.
 export const oficinaImageUrl = `${ASSETS_BASE_URL}/empresa/oficina.png`;
