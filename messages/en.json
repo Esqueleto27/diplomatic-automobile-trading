@@ -29,15 +29,15 @@
     "confianza": "Over 30 years advising embassies, international organizations, diplomatic officials and technical assistance staff on the purchase and sale of tax-exempt vehicles in Ecuador."
   },
   "oficinaTrust": {
-    "titulo": "Over 30 years building trust",
+    "titulo": "Over 30 years of experience",
     "texto": "We are with you throughout the entire process, from choosing your vehicle to handling the paperwork and the delivery. Our team is at your disposal to offer close, transparent and personalized attention, making every step simpler and more secure.",
     "cta": "Learn about us",
     "fotoAlt": "Diplomatic Automobile Trading office"
   },
   "vehiculosUsados": {
     "titulo": "Used Vehicles",
-    "texto": "Discover our inventory of used vehicles available for you.",
-    "textoSecundario": "Looking for a particular vehicle? We can find it for you, whether in Ecuador or abroad, and take care of bringing it to you.",
+    "texto": "Used vehicles from diplomats completing their assignment in Ecuador, with paperwork in order and ready for transfer.",
+    "textoSecundario": "Looking for a particular vehicle, new or used? We can find it for you, whether in Ecuador or abroad, and take care of bringing it to you.",
     "cta": "View full inventory"
   },
   "servicios": {
@@ -184,8 +184,8 @@
   },
   "inventario": {
     "titulo": "Inventory",
-    "texto": "Discover our inventory of used vehicles available for you.",
-    "textoSecundario": "Looking for a particular vehicle? We can find it for you, whether in Ecuador or abroad, and take care of bringing it to you.",
+    "texto": "Used vehicles from diplomats completing their assignment in Ecuador, with paperwork in order and ready for transfer.",
+    "textoSecundario": "Looking for a particular vehicle, new or used? We can find it for you, whether in Ecuador or abroad, and take care of bringing it to you.",
     "vacioTexto": "No vehicles are published at the moment.",
     "vacioLink": "Write to us",
     "vacioFin": "and we'll let you know as soon as one is listed."

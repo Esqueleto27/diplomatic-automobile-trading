@@ -29,15 +29,15 @@
     "confianza": "Más de 30 años asesorando a embajadas, organismos internacionales, funcionarios diplomáticos y de asistencia técnica en la compra y venta de vehículos exonerados en Ecuador."
   },
   "oficinaTrust": {
-    "titulo": "Más de 30 años construyendo confianza",
+    "titulo": "Una experiencia de más de 30 años",
     "texto": "Le acompañamos durante todo el proceso, desde la elección de su vehículo hasta la gestión de documentos y la entrega. Nuestro equipo está a su disposición para brindarle una atención cercana, transparente y personalizada, haciendo que cada paso sea más sencillo y seguro.",
     "cta": "Conocer la empresa",
     "fotoAlt": "Oficina de Diplomatic Automobile Trading"
   },
   "vehiculosUsados": {
     "titulo": "Vehículos Usados",
-    "texto": "Descubra nuestro inventario de vehículos usados disponibles para usted.",
-    "textoSecundario": "¿Busca un vehículo en particular? Podemos encontrarlo por usted, ya sea en Ecuador o en el exterior, y encargarnos de traerlo hasta usted.",
+    "texto": "Vehículos usados de diplomáticos que culminan su misión en Ecuador, con documentación en regla y listos para transferencia.",
+    "textoSecundario": "¿Busca un vehículo en particular, nuevo o usado? Podemos encontrarlo por usted, ya sea en Ecuador o en el exterior, y encargarnos de traerlo hasta usted.",
     "cta": "Ver inventario completo"
   },
   "servicios": {
@@ -184,8 +184,8 @@
   },
   "inventario": {
     "titulo": "Inventario",
-    "texto": "Descubra nuestro inventario de vehículos usados disponibles para usted.",
-    "textoSecundario": "¿Busca un vehículo en particular? Podemos encontrarlo por usted, ya sea en Ecuador o en el exterior, y encargarnos de traerlo hasta usted.",
+    "texto": "Vehículos usados de diplomáticos que culminan su misión en Ecuador, con documentación en regla y listos para transferencia.",
+    "textoSecundario": "¿Busca un vehículo en particular, nuevo o usado? Podemos encontrarlo por usted, ya sea en Ecuador o en el exterior, y encargarnos de traerlo hasta usted.",
     "vacioTexto": "No hay vehículos publicados por el momento.",
     "vacioLink": "Escríbanos",
     "vacioFin": "y le avisamos apenas ingrese uno."
