@@ -248,8 +248,13 @@ export const servicios: Servicio[] = [
   {
     slug: "importacion-mercaderias",
     icono: Container,
-    // 2026-08-20 v2: reemplaza las cajas de cartón (muy plana/aburrida a
-    // ojos del cliente) por un depósito de pallets envueltos a contraluz.
+    // 2026-08-20 v3: depósito de pallets envueltos a contraluz, oscurecida
+    // a mano (brightness/saturation + velo negro, ver
+    // scripts/fetch-servicios-8 de esa sesión) — el tercio superior de
+    // ServiceCard queda fuera del degradado oscuro (ver service-card.tsx),
+    // así que una foto de día ahí se ve más clara que el resto de las
+    // tarjetas. Mismo criterio para reexportacion/blindaje/discapacidad
+    // de abajo: todas las fotos de /servicios deben leerse oscuras arriba.
     imagen: `${ASSETS_BASE_URL}/servicios/importacion-mercaderias.webp`,
   },
   {
@@ -265,10 +270,12 @@ export const servicios: Servicio[] = [
     // procesos y momentos distintos para el cliente.
     slug: "reexportacion-vehiculos",
     icono: PlaneTakeoff,
-    // Única foto de servicio sin auto en cuadro. 2026-08-20 v2: de grúas
-    // de puerto en silueta a una vista aérea de un buque portacontenedores
-    // en altamar (sin naviera legible) — más "salida por barco", pedido
-    // del cliente tras ver la v1 muy abstracta.
+    // Única foto de servicio sin auto en cuadro. 2026-08-20 v3: buque
+    // portacontenedores de noche bajo un cielo estrellado — la v2 (vista
+    // aérea de día, agua turquesa) resolvía lo de "poco relacionado" pero
+    // quedaba muy clara arriba de la tarjeta (ver nota en
+    // importacion-mercaderias); esta versión es oscura y sigue sin mostrar
+    // naviera ni auto.
     imagen: `${ASSETS_BASE_URL}/servicios/reexportacion-vehiculos.webp`,
   },
   {
@@ -277,9 +284,10 @@ export const servicios: Servicio[] = [
     // compra blindaje como una póliza, es una intervención sobre el auto.
     slug: "blindaje-vehiculos",
     icono: ShieldHalf,
-    // 2026-08-20 v2: de un mecánico haciendo cambio de aceite (no
-    // comunicaba "blindaje") a alguien reforzando una placa metálica con
-    // amoladora — más cercano a una intervención de blindaje real.
+    // 2026-08-20 v3: foto en blanco y negro de un soldador con chispas
+    // (taller oscuro) — la v2 (amoladora sobre una placa, luz de día en
+    // nave industrial) ya comunicaba "blindaje" pero quedaba clara arriba
+    // de la tarjeta; esta es oscura de por sí, sin retoque.
     imagen: `${ASSETS_BASE_URL}/servicios/blindaje-vehiculos.webp`,
   },
   {
@@ -311,10 +319,9 @@ export const servicios: Servicio[] = [
     // aparezca en el home, avisar para reordenar el array.
     slug: "importacion-discapacidad",
     icono: Accessibility,
-    // 2026-08-20 v2: de sólo el símbolo de accesibilidad en el piso (muy
-    // abstracto) a una rampa/elevador real para silla de ruedas en la
-    // parte trasera de un vehículo — recortada de la foto original para
-    // sacar un cartel de fondo en chino que no venía al caso.
+    // 2026-08-20 v3: la misma rampa/elevador de la v2 (recortada para
+    // sacar un cartel de fondo en chino), oscurecida a mano igual que
+    // importacion-mercaderias — de día quedaba clara arriba de la tarjeta.
     imagen: `${ASSETS_BASE_URL}/servicios/importacion-discapacidad.webp`,
   },
 ];
