@@ -240,11 +240,16 @@ export const servicios: Servicio[] = [
   {
     slug: "importacion-vehiculos",
     icono: Truck,
+    // 2026-08-20 v2: la primera foto (un parqueo aéreo) no convencía al
+    // cliente por poco relacionada — ahora un camión de carga a contraluz
+    // en ruta, sin placas ni logo legibles.
     imagen: `${ASSETS_BASE_URL}/servicios/importacion-vehiculos.webp`,
   },
   {
     slug: "importacion-mercaderias",
     icono: Container,
+    // 2026-08-20 v2: reemplaza las cajas de cartón (muy plana/aburrida a
+    // ojos del cliente) por un depósito de pallets envueltos a contraluz.
     imagen: `${ASSETS_BASE_URL}/servicios/importacion-mercaderias.webp`,
   },
   {
@@ -260,9 +265,10 @@ export const servicios: Servicio[] = [
     // procesos y momentos distintos para el cliente.
     slug: "reexportacion-vehiculos",
     icono: PlaneTakeoff,
-    // Única foto de servicio sin auto en cuadro: grúas de puerto a
-    // contraluz (siluetas, sin naviera legible) — comunica lo mismo (el
-    // vehículo sale del país por puerto) sin mostrar ningún auto ni marca.
+    // Única foto de servicio sin auto en cuadro. 2026-08-20 v2: de grúas
+    // de puerto en silueta a una vista aérea de un buque portacontenedores
+    // en altamar (sin naviera legible) — más "salida por barco", pedido
+    // del cliente tras ver la v1 muy abstracta.
     imagen: `${ASSETS_BASE_URL}/servicios/reexportacion-vehiculos.webp`,
   },
   {
@@ -271,6 +277,9 @@ export const servicios: Servicio[] = [
     // compra blindaje como una póliza, es una intervención sobre el auto.
     slug: "blindaje-vehiculos",
     icono: ShieldHalf,
+    // 2026-08-20 v2: de un mecánico haciendo cambio de aceite (no
+    // comunicaba "blindaje") a alguien reforzando una placa metálica con
+    // amoladora — más cercano a una intervención de blindaje real.
     imagen: `${ASSETS_BASE_URL}/servicios/blindaje-vehiculos.webp`,
   },
   {
@@ -302,6 +311,10 @@ export const servicios: Servicio[] = [
     // aparezca en el home, avisar para reordenar el array.
     slug: "importacion-discapacidad",
     icono: Accessibility,
+    // 2026-08-20 v2: de sólo el símbolo de accesibilidad en el piso (muy
+    // abstracto) a una rampa/elevador real para silla de ruedas en la
+    // parte trasera de un vehículo — recortada de la foto original para
+    // sacar un cartel de fondo en chino que no venía al caso.
     imagen: `${ASSETS_BASE_URL}/servicios/importacion-discapacidad.webp`,
   },
 ];
