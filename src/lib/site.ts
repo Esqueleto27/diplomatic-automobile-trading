@@ -206,16 +206,19 @@ export type Servicio = {
   icono: LucideIcon;
   // Foto del servicio (webp, en R2 sitio/servicios/) — se usa tanto en la
   // card de descubrimiento como en su sección dentro de /servicios.
-  // 2026-08-20: reemplazadas las 9 por fotos reales libres de derechos
-  // (Unsplash License / Pexels License, uso comercial sin atribución) — el
-  // cliente pidió sacar las generadas con IA porque "se veía horrible".
-  // Elegidas con el mismo criterio que las de IA: sin logos ni texto legible
-  // de marcas reales (auto, naviera, etc.) — varias candidatas se
-  // descartaron por eso (autos con insignia visible en un ferry, un buque
-  // MSC/Maersk con el nombre pintado en el casco, un llavero con el escudo
-  // de Porsche, un auto a escala con forma de Mercedes-Benz reconocible).
-  // Cuando el cliente entregue fotos propias, reemplazar el archivo en R2
-  // con el mismo nombre y no hace falta tocar este archivo.
+  // 2026-08-20 v4: vuelta a fotos generadas con IA (Higgsfield,
+  // nano_banana_pro) — las v2/v3 con fotos reales de stock (Unsplash/
+  // Pexels) tampoco convencieron al cliente. El prompt de cada una pide
+  // explícitamente estilo cinematográfico oscuro/moody (mismo tono en las
+  // 9, para que combinen entre sí) y "no logos, no brand names, no license
+  // plates, no text". Igual hay que revisar cada resultado a ojo: el
+  // primer intento de "importacion-vehiculos" salió con un Rolls-Royce
+  // Ghost clarísimo pese al prompt, y de 4 variantes del reintento (auto
+  // genérico, sin marca) una tenía el logo de Mazda bien visible y otra
+  // una silueta tipo Porsche — se descartaron ambas, se usó la más
+  // genérica de las 4. Cuando el cliente entregue fotos propias,
+  // reemplazar el archivo en R2 con el mismo nombre y no hace falta tocar
+  // este archivo.
   imagen?: string;
   /**
    * Los seguros los atiende una segunda línea telefónica del negocio: su
@@ -240,26 +243,26 @@ export const servicios: Servicio[] = [
   {
     slug: "importacion-vehiculos",
     icono: Truck,
-    // 2026-08-20 v2: la primera foto (un parqueo aéreo) no convencía al
-    // cliente por poco relacionada — ahora un camión de carga a contraluz
-    // en ruta, sin placas ni logo legibles.
+    // 2026-08-20 v4: SUV genérico subiendo a una plataforma de transporte
+    // al atardecer, generado con IA — ver nota de auditoría de marca en el
+    // comentario de `imagen` en el type Servicio de arriba.
     imagen: `${ASSETS_BASE_URL}/servicios/importacion-vehiculos.webp`,
   },
   {
     slug: "importacion-mercaderias",
     icono: Container,
-    // 2026-08-20 v3: depósito de pallets envueltos a contraluz, oscurecida
-    // a mano (brightness/saturation + velo negro, ver
-    // scripts/fetch-servicios-8 de esa sesión) — el tercio superior de
-    // ServiceCard queda fuera del degradado oscuro (ver service-card.tsx),
-    // así que una foto de día ahí se ve más clara que el resto de las
-    // tarjetas. Mismo criterio para reexportacion/blindaje/discapacidad
-    // de abajo: todas las fotos de /servicios deben leerse oscuras arriba.
+    // 2026-08-20 v4: pallets envueltos en un depósito en penumbra, un solo
+    // haz de luz cálida entrando por una ventana — generado con IA, oscuro
+    // por diseño del prompt (no necesitó retoque de brillo como la v3).
     imagen: `${ASSETS_BASE_URL}/servicios/importacion-mercaderias.webp`,
   },
   {
     slug: "matriculacion-vehicular",
     icono: BadgeCheck,
+    // 2026-08-20 v4: mano firmando un documento con una llave de auto
+    // desenfocada al frente, generada con IA — reemplaza la foto real de
+    // stock (mismo encuadre conceptual, pero sin depender de una foto de
+    // terceros).
     imagen: `${ASSETS_BASE_URL}/servicios/matriculacion-vehicular.webp`,
   },
   {
@@ -270,12 +273,9 @@ export const servicios: Servicio[] = [
     // procesos y momentos distintos para el cliente.
     slug: "reexportacion-vehiculos",
     icono: PlaneTakeoff,
-    // Única foto de servicio sin auto en cuadro. 2026-08-20 v3: buque
-    // portacontenedores de noche bajo un cielo estrellado — la v2 (vista
-    // aérea de día, agua turquesa) resolvía lo de "poco relacionado" pero
-    // quedaba muy clara arriba de la tarjeta (ver nota en
-    // importacion-mercaderias); esta versión es oscura y sigue sin mostrar
-    // naviera ni auto.
+    // Única foto de servicio sin auto en cuadro. 2026-08-20 v4: buque
+    // portacontenedores de noche bajo un cielo estrellado, generado con
+    // IA — mismo concepto que la v3 (foto real), sin naviera ni auto.
     imagen: `${ASSETS_BASE_URL}/servicios/reexportacion-vehiculos.webp`,
   },
   {
@@ -284,28 +284,32 @@ export const servicios: Servicio[] = [
     // compra blindaje como una póliza, es una intervención sobre el auto.
     slug: "blindaje-vehiculos",
     icono: ShieldHalf,
-    // 2026-08-20 v3: foto en blanco y negro de un soldador con chispas
-    // (taller oscuro) — la v2 (amoladora sobre una placa, luz de día en
-    // nave industrial) ya comunicaba "blindaje" pero quedaba clara arriba
-    // de la tarjeta; esta es oscura de por sí, sin retoque.
+    // 2026-08-20 v4: soldador reforzando una placa metálica, blanco y
+    // negro, generado con IA — mismo concepto que la v3 (foto real).
     imagen: `${ASSETS_BASE_URL}/servicios/blindaje-vehiculos.webp`,
   },
   {
     slug: "seguro-vehiculos",
     icono: ShieldCheck,
     lineaSeguros: true,
+    // 2026-08-20 v4: dos manos intercambiando un control/llave de auto sin
+    // marca visible contra un fondo de estudio oscuro, generado con IA.
     imagen: `${ASSETS_BASE_URL}/servicios/seguro-vehiculos.webp`,
   },
   {
     slug: "seguro-viajes",
     icono: Plane,
     lineaSeguros: true,
+    // 2026-08-20 v4: silueta de un viajero con maleta bajo un arco de
+    // piedra al atardecer, generado con IA.
     imagen: `${ASSETS_BASE_URL}/servicios/seguro-viajes.webp`,
   },
   {
     slug: "seguro-salud",
     icono: HeartPulse,
     lineaSeguros: true,
+    // 2026-08-20 v4: mano de un médico sosteniendo un estetoscopio, luz
+    // baja y dramática, generado con IA.
     imagen: `${ASSETS_BASE_URL}/servicios/seguro-salud.webp`,
   },
   {
@@ -319,9 +323,8 @@ export const servicios: Servicio[] = [
     // aparezca en el home, avisar para reordenar el array.
     slug: "importacion-discapacidad",
     icono: Accessibility,
-    // 2026-08-20 v3: la misma rampa/elevador de la v2 (recortada para
-    // sacar un cartel de fondo en chino), oscurecida a mano igual que
-    // importacion-mercaderias — de día quedaba clara arriba de la tarjeta.
+    // 2026-08-20 v4: rampa/elevador para silla de ruedas en la parte
+    // trasera de una van sin marca, al atardecer, generado con IA.
     imagen: `${ASSETS_BASE_URL}/servicios/importacion-discapacidad.webp`,
   },
 ];
