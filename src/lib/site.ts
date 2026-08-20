@@ -206,19 +206,28 @@ export type Servicio = {
   icono: LucideIcon;
   // Foto del servicio (webp, en R2 sitio/servicios/) — se usa tanto en la
   // card de descubrimiento como en su sección dentro de /servicios.
-  // 2026-08-20 v4: vuelta a fotos generadas con IA (Higgsfield,
-  // nano_banana_pro) — las v2/v3 con fotos reales de stock (Unsplash/
-  // Pexels) tampoco convencieron al cliente. El prompt de cada una pide
-  // explícitamente estilo cinematográfico oscuro/moody (mismo tono en las
-  // 9, para que combinen entre sí) y "no logos, no brand names, no license
-  // plates, no text". Igual hay que revisar cada resultado a ojo: el
-  // primer intento de "importacion-vehiculos" salió con un Rolls-Royce
-  // Ghost clarísimo pese al prompt, y de 4 variantes del reintento (auto
-  // genérico, sin marca) una tenía el logo de Mazda bien visible y otra
-  // una silueta tipo Porsche — se descartaron ambas, se usó la más
-  // genérica de las 4. Cuando el cliente entregue fotos propias,
-  // reemplazar el archivo en R2 con el mismo nombre y no hace falta tocar
-  // este archivo.
+  // 2026-08-20 v5: quinta pasada, todas generadas con IA (Higgsfield,
+  // nano_banana_pro) sobre un mismo "mundo" — hora azul del atardecer
+  // (cielo índigo, luces prácticas doradas), gama cinematográfica
+  // desaturada, para que las 9 se lean como parte de un mismo set en vez
+  // de fotos sueltas.
+  //
+  // La categoría de mayor riesgo de marca real siguió siendo cualquier
+  // plano de auto con la parrilla/faros visibles — el modelo reproduce
+  // diseños reales reconocibles (Rolls-Royce Ghost, Range Rover, Lucid
+  // Air, Mercedes-Maybach) pese a pedir explícitamente "unbranded,
+  // generic, no real manufacturer cues". Mitigaciones que sí funcionaron:
+  // 1) planos de detalle (rueda/guardabarros) que sacan la parrilla y los
+  //    faros del cuadro — ojo igual con el texto real de neumático
+  //    (Michelin, Continental salieron legibles en dos intentos antes de
+  //    dar con uno sin texto visible);
+  // 2) para "importación de mercaderías", abandonar la idea de un SUV de
+  //    lujo (3/3 intentos salieron Range Rover) y resolverlo con un objeto
+  //    sin auto (baúles de viaje de cuero en un muelle);
+  // 3) para "blindaje", un plano donde el auto queda mayormente oscuro/
+  //    fuera de foco detrás de la persona trabajando.
+  // Cuando el cliente entregue fotos propias, reemplazar el archivo en R2
+  // con el mismo nombre y no hace falta tocar este archivo.
   imagen?: string;
   /**
    * Los seguros los atiende una segunda línea telefónica del negocio: su
@@ -243,26 +252,29 @@ export const servicios: Servicio[] = [
   {
     slug: "importacion-vehiculos",
     icono: Truck,
-    // 2026-08-20 v4: SUV genérico subiendo a una plataforma de transporte
-    // al atardecer, generado con IA — ver nota de auditoría de marca en el
-    // comentario de `imagen` en el type Servicio de arriba.
+    // 2026-08-20 v5: plano de detalle de guardabarros/rueda sobre la
+    // rampa de una plataforma de transporte, hora azul — se pasó a este
+    // encuadre (en vez del auto completo de la v4) porque ningún intento
+    // de auto completo salió sin diseño real reconocible, ver nota en
+    // `imagen` del type Servicio arriba.
     imagen: `${ASSETS_BASE_URL}/servicios/importacion-vehiculos.webp`,
   },
   {
     slug: "importacion-mercaderias",
     icono: Container,
-    // 2026-08-20 v4: pallets envueltos en un depósito en penumbra, un solo
-    // haz de luz cálida entrando por una ventana — generado con IA, oscuro
-    // por diseño del prompt (no necesitó retoque de brillo como la v3).
+    // 2026-08-20 v5: baúles de viaje de cuero apilados en un muelle
+    // privado a la hora azul, con un farol encendido — se abandonó la
+    // idea de un auto/SUV de lujo (3/3 intentos salieron Range Rover
+    // real, ver nota en `imagen` arriba) y se resolvió con un objeto que
+    // igual comunica "sus pertenencias llegando con estilo".
     imagen: `${ASSETS_BASE_URL}/servicios/importacion-mercaderias.webp`,
   },
   {
     slug: "matriculacion-vehicular",
     icono: BadgeCheck,
-    // 2026-08-20 v4: mano firmando un documento con una llave de auto
-    // desenfocada al frente, generada con IA — reemplaza la foto real de
-    // stock (mismo encuadre conceptual, pero sin depender de una foto de
-    // terceros).
+    // 2026-08-20 v5: portafolio de cuero con documentos, pluma dorada y
+    // llave de auto sobre un escritorio de madera oscura, luz de
+    // lámpara cálida contra la ventana a la hora azul.
     imagen: `${ASSETS_BASE_URL}/servicios/matriculacion-vehicular.webp`,
   },
   {
@@ -273,9 +285,10 @@ export const servicios: Servicio[] = [
     // procesos y momentos distintos para el cliente.
     slug: "reexportacion-vehiculos",
     icono: PlaneTakeoff,
-    // Única foto de servicio sin auto en cuadro. 2026-08-20 v4: buque
-    // portacontenedores de noche bajo un cielo estrellado, generado con
-    // IA — mismo concepto que la v3 (foto real), sin naviera ni auto.
+    // Única foto de servicio sin auto en cuadro. 2026-08-20 v5: buque
+    // portacontenedores saliendo de puerto a la hora azul, luces cálidas
+    // en el casco — mismo concepto que versiones anteriores, sin naviera
+    // ni auto.
     imagen: `${ASSETS_BASE_URL}/servicios/reexportacion-vehiculos.webp`,
   },
   {
@@ -284,32 +297,39 @@ export const servicios: Servicio[] = [
     // compra blindaje como una póliza, es una intervención sobre el auto.
     slug: "blindaje-vehiculos",
     icono: ShieldHalf,
-    // 2026-08-20 v4: soldador reforzando una placa metálica, blanco y
-    // negro, generado con IA — mismo concepto que la v3 (foto real).
+    // 2026-08-20 v5: técnico instalando un panel de blindaje en la puerta
+    // de un sedán, taller en penumbra con una sola luz de trabajo cálida
+    // — a pedido explícito del cliente ("una persona trabajando en los
+    // vehículos, como poniendo eso"), en vez del soldador genérico de la
+    // v4 que no mostraba un auto de por medio.
     imagen: `${ASSETS_BASE_URL}/servicios/blindaje-vehiculos.webp`,
   },
   {
     slug: "seguro-vehiculos",
     icono: ShieldCheck,
     lineaSeguros: true,
-    // 2026-08-20 v4: dos manos intercambiando un control/llave de auto sin
-    // marca visible contra un fondo de estudio oscuro, generado con IA.
+    // 2026-08-20 v5: mismo concepto (entrega de llave), con el fondo de
+    // estudio tiñendo hacia el índigo de la hora azul en vez de negro
+    // neutro, para que combine con el resto del set.
     imagen: `${ASSETS_BASE_URL}/servicios/seguro-vehiculos.webp`,
   },
   {
     slug: "seguro-viajes",
     icono: Plane,
     lineaSeguros: true,
-    // 2026-08-20 v4: silueta de un viajero con maleta bajo un arco de
-    // piedra al atardecer, generado con IA.
+    // 2026-08-20 v5: viajero con maleta y sombrero frente al ventanal de
+    // una terminal aérea a la hora azul, avión sin librea visible en la
+    // pista — a pedido del cliente ("una persona en un aeropuerto"), en
+    // vez del arco de piedra genérico de la v4.
     imagen: `${ASSETS_BASE_URL}/servicios/seguro-viajes.webp`,
   },
   {
     slug: "seguro-salud",
     icono: HeartPulse,
     lineaSeguros: true,
-    // 2026-08-20 v4: mano de un médico sosteniendo un estetoscopio, luz
-    // baja y dramática, generado con IA.
+    // 2026-08-20 v5: mismo concepto (mano con estetoscopio), con un
+    // resplandor índigo de fondo a través de una ventana de clínica en
+    // vez del negro neutro de la v4, para que combine con el resto.
     imagen: `${ASSETS_BASE_URL}/servicios/seguro-salud.webp`,
   },
   {
@@ -323,8 +343,11 @@ export const servicios: Servicio[] = [
     // aparezca en el home, avisar para reordenar el array.
     slug: "importacion-discapacidad",
     icono: Accessibility,
-    // 2026-08-20 v4: rampa/elevador para silla de ruedas en la parte
-    // trasera de una van sin marca, al atardecer, generado con IA.
+    // 2026-08-20 v5: auto sin marca de espaldas en una calle a la hora
+    // azul, con el símbolo internacional de accesibilidad en el vidrio
+    // trasero — a pedido explícito del cliente ("un auto de espaldas y
+    // en el vidrio poner el símbolo de discapacitados"), en vez de la
+    // rampa/elevador de la v4.
     imagen: `${ASSETS_BASE_URL}/servicios/importacion-discapacidad.webp`,
   },
 ];
