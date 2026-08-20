@@ -74,7 +74,7 @@ export function SiteHeader() {
           // Sólo el alto se anima acá. El fondo vive en dos capas hermanas
           // (abajo) que se cruzan por opacidad en vez de intercambiarse.
           "fixed inset-x-0 top-0 z-50 transition-[height] duration-300 ease-out",
-          scrolled ? "h-16" : "h-20",
+          scrolled ? "h-20" : "h-24",
         )}
       >
         {/* Dos capas de fondo superpuestas que hacen cross-fade, en vez de
@@ -119,15 +119,14 @@ export function SiteHeader() {
               priority
               imgClassName={cn(
                 "w-auto transition-[height] duration-300",
-                // ~10% más chico que antes (h-8/h-10) — feedback del cliente:
-                // un logo levemente más chico se lee más refinado.
-                scrolled ? "h-7" : "h-9",
+                // Navbar agrandado a pedido del cliente (antes h-7/h-9).
+                scrolled ? "h-9" : "h-11",
               )}
             />
           </Link>
 
           <nav
-            className="hidden items-center gap-9 lg:flex"
+            className="hidden items-center gap-10 lg:flex"
             aria-label={t("menuPrincipal")}
           >
             {navLinks.map((link) => {
@@ -141,7 +140,7 @@ export function SiteHeader() {
                   href={link.href}
                   aria-current={activo ? "page" : undefined}
                   className={cn(
-                    "relative py-1 text-[0.9rem] font-medium uppercase tracking-[0.08em] outline-none transition-colors",
+                    "relative py-1 text-base font-medium uppercase tracking-[0.08em] outline-none transition-colors",
                     "focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background",
                     activo
                       ? "text-foreground"
@@ -169,9 +168,9 @@ export function SiteHeader() {
               aria-expanded={abierto}
               aria-controls="menu-movil"
               aria-label={abierto ? t("cerrarMenu") : t("abrirMenu")}
-              className="-mr-2 grid size-10 place-items-center text-foreground outline-none focus-visible:ring-2 focus-visible:ring-gold lg:hidden"
+              className="-mr-2 grid size-11 place-items-center text-foreground outline-none focus-visible:ring-2 focus-visible:ring-gold lg:hidden"
             >
-              {abierto ? <X className="size-6" /> : <Menu className="size-6" />}
+              {abierto ? <X className="size-7" /> : <Menu className="size-7" />}
             </button>
           </div>
         </div>
@@ -196,7 +195,7 @@ export function SiteHeader() {
         hidden={!abierto}
         className={cn(
           "fixed inset-x-0 bottom-0 z-40 flex flex-col overflow-y-auto bg-background transition-[top] duration-300 ease-out lg:hidden",
-          scrolled ? "top-16" : "top-20",
+          scrolled ? "top-20" : "top-24",
         )}
       >
         <nav

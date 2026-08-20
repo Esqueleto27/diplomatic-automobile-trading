@@ -12,8 +12,8 @@ export function Hero() {
     // y encogía durante el scroll, empujando todo lo de abajo — se lee como
     // que la página "salta" justo al empezar a bajar. `svh` es la altura con
     // la barra visible: no cambia nunca, así que nada se mueve.
-    <section className="relative isolate -mt-20 min-h-[100svh] overflow-hidden sm:min-h-[clamp(34rem,84vh,52rem)]">
-      {/* -mt-20 cancela el `pt-20` que el layout del sitio agrega para
+    <section className="relative isolate -mt-24 min-h-[100svh] overflow-hidden sm:min-h-[clamp(34rem,84vh,52rem)]">
+      {/* -mt-24 cancela el `pt-24` que el layout del sitio agrega para
           compensar el header `fixed` (ver SiteLayout): así la foto arranca
           en el borde superior real de la ventana, debajo del header
           transparente, en vez de dejar un hueco de fondo sólido arriba. */}

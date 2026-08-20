@@ -22,12 +22,20 @@ export const dynamic = "force-dynamic";
 // las páginas (mismo shape de OG/Twitter en todas).
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("metadata");
-  return metadataPagina({
-    ruta: "/",
-    titulo: "Diplomatic Automobile Trading",
-    descripcion: t("sitioDescripcion"),
-    ogLocale: t("ogLocale"),
-  });
+  return {
+    ...metadataPagina({
+      ruta: "/",
+      titulo: "Diplomatic Automobile Trading",
+      descripcion: t("sitioDescripcion"),
+      ogLocale: t("ogLocale"),
+    }),
+    // El layout raíz define un title template ("%s — Diplomatic Automobile
+    // Trading", ver app/layout.tsx) para que el resto de páginas se lean
+    // "Servicios — Diplomatic Automobile Trading". Acá el título YA ES el
+    // nombre del sitio, así que sin `absolute` la plantilla lo duplicaba:
+    // "Diplomatic Automobile Trading — Diplomatic Automobile Trading".
+    title: { absolute: "Diplomatic Automobile Trading" },
+  };
 }
 
 /**

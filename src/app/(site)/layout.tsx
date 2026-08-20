@@ -60,11 +60,12 @@ export default async function SiteLayout({
         <SiteHeader />
         {/* El header pasó a `fixed` (para poder ir transparente sobre el hero
             y encogerse sin empujar el layout) — por eso ya no reserva su
-            espacio en el flujo normal. `pt-20` acá compensa esa altura para
-            el resto de páginas; `Hero` cancela este padding con `-mt-20`
-            para que su foto arranque debajo del header en vez de debajo del
-            hueco que este padding deja. */}
-        <main className="flex-1 pt-20">
+            espacio en el flujo normal. `pt-24` acá compensa su alto sin
+            scroll (h-24, ver SiteHeader) para el resto de páginas; `Hero`
+            cancela este padding con `-mt-24` para que su foto arranque
+            debajo del header en vez de debajo del hueco que este padding
+            deja. */}
+        <main className="flex-1 pt-24">
           {children}
         </main>
         <SiteFooter />
