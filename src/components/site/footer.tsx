@@ -96,11 +96,17 @@ export function SiteFooter() {
           )}
         </div>
 
-        <div className="mt-9 border-t border-border pt-6 sm:mt-12">
+        <div className="mt-9 flex flex-col items-center gap-3 border-t border-border pt-6 sm:mt-12 sm:flex-row sm:justify-between">
           <p className="text-center text-[0.68rem] tracking-wide text-muted-foreground">
             © {new Date().getFullYear()} {siteConfig.nombre}{" "}
             {siteConfig.apellido}. {t("derechos")}
           </p>
+          <Link
+            href="/privacidad"
+            className="text-[0.68rem] uppercase tracking-[0.18em] text-muted-foreground hover:text-gold"
+          >
+            {t("privacidad")}
+          </Link>
         </div>
       </div>
     </footer>

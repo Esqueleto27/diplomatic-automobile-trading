@@ -105,7 +105,8 @@
   "footer": {
     "contacto": "Contacto",
     "navegacion": "Navegación",
-    "derechos": "Todos los derechos reservados."
+    "derechos": "Todos los derechos reservados.",
+    "privacidad": "Política de Privacidad"
   },
   "quickContact": {
     "llamar": "Llamar a {telefono}",
@@ -212,17 +213,38 @@
     "enviar": "Enviar mensaje",
     "enviando": "Enviando...",
     "exito": "Mensaje enviado. Le responderemos a la brevedad.",
+    "consentimiento": "Autorizo el tratamiento de mis datos personales para ser contactado, conforme a la <link>Política de Privacidad</link>.",
     "errores": {
       "nombre": "Ingrese su nombre y apellido",
       "email": "Ingrese un correo válido",
       "asunto": "Ingrese un asunto",
       "mensaje": "Escriba su mensaje",
+      "consentimiento": "Debe aceptar la Política de Privacidad para continuar",
       "rateLimit": "Demasiados intentos. Inténtelo de nuevo en un minuto."
     }
   },
   "whatsapp": {
     "testDrive": "Hola, me interesa agendar una prueba de manejo del {auto}.",
     "consultaServicio": "Hola, quisiera información sobre el servicio de {servicio}."
+  },
+  "privacidad": {
+    "titulo": "Política de Privacidad",
+    "actualizado": "Última actualización: agosto de 2026",
+    "intro": "En Diplomatic Automobile Trading protegemos los datos personales que usted nos confía al escribirnos. Esta política explica qué información recopilamos, para qué la usamos y qué derechos tiene sobre ella, conforme a la Ley Orgánica de Protección de Datos Personales (LOPDP) de Ecuador.",
+    "responsableTitulo": "Responsable del tratamiento",
+    "responsableTexto": "Diplomatic Automobile Trading, con oficinas en Av. La Coruña N27-36 y Av. Francisco de Orellana, Edificio La Moraleja Business Center, piso 6, oficina 606, Quito, Ecuador. Puede contactarnos en info@diplomatic-trading.com para cualquier consulta sobre esta política.",
+    "finalidadTitulo": "Qué datos recopilamos y para qué",
+    "finalidadTexto": "A través de nuestro formulario de contacto recopilamos su nombre, correo electrónico, asunto y mensaje, únicamente para responder su consulta y darle seguimiento comercial (por ejemplo, coordinar una prueba de manejo o una cotización). No usamos estos datos con fines distintos ni los vendemos a terceros.",
+    "baseLegalTitulo": "Base legal",
+    "baseLegalTexto": "Tratamos sus datos con base en el consentimiento que usted otorga expresamente al marcar la casilla de aceptación antes de enviar el formulario.",
+    "conservacionTitulo": "Plazo de conservación",
+    "conservacionTexto": "Conservamos su mensaje mientras exista una relación comercial activa o potencial, y lo eliminamos cuando ya no sea necesario para los fines descritos o cuando usted lo solicite.",
+    "destinatariosTitulo": "Destinatarios y encargados del tratamiento",
+    "destinatariosTexto": "Sus datos se almacenan en la infraestructura de Cloudflare, nuestro proveedor de hosting, y no se comparten con ningún otro tercero salvo obligación legal. La página de contacto incluye un mapa embebido de Google Maps para ubicar nuestras oficinas; al cargarlo, Google puede procesar datos técnicos de su navegador conforme a su propia política de privacidad.",
+    "derechosTitulo": "Sus derechos",
+    "derechosTexto": "Puede solicitar en cualquier momento el acceso, rectificación, cancelación u oposición al tratamiento de sus datos (derechos ARCO), así como su portabilidad, escribiendo a info@diplomatic-trading.com.",
+    "cambiosTitulo": "Cambios a esta política",
+    "cambiosTexto": "Podemos actualizar esta política ocasionalmente. La fecha de la última actualización se indica al inicio de esta página."
   },
   "metadata": {
     "sitioDescripcion": "Compra, venta e importación de vehículos de alta gama en Ecuador, con asesoría para embajadas, organismos internacionales y funcionarios diplomáticos.",
@@ -235,6 +257,8 @@
     "serviciosTitulo": "Servicios",
     "serviciosDescripcion": "Matriculación, importación con cupo diplomático y seguros para el cuerpo diplomático.",
     "vehiculoNoEncontrado": "Vehículo no encontrado",
-    "disponibleEn": "disponible en Diplomatic Automobile Trading."
+    "disponibleEn": "disponible en Diplomatic Automobile Trading.",
+    "privacidadTitulo": "Política de Privacidad",
+    "privacidadDescripcion": "Cómo tratamos los datos personales que nos confía a través de nuestro formulario de contacto."
   }
 }

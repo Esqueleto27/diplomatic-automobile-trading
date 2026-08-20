@@ -129,20 +129,29 @@ export async function enviarMensajeContacto(
     email: t("email"),
     asunto: t("asunto"),
     mensaje: t("mensaje"),
+    consentimiento: t("consentimiento"),
   }).safeParse({
     nombre: formData.get("nombre"),
     email: formData.get("email"),
     asunto: formData.get("asunto"),
     mensaje: formData.get("mensaje"),
+    consentimiento: formData.get("consentimiento"),
   });
 
   if (!parsed.success) {
     return { errors: parsed.error.flatten().fieldErrors };
   }
 
+  // `consentimiento` sólo existe para validar el checkbox — ContactMessage
+  // no tiene esa columna, así que se arma el objeto a insertar a mano en vez
+  // de spreadear parsed.data entero (si no, Drizzle ni compila: .values()
+  // está tipado contra el schema real).
+  const { nombre, email, asunto, mensaje } = parsed.data;
+  const datosContacto = { nombre, email, asunto, mensaje };
+
   try {
     const db = await getDb();
-    await db.insert(contactMessages).values({ id: randomUUID(), ...parsed.data });
+    await db.insert(contactMessages).values({ id: randomUUID(), ...datosContacto });
   } catch (error) {
     return { message: errorPublico(error, "enviarMensajeContacto") };
   }
@@ -153,7 +162,7 @@ export async function enviarMensajeContacto(
   // en segundo plano sin que el visitante tenga que esperar el envío del
   // correo — el mensaje ya quedó guardado en la DB, que es lo que importa.
   const { env, ctx } = await getCloudflareContext({ async: true });
-  ctx.waitUntil(notificarNuevoMensaje(env, parsed.data));
+  ctx.waitUntil(notificarNuevoMensaje(env, datosContacto));
 
   revalidatePath("/admin/mensajes");
   return { ok: true };

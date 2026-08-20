@@ -8,6 +8,7 @@ import {
   razonesConfianza,
   trayectoriaImageUrl,
 } from "@/lib/site";
+import { metadataPagina } from "@/lib/metadata";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal } from "@/components/site/reveal";
 import { LogoMarca } from "@/components/site/logo-marca";
@@ -17,11 +18,12 @@ export async function generateMetadata(): Promise<Metadata> {
     getTranslations("metadata"),
     getTranslations("empresa"),
   ]);
-  return {
-    title: t("empresaTitulo"),
-    description: tEmpresa("intro"),
-    alternates: { canonical: "/empresa" },
-  };
+  return metadataPagina({
+    ruta: "/empresa",
+    titulo: t("empresaTitulo"),
+    descripcion: tEmpresa("intro"),
+    ogLocale: t("ogLocale"),
+  });
 }
 
 /**

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { getAutosVisibles } from "@/lib/cars";
+import { metadataPagina } from "@/lib/metadata";
 import { CarCardDetalle } from "@/components/site/car-card";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal } from "@/components/site/reveal";
@@ -10,11 +11,12 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("metadata");
-  return {
-    title: t("inventarioTitulo"),
-    description: t("inventarioDescripcion"),
-    alternates: { canonical: "/inventario" },
-  };
+  return metadataPagina({
+    ruta: "/inventario",
+    titulo: t("inventarioTitulo"),
+    descripcion: t("inventarioDescripcion"),
+    ogLocale: t("ogLocale"),
+  });
 }
 
 // Sin filtro por tipo: todo el inventario es de vehículos usados (los

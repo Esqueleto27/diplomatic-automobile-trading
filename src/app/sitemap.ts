@@ -2,7 +2,14 @@ import type { MetadataRoute } from "next";
 import { getAutosVisibles } from "@/lib/cars";
 import { siteUrl } from "@/lib/site";
 
-const PAGINAS_ESTATICAS = ["", "/empresa", "/inventario", "/servicios", "/contacto"];
+const PAGINAS_ESTATICAS = [
+  "",
+  "/empresa",
+  "/inventario",
+  "/servicios",
+  "/contacto",
+  "/privacidad",
+];
 
 // Sin esto, Next prerenderiza /sitemap.xml una sola vez en el build (queda
 // "○ Static" en la tabla de rutas) y los autos publicados después nunca
@@ -17,8 +24,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const estaticas: MetadataRoute.Sitemap = PAGINAS_ESTATICAS.map((ruta) => ({
     url: `${siteUrl}${ruta}`,
     lastModified: new Date(),
+    // /privacidad es una página de referencia legal, no de conversión — no
+    // le compite prioridad de rastreo a las páginas comerciales.
     changeFrequency: ruta === "" ? "weekly" : "monthly",
-    priority: ruta === "" ? 1 : 0.7,
+    priority: ruta === "" ? 1 : ruta === "/privacidad" ? 0.3 : 0.7,
   }));
 
   try {

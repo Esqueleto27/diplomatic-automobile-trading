@@ -1,11 +1,13 @@
 "use client";
 
 import { useActionState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { CheckCircle2, TriangleAlert } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { SiteButton } from "@/components/site/button";
 import { enviarMensajeContacto } from "@/server/actions/contacto";
 import { cn } from "@/lib/utils";
@@ -128,6 +130,38 @@ export function ContactForm() {
         {errors.mensaje && (
           <p id="mensaje-error" className="text-[0.7rem] text-destructive">
             {errors.mensaje[0]}
+          </p>
+        )}
+      </div>
+
+      <div className="space-y-2.5 sm:col-span-2">
+        <label className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground">
+          <Checkbox
+            name="consentimiento"
+            required
+            aria-invalid={Boolean(errors.consentimiento)}
+            aria-describedby={
+              errors.consentimiento ? "consentimiento-error" : undefined
+            }
+            className="mt-0.5"
+          />
+          <span>
+            {t.rich("consentimiento", {
+              link: (chunks) => (
+                <Link
+                  href="/privacidad"
+                  target="_blank"
+                  className="underline hover:text-gold"
+                >
+                  {chunks}
+                </Link>
+              ),
+            })}
+          </span>
+        </label>
+        {errors.consentimiento && (
+          <p id="consentimiento-error" className="text-[0.7rem] text-destructive">
+            {errors.consentimiento[0]}
           </p>
         )}
       </div>

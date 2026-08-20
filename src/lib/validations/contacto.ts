@@ -14,11 +14,21 @@ export function contactoSchema(mensajes: {
   email: string;
   asunto: string;
   mensaje: string;
+  consentimiento: string;
 }) {
   return z.object({
     nombre: z.string().trim().min(1, mensajes.nombre).max(150),
     email: z.string().trim().email(mensajes.email).max(254),
     asunto: z.string().trim().min(1, mensajes.asunto).max(200),
     mensaje: z.string().trim().min(1, mensajes.mensaje).max(5000),
+    // El checkbox llega como "on" (marcado) o null (sin marcar) en el
+    // FormData — nunca se guarda en ContactMessage (esa tabla no tiene esta
+    // columna), enviarMensajeContacto lo saca del objeto antes del insert.
+    // Igual conviene validarlo acá y no aparte, para que el error salga con
+    // el mismo mecanismo de campo que el resto (errors.consentimiento).
+    consentimiento: z.preprocess(
+      (valor) => valor === "on",
+      z.boolean().refine((valor) => valor, mensajes.consentimiento),
+    ),
   });
 }

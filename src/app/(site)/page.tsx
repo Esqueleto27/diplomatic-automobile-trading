@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { getAutosPorTipo } from "@/lib/cars";
+import { metadataPagina } from "@/lib/metadata";
 import { Hero } from "@/components/site/hero";
 import { BrandStrip } from "@/components/site/brand-strip";
 import { OficinaTrust } from "@/components/site/oficina-trust";
@@ -12,9 +14,21 @@ import { ContactCta } from "@/components/site/contact-cta";
 // y el admin ve sus cambios publicados de inmediato.
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  alternates: { canonical: "/" },
-};
+// Antes era un `export const metadata` fijo (sólo canonical): el resto de
+// los campos (title/description/openGraph) los heredaba del layout raíz
+// intactos, incluido su `openGraph.url` — que apuntaba siempre a la home de
+// todas formas, así que ahí nunca fue el bug. Pasa a generateMetadata acá
+// sólo para reusar metadataPagina() y quedar consistente con el resto de
+// las páginas (mismo shape de OG/Twitter en todas).
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("metadata");
+  return metadataPagina({
+    ruta: "/",
+    titulo: "Diplomatic Automobile Trading",
+    descripcion: t("sitioDescripcion"),
+    ogLocale: t("ogLocale"),
+  });
+}
 
 /**
  * El inventario es sólo una parte de la portada. Si la base de datos no

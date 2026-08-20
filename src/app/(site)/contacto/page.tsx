@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { contacto, edificioImageUrl } from "@/lib/site";
+import { metadataPagina } from "@/lib/metadata";
 import { SectionHeading } from "@/components/site/section-heading";
 import { ContactForm } from "@/components/site/contact-form";
 import { SiteButton } from "@/components/site/button";
@@ -16,11 +17,12 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("metadata");
-  return {
-    title: t("contactoTitulo"),
-    description: t("contactoDescripcion"),
-    alternates: { canonical: "/contacto" },
-  };
+  return metadataPagina({
+    ruta: "/contacto",
+    titulo: t("contactoTitulo"),
+    descripcion: t("contactoDescripcion"),
+    ogLocale: t("ogLocale"),
+  });
 }
 
 export default async function ContactoPage() {

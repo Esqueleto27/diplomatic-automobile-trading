@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { servicios } from "@/lib/site";
+import { metadataPagina } from "@/lib/metadata";
 import { SectionHeading } from "@/components/site/section-heading";
 import { SiteButton } from "@/components/site/button";
 import {
@@ -17,11 +18,12 @@ export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("metadata");
-  return {
-    title: t("serviciosTitulo"),
-    description: t("serviciosDescripcion"),
-    alternates: { canonical: "/servicios" },
-  };
+  return metadataPagina({
+    ruta: "/servicios",
+    titulo: t("serviciosTitulo"),
+    descripcion: t("serviciosDescripcion"),
+    ogLocale: t("ogLocale"),
+  });
 }
 
 export default async function ServiciosPage() {

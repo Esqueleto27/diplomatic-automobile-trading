@@ -11,6 +11,7 @@ import { precioLegible, valorDeCatalogo } from "@/components/site/car-card";
 import { mensajeTestDrive, whatsappHref } from "@/lib/whatsapp";
 import { numeroDe } from "@/lib/format";
 import { jsonLd } from "@/lib/json-ld";
+import { heroImageUrl, siteUrl } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
 
@@ -29,15 +30,36 @@ export async function generateMetadata({
   const descripcion =
     auto.descripcion ??
     `${auto.nombre}${auto.marca ? ` ${auto.marca}` : ""} ${t("disponibleEn")}`;
-  const foto = auto.fotos[0]?.url;
+  // Foto real del auto si hay, si no el hero — antes, sin foto el openGraph
+  // quedaba sin `images` del todo (WhatsApp mostraba la ficha sin preview).
+  const foto = auto.fotos[0]?.url ?? heroImageUrl;
+  const url = `${siteUrl}/autos/${auto.slug}`;
+  const ogLocale = t("ogLocale");
 
   return {
     title: auto.nombre,
     description: descripcion,
     alternates: { canonical: `/autos/${auto.slug}` },
-    openGraph: foto
-      ? { title: auto.nombre, description: descripcion, images: [{ url: foto }] }
-      : { title: auto.nombre, description: descripcion },
+    // Objeto completo, no sólo title/description/images: antes le faltaban
+    // `url`/`type`/`locale`/`siteName` (quedaba sin ellos, no heredados del
+    // layout raíz — openGraph no mergea en profundidad, ver lib/metadata.ts)
+    // y no había `twitter` propio, así que Twitter caía al del sitio
+    // entero (mostraba el hero y el nombre del negocio, no los del auto).
+    openGraph: {
+      type: "website",
+      locale: ogLocale,
+      url,
+      siteName: "Diplomatic Automobile Trading",
+      title: auto.nombre,
+      description: descripcion,
+      images: [{ url: foto }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: auto.nombre,
+      description: descripcion,
+      images: [foto],
+    },
   };
 }
 

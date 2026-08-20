@@ -105,7 +105,8 @@
   "footer": {
     "contacto": "Contact",
     "navegacion": "Navigation",
-    "derechos": "All rights reserved."
+    "derechos": "All rights reserved.",
+    "privacidad": "Privacy Policy"
   },
   "quickContact": {
     "llamar": "Call {telefono}",
@@ -212,17 +213,38 @@
     "enviar": "Send message",
     "enviando": "Sending...",
     "exito": "Message sent. We'll get back to you shortly.",
+    "consentimiento": "I authorize the processing of my personal data to be contacted, in accordance with the <link>Privacy Policy</link>.",
     "errores": {
       "nombre": "Please enter your full name",
       "email": "Please enter a valid email address",
       "asunto": "Please enter a subject",
       "mensaje": "Please write your message",
+      "consentimiento": "You must accept the Privacy Policy to continue",
       "rateLimit": "Too many attempts. Please try again in a minute."
     }
   },
   "whatsapp": {
     "testDrive": "Hello, I'm interested in scheduling a test drive for the {auto}.",
     "consultaServicio": "Hello, I'd like information about the {servicio} service."
+  },
+  "privacidad": {
+    "titulo": "Privacy Policy",
+    "actualizado": "Last updated: August 2026",
+    "intro": "At Diplomatic Automobile Trading we protect the personal data you share with us when you write to us. This policy explains what information we collect, how we use it, and what rights you have over it, in accordance with Ecuador's Organic Law on Personal Data Protection (LOPDP).",
+    "responsableTitulo": "Data controller",
+    "responsableTexto": "Diplomatic Automobile Trading, with offices at Av. La Coruña N27-36 y Av. Francisco de Orellana, Edificio La Moraleja Business Center, 6th floor, office 606, Quito, Ecuador. You can reach us at info@diplomatic-trading.com for any question about this policy.",
+    "finalidadTitulo": "What data we collect and why",
+    "finalidadTexto": "Through our contact form we collect your name, email address, subject and message, solely to respond to your inquiry and follow up commercially (for example, to arrange a test drive or a quote). We do not use this data for any other purpose or sell it to third parties.",
+    "baseLegalTitulo": "Legal basis",
+    "baseLegalTexto": "We process your data based on the consent you expressly grant by checking the acceptance box before submitting the form.",
+    "conservacionTitulo": "Retention period",
+    "conservacionTexto": "We keep your message for as long as an active or potential business relationship exists, and delete it once it is no longer needed for the purposes described, or when you request it.",
+    "destinatariosTitulo": "Recipients and data processors",
+    "destinatariosTexto": "Your data is stored on Cloudflare's infrastructure, our hosting provider, and is not shared with any other third party except where legally required. Our contact page includes an embedded Google Maps map to locate our offices; when it loads, Google may process technical data from your browser under its own privacy policy.",
+    "derechosTitulo": "Your rights",
+    "derechosTexto": "You may request access, rectification, cancellation or objection to the processing of your data at any time, as well as data portability, by writing to info@diplomatic-trading.com.",
+    "cambiosTitulo": "Changes to this policy",
+    "cambiosTexto": "We may update this policy occasionally. The date of the last update is shown at the top of this page."
   },
   "metadata": {
     "sitioDescripcion": "Purchase, sale and importation of high-end vehicles in Ecuador, with advisory services for embassies, international organizations and diplomatic officials.",
@@ -235,6 +257,8 @@
     "serviciosTitulo": "Services",
     "serviciosDescripcion": "Registration, diplomatic-quota importation and insurance for the diplomatic corps.",
     "vehiculoNoEncontrado": "Vehicle not found",
-    "disponibleEn": "available at Diplomatic Automobile Trading."
+    "disponibleEn": "available at Diplomatic Automobile Trading.",
+    "privacidadTitulo": "Privacy Policy",
+    "privacidadDescripcion": "How we handle the personal data you share with us through our contact form."
   }
 }
