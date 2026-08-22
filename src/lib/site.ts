@@ -120,14 +120,24 @@ export const navLinks = [
   { href: "/contacto", key: "contacto" },
 ] as const;
 
-// PENDIENTE: reemplazar por los datos reales del cliente antes de publicar.
+// Datos reales del cliente, ya confirmados (no son placeholder).
+//
+// `email` es un Hotmail y NO un info@diplomatic-trading.com a propósito:
+// el cliente maneja literalmente todo desde esa casilla (recibe, responde,
+// escribe), así que se publica la dirección que de verdad leen en vez de una
+// del dominio. Se llegó a montar el reenvío info@ → este Hotmail con
+// Cloudflare Email Routing y se revirtió a pedido del cliente: hoy el dominio
+// NO recibe correo (catch-all en drop, sin reglas). Por eso, antes de
+// publicar cualquier dirección @diplomatic-trading.com acá o en la política
+// de privacidad, hay que volver a crear la regla de routing — si no, esos
+// correos se descartan en silencio, sin rebote al remitente ni aviso a nadie.
 export const contacto = {
   // El primero es el principal: es el que usan el WhatsApp flotante
   // (QuickContact), los botones de WhatsApp de cada auto y el JSON-LD del
   // layout, que toman telefonos[0]. Los dos se listan completos en
   // /contacto y en el footer, que recorren el array entero.
   telefonos: ["+593 99 980 8067", "+593 98 431 2146"],
-  email: "info@diplomatic-trading.com",
+  email: "diplomatic.trading@hotmail.com",
   sitio: "diplomatic-trading.com",
   direccion:
     "Av. La Coruña N27-36 y Av. Francisco de Orellana. Edificio La Moraleja Business Center, 6to. Piso, oficina 606.",
