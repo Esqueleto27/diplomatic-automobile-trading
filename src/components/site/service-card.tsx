@@ -30,7 +30,7 @@ export function ServiceCard({ servicio, delay = 0 }: { servicio: Servicio; delay
     <Link
       href={`/servicios#${slug}`}
       style={{ animationDelay: `${delay}s` }}
-      className="sheen sheen-soft group relative flex aspect-[4/3] flex-col justify-end overflow-hidden border border-hairline bg-surface p-5 shadow-plate outline-none sm:p-6 transition-all duration-500 ease-out hover:-translate-y-1.5 hover:border-gold/50 hover:shadow-lift focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+      className="group relative flex aspect-[4/3] flex-col justify-end overflow-hidden border border-hairline bg-surface p-5 shadow-plate outline-none sm:p-6 transition-all duration-500 ease-out hover:-translate-y-1.5 hover:border-gold/50 hover:shadow-lift focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background"
     >
       {imagen ? (
         <>

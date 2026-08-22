@@ -172,8 +172,15 @@
      emparenta con el marfil y el dorado de la marca, y hace que toda la
      página se sienta teñida en vez de apagada. La diferencia por par sigue
      siendo la misma (~5 puntos de luminancia) para que las tarjetas se
-     despeguen del fondo igual que antes. */
-  --background: #0c0b09;
+     despeguen del fondo igual que antes.
+
+     El cuerpo bajó después otro par de puntos (de #0c0b09 a #0a0907) sin
+     tocar las tarjetas: la idea no es acercarse al negro puro —que no
+     tiene tono, hace flotar las fotos sobre un parche gris y pone a
+     vibrar la tipografía fina que usa el sitio— sino agrandar la
+     distancia entre el fondo y las tarjetas. Eso es lo que se percibe
+     como "más negro": no un valor más bajo, más profundidad entre planos. */
+  --background: #0a0907;
   --surface: #14120f;
   --surface-2: #1c1915;
 
@@ -195,12 +202,16 @@
   --gold-strong: #e6cf96;
   --gold-deep: #8a6a2c;
   --gold-foreground: #14120c;
+  /* Rango angosto a propósito. La primera versión iba de #d9bd77 a #b28f43
+     —bastante recorrido— y el botón se leía brillante, casi cromado. Un
+     metal sobrio tiene rango, pero poco: lo justo para que se note que la
+     superficie no es plana, no tanto como para que parezca un reflejo. */
   --gold-gradient: linear-gradient(
     145deg,
-    #d9bd77 0%,
-    var(--brand-gold) 38%,
-    #b28f43 68%,
-    #d3b471 100%
+    #cfae63 0%,
+    var(--brand-gold) 40%,
+    #b9954a 70%,
+    #c9a75c 100%
   );
 
   /* Líneas y bordes.
@@ -261,7 +272,7 @@
    * aplicó a todas las secciones del sitio, sólo a estas dos — el resto ya
    * tenía valores más chicos que no generaban el mismo vacío. */
   .section-py {
-    padding-block: clamp(3.5rem, 9vw, 9rem);
+    padding-block: clamp(3.75rem, 9.5vw, 10.5rem);
   }
 
   /* Carruseles horizontales: se desplazan con drag/rueda, sin barra visible. */
@@ -396,11 +407,11 @@
   .text-metal {
     background-image: linear-gradient(
       100deg,
-      #e6cf96 0%,
-      #c7a354 40%,
-      #f2e4bd 52%,
-      #b28f43 70%,
-      #dcc083 100%
+      #d8bc7d 0%,
+      #c7a354 42%,
+      #e2cd97 54%,
+      #b9954a 72%,
+      #cdae67 100%
     );
     -webkit-background-clip: text;
     background-clip: text;
@@ -423,7 +434,7 @@
   .surface-lit {
     background-image: radial-gradient(
       130% 75% at 50% 0%,
-      rgba(199, 163, 84, 0.05),
+      rgba(199, 163, 84, 0.035),
       transparent 62%
     );
   }
@@ -443,10 +454,17 @@
 }
 
 /* Reflejo que barre una superficie al pasar el mouse. Es EL gesto
-   que lee a metal/vidrio pulido y no cuesta nada: un rectángulo
-   inclinado con un degradado de luz que cruza una vez y se va.
-   Duración corta a propósito (0.9s) — si es lento parece un
-   loader; si se repite en loop, parece un banner de publicidad. */
+   que lee a metal pulido y no cuesta nada: un rectángulo inclinado
+   con un degradado de luz que cruza una vez y se va. Duración corta
+   a propósito (0.9s) — si es lento parece un loader; si se repite en
+   loop, parece un banner de publicidad.
+
+   Se usa en UN solo lugar: el botón dorado lleno. Se probó también en
+   las fotos (tarjetas de auto y de servicio) y en el botón de borde, y
+   se sacó de los dos: sobre una fotografía el destello se lee como un
+   efecto pegado encima, y sobre un botón transparente no cruza ningún
+   material —cruza el fondo de la página—. En los dos casos es
+   decoración, y la dirección del proyecto es sobria. */
 @keyframes sheen {
   from {
     transform: translateX(-160%) skewX(-18deg);
@@ -471,24 +489,13 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.16),
     transparent
   );
 }
 .sheen:hover::after,
-.group:hover .sheen::after {
+.sheen:focus-visible::after {
   animation: sheen 0.9s cubic-bezier(0.4, 0, 0.2, 1);
-}
-/* Variante para fotos: la misma pasada pero cálida y a la mitad de
-   intensidad — sobre una imagen, un destello blanco al 30% se ve
-   como un glitch de render, no como luz. */
-.sheen-soft::after {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(230, 207, 150, 0.14),
-    transparent
-  );
 }
 
 /* Telón: la página arranca en negro y se levanta. Es medio segundo

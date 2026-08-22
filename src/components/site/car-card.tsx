@@ -101,11 +101,12 @@ export async function CarCardDetalle({ auto }: { auto: AutoPublico }) {
           auto={auto}
           sizes="(max-width: 640px) 85vw, (max-width: 1024px) 45vw, 30vw"
           className={cn(
-            // `sheen sheen-soft`: un reflejo cálido cruza la foto una sola
-            // vez al pasar el mouse. Va en la variante tenue y no en la
-            // blanca del botón — sobre una fotografía, un destello al 30%
-            // se lee como un error de render, no como luz.
-            "aspect-video sheen sheen-soft sm:aspect-[16/10]",
+            // Sin `sheen`: el reflejo que barre se probó también acá y se
+            // sacó. Sobre una superficie de metal (el botón) se lee como
+            // luz; sobre una fotografía se lee como un efecto aplicado
+            // encima, y eso es exactamente lo contrario de sobrio. El zoom
+            // lento de la imagen ya da respuesta suficiente al hover.
+            "aspect-video sm:aspect-[16/10]",
             vendido && "grayscale",
           )}
         />

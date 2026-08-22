@@ -15,6 +15,10 @@ const variantes = {
   // que barre una vez al pasar el mouse. Los tres juntos son la diferencia
   // entre un rectángulo amarillo y un botón troquelado en bronce.
   gold: "sheen bg-gold-metal text-gold-foreground shadow-glow hover:shadow-glow-hover hover:brightness-[1.07]",
+  // Sin `sheen`: el reflejo sólo tiene sentido sobre una superficie llena.
+  // En un botón transparente no cruza ningún material, cruza el fondo de la
+  // página — se lee como un destello suelto.
+  //
   // Hover reforzado (antes `bg-gold/10` a secas): como variante secundaria
   // el borde dorado sobre negro ya es sutil en reposo — si además el hover
   // apenas se nota, el botón no se lee como accionable. El relleno al 18%
@@ -23,7 +27,7 @@ const variantes = {
   // del sistema: el halo de color era justo el recurso que hacía ver el
   // conjunto a plantilla.
   outline:
-    "sheen sheen-soft border border-gold/50 bg-transparent text-gold hover:border-gold hover:bg-gold/[0.18] hover:text-gold-strong hover:shadow-glow",
+    "border border-gold/50 bg-transparent text-gold hover:border-gold hover:bg-gold/[0.18] hover:text-gold-strong hover:shadow-glow",
 };
 
 // Tracking bajado de ~0.12–0.2em a un rango 0.08–0.1em: al tamaño de texto
