@@ -50,18 +50,37 @@ export const logoUrl = `${ASSETS_BASE_URL}/logo/logo-300x74.png`;
 export const oficinaImageUrl = `${ASSETS_BASE_URL}/empresa/oficina.png`;
 // Foto real de la fachada del edificio, usada en /contacto junto al mapa.
 export const edificioImageUrl = `${ASSETS_BASE_URL}/empresa/edificio.png`;
-// Foto real (fila de superautos), usada como textura de fondo en el CTA de
-// cierre de la home ("Hablemos de su próximo vehículo"), ver ContactCta.
-// /contacto ya no lleva foto de fondo propia (se sacó a pedido del
-// cliente — quedaba "fea"/competía con el formulario); la franja superior
-// de esa página ahora es sólo texto sobre el fondo plano del tema.
-export const contactoCtaImageUrl = `${ASSETS_BASE_URL}/contacto-cta.jpg`;
+// Fondo del CTA de cierre de la home, ver ContactCta.
+//
+// Reemplaza a `contacto-cta.jpg` (una foto real de una fila de superautos
+// Pagani), que se descartó por tres motivos acumulados: eran hiperdeportivos
+// que el negocio no vende —promesa que no se puede cumplir—; el tratamiento
+// necesario para que el texto se leyera encima la oscurecía tanto que no se
+// distinguía nada, o sea que la foto no aportaba y sólo ensuciaba; y el
+// cliente ya había rechazado exactamente este recurso en /contacto por
+// "feo"/competir con el contenido.
+//
+// La reemplazante es generada (Higgsfield, z_image) y a propósito NO tiene
+// autos: una columnata institucional iluminada de noche habla del público
+// real del negocio (embajadas, organismos) mejor que un auto de lujo
+// genérico, no promete un inventario que no existe y no arrastra ninguna
+// marca registrada. Además es simétrica y con la mitad inferior calma, que
+// es donde cae el texto centrado. El archivo viejo sigue en R2 sin usarse.
+export const contactoCtaImageUrl = `${ASSETS_BASE_URL}/contacto-cta-columnata.webp`;
 
 // Las tres de /empresa sí son generadas (no fotos del negocio), con el mismo
 // criterio que los fondos de servicios: sin logos, sin texto legible y sin
 // caras reconocibles. Se subieron ya convertidas a webp (~100-230 KB cada
 // una, contra 3 MB del JPG original).
-export const trayectoriaImageUrl = `${ASSETS_BASE_URL}/empresa/trayectoria.webp`;
+// `trayectoria.webp` (la foto anterior) se retiró de uso: era una foto real
+// de un Rolls-Royce Ghost y un Bentley Flying Spur con la Spirit of Ecstasy,
+// el emblema RR y el "winged B" perfectamente visibles —las tres son marcas
+// registradas y el negocio no es concesionario oficial de ninguna— y, peor,
+// las dos matrículas eran placas de concesionario de OTRA empresa
+// ("AUTOLOGIX"), legibles, en la sección que habla de la confianza propia.
+// La reemplazante es generada con el mismo criterio que el resto del sitio:
+// sin emblemas de marcas reales, sin figura de capó, sin placas, sin texto.
+export const trayectoriaImageUrl = `${ASSETS_BASE_URL}/empresa/trayectoria-flota.webp`;
 export const experienciaImageUrl = `${ASSETS_BASE_URL}/empresa/experiencia.webp`;
 
 // La frase de confianza (+30 años) vivía acá; se movió a

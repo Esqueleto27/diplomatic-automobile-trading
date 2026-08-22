@@ -4,6 +4,7 @@ import { oficinaImageUrl } from "@/lib/site";
 import { SectionHeading } from "@/components/site/section-heading";
 import { SiteButton } from "@/components/site/button";
 import { Reveal } from "@/components/site/reveal";
+import { ImageReveal } from "@/components/site/image-reveal";
 
 /**
  * Foto real de la oficina (misma que usa /empresa) + texto, en layout
@@ -30,7 +31,7 @@ export function OficinaTrust() {
   return (
     <section className="section-py bg-background" aria-labelledby="oficina">
       <div className="mx-auto grid max-w-site gap-9 px-5 sm:gap-12 sm:px-8 lg:grid-cols-2 lg:items-center lg:gap-16">
-        <Reveal
+        <ImageReveal
           // Apaisada en móvil, vertical desde sm: un 3/4 a 350px de ancho mide
           // ~466px de alto, casi una pantalla entera de teléfono ocupada por
           // una sola foto antes de llegar al texto que la acompaña.
@@ -40,7 +41,6 @@ export function OficinaTrust() {
           // colapsaba a 2px entre 640px y 1023px y la foto desaparecía en
           // toda la franja de tablet. Ver la misma nota en /contacto.
           className="relative aspect-[4/3] w-full overflow-hidden border border-hairline shadow-lift sm:mx-auto sm:aspect-[3/4] sm:max-w-sm lg:mx-0 lg:order-1 lg:max-w-none"
-          direction="left"
         >
           {/* La foto tira a frío (azul-cian) — un filtro cálido la acerca a
               la temperatura del resto del sitio (dorados, negros cálidos)
@@ -53,7 +53,7 @@ export function OficinaTrust() {
             className="object-cover [filter:sepia(.25)_saturate(.85)_hue-rotate(-12deg)]"
           />
           <div aria-hidden className="absolute inset-0 bg-[#140e08]/30" />
-        </Reveal>
+        </ImageReveal>
 
         <Reveal className="lg:order-2" delay={0.1}>
           <SectionHeading as="h2">

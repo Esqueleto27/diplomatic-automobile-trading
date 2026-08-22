@@ -7,11 +7,12 @@ import { contactoCtaImageUrl } from "@/lib/site";
 /**
  * Cierre de la portada: un llamado a la acción único al final del home.
  *
- * Foto real (fila de superautos) como textura de fondo, mismo tratamiento de
- * tres capas que la franja superior de /contacto (ver ContactoPage): el
- * filtro la desatura y le baja el brillo para que no compita con el texto,
- * `bg-black/70` asegura contraste parejo, y el radial oscurece
- * específicamente el centro, donde cae el título.
+ * El fondo es una columnata institucional de noche (generada, sin autos —
+ * ver `contactoCtaImageUrl` en site.ts para por qué se cambió la foto de
+ * superautos que había antes), tratada en tres capas: el filtro le baja el
+ * brillo lo justo, un negro parejo asegura contraste en toda la franja, y
+ * un radial oscurece específicamente la banda central, que es donde cae el
+ * bloque de texto.
  */
 export function ContactCta() {
   const t = useTranslations("contactCta");
@@ -21,17 +22,26 @@ export function ContactCta() {
       className="relative isolate overflow-hidden border-t border-border py-20 sm:py-32"
       aria-labelledby="contacto-cta"
     >
+      {/* Tratamiento bastante más suave que el anterior
+          (grayscale .35 + sepia .2 + brightness .45 + negro al 70 %): esa
+          receta oscurecía tanto la foto que no se distinguía qué era, y una
+          imagen que no se lee no aporta nada — sólo ensucia el fondo. Acá el
+          brillo baja lo justo para que el texto tenga contraste y la
+          columnata siga siendo reconocible, y se quita el desaturado: el
+          ámbar cálido de la piedra es exactamente el color de la marca. */}
       <Image
         src={contactoCtaImageUrl}
         alt=""
         fill
         sizes="100vw"
-        className="-z-10 object-cover object-center [filter:grayscale(.35)_sepia(.2)_brightness(.45)_saturate(.8)]"
+        className="-z-10 object-cover object-center [filter:brightness(.75)_saturate(.95)]"
       />
-      <div aria-hidden className="absolute inset-0 -z-10 bg-black/70" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-black/40" />
+      {/* El radial oscurece sólo la banda central, que es donde cae el
+          bloque de texto — deja los bordes de la foto más limpios. */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[radial-gradient(70%_60%_at_50%_50%,rgba(0,0,0,.55),transparent)]"
+        className="absolute inset-0 -z-10 bg-[radial-gradient(58%_58%_at_50%_50%,rgba(0,0,0,.55),transparent)]"
       />
 
       <div className="mx-auto flex max-w-site flex-col items-center px-5 text-center sm:px-8">

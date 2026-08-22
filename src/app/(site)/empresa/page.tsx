@@ -11,6 +11,7 @@ import {
 import { metadataPagina } from "@/lib/metadata";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal } from "@/components/site/reveal";
+import { ImageReveal } from "@/components/site/image-reveal";
 import { LogoMarca } from "@/components/site/logo-marca";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -67,7 +68,7 @@ export default async function EmpresaPage() {
               texto flotando en medio de un vacío enorme. En `lg:` la foto
               pasa a 3/2 (apaisada), que es lo más cerca que llega del alto
               del título + párrafo sin recortarle el encuadre a la oficina. */}
-          <div className="relative aspect-[3/4] w-full overflow-hidden border border-hairline shadow-lift sm:mx-auto sm:max-w-sm lg:mx-0 lg:aspect-[3/2] lg:max-w-none">
+          <ImageReveal className="relative aspect-[3/4] w-full overflow-hidden border border-hairline shadow-lift sm:mx-auto sm:max-w-sm lg:mx-0 lg:aspect-[3/2] lg:max-w-none">
             <Image
               src={oficinaImageUrl}
               alt={t("fotoAlt")}
@@ -75,7 +76,7 @@ export default async function EmpresaPage() {
               sizes="(max-width: 1024px) 90vw, 40vw"
               className="object-cover [filter:sepia(.25)_saturate(.85)_hue-rotate(-12deg)]"
             />
-          </div>
+          </ImageReveal>
         </div>
       </section>
 
@@ -84,10 +85,7 @@ export default async function EmpresaPage() {
           lado en las dos, la página arrancaría con dos bloques calcados. */}
       <section className="border-b border-border bg-surface">
         <div className="mx-auto grid max-w-site gap-10 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-2 lg:items-center lg:gap-16">
-          <Reveal
-            direction="left"
-            className="relative aspect-[3/2] w-full overflow-hidden border border-hairline shadow-lift"
-          >
+          <ImageReveal className="relative aspect-[3/2] w-full overflow-hidden border border-hairline shadow-lift">
             <Image
               src={trayectoriaImageUrl}
               alt={t("historiaFotoAlt")}
@@ -95,7 +93,7 @@ export default async function EmpresaPage() {
               sizes="(max-width: 1024px) 90vw, 45vw"
               className="object-cover"
             />
-          </Reveal>
+          </ImageReveal>
 
           <Reveal>
             <SectionHeading>{t("historiaTitulo")}</SectionHeading>
@@ -137,10 +135,7 @@ export default async function EmpresaPage() {
           foto iba de fondo a sangre con velo oscuro. */}
       <section className="border-y border-border bg-surface">
         <div className="mx-auto grid max-w-site gap-10 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-2 lg:items-center lg:gap-16">
-          <Reveal
-            direction="left"
-            className="relative aspect-[3/2] w-full overflow-hidden border border-hairline shadow-lift"
-          >
+          <ImageReveal className="relative aspect-[3/2] w-full overflow-hidden border border-hairline shadow-lift">
             <Image
               src={experienciaImageUrl}
               alt={t("experienciaFotoAlt")}
@@ -148,7 +143,7 @@ export default async function EmpresaPage() {
               sizes="(max-width: 1024px) 90vw, 45vw"
               className="object-cover"
             />
-          </Reveal>
+          </ImageReveal>
 
           <Reveal>
             <h2 className="font-display text-[clamp(1.6rem,3.2vw,2.4rem)] font-light leading-[1.2] tracking-wide">

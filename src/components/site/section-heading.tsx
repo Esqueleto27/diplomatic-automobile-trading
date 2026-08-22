@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { MaskUp, RuleDraw } from "@/components/site/mask-up";
 
 /**
  * Título de sección del sitio. Un solo archivo controla el ritmo
@@ -33,8 +34,8 @@ export function SectionHeading({
         className,
       )}
     >
-      <span aria-hidden className="rule-gold mb-5 block h-px w-20" />
-      {children}
+      <RuleDraw className="rule-gold mb-5 block h-px w-20" />
+      <MaskUp delay={0.12}>{children}</MaskUp>
     </Tag>
   );
 }

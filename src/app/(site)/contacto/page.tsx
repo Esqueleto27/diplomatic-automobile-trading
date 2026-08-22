@@ -6,6 +6,7 @@ import { metadataPagina } from "@/lib/metadata";
 import { SectionHeading } from "@/components/site/section-heading";
 import { ContactForm } from "@/components/site/contact-form";
 import { SiteButton } from "@/components/site/button";
+import { ImageReveal } from "@/components/site/image-reveal";
 import { whatsappHref } from "@/lib/whatsapp";
 
 // Sin esto, Next prerenderiza la página como estática en build y el número
@@ -116,7 +117,7 @@ export default async function ContactoPage() {
                 los bordes) entre 640px y 1023px, o sea toda la franja de
                 tablet: la foto simplemente no se veía. Mismo caso en
                 /empresa y en OficinaTrust. */}
-            <div className="relative aspect-[3/4] w-full overflow-hidden border border-hairline shadow-lift sm:mx-auto sm:max-w-sm lg:mx-0 lg:max-w-none">
+            <ImageReveal className="relative aspect-[3/4] w-full overflow-hidden border border-hairline shadow-lift sm:mx-auto sm:max-w-sm lg:mx-0 lg:max-w-none">
               <Image
                 src={edificioImageUrl}
                 alt={t("fotoAlt")}
@@ -124,7 +125,7 @@ export default async function ContactoPage() {
                 sizes="(max-width: 1024px) 90vw, 40vw"
                 className="object-cover"
               />
-            </div>
+            </ImageReveal>
           </div>
         </div>
       </section>
