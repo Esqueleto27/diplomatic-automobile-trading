@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Reveal } from "@/components/site/reveal";
+import { ImageSettle } from "@/components/site/image-settle";
 import { SiteButton } from "@/components/site/button";
 import { contactoCtaImageUrl } from "@/lib/site";
 
@@ -29,13 +30,21 @@ export function ContactCta() {
           brillo baja lo justo para que el texto tenga contraste y la
           columnata siga siendo reconocible, y se quita el desaturado: el
           ámbar cálido de la piedra es exactamente el color de la marca. */}
-      <Image
-        src={contactoCtaImageUrl}
-        alt=""
-        fill
-        sizes="100vw"
-        className="-z-10 object-cover object-center [filter:brightness(.75)_saturate(.95)]"
-      />
+      {/* Era la única foto grande del sitio sin ningún movimiento — todas
+          las demás (hero, oficina, empresa) ya asientan o se descubren al
+          entrar en pantalla, y quieta al lado se leía como que a esta
+          sección se le olvidó terminarla. `-z-10` va en ImageSettle, no en
+          la Image: es el contenedor el que necesita el stacking context
+          por encima del negro del fondo de la sección. */}
+      <ImageSettle className="absolute inset-0 -z-10">
+        <Image
+          src={contactoCtaImageUrl}
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover object-center [filter:brightness(.75)_saturate(.95)]"
+        />
+      </ImageSettle>
       <div aria-hidden className="absolute inset-0 -z-10 bg-black/40" />
       {/* El radial oscurece sólo la banda central, que es donde cae el
           bloque de texto — deja los bordes de la foto más limpios. */}

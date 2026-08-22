@@ -29,7 +29,7 @@
     "confianza": "Over 30 years advising embassies, international organizations, diplomatic officials and technical assistance staff on the purchase and sale of tax-exempt vehicles in Ecuador."
   },
   "oficinaTrust": {
-    "titulo": "Over 30 years of experience",
+    "titulo": "A direct relationship, no middlemen",
     "texto": "We are with you throughout the entire process, from choosing your vehicle to handling the paperwork and the delivery. Our team is at your disposal to offer close, transparent and personalized attention, making every step simpler and more secure.",
     "cta": "Learn about us",
     "fotoAlt": "Diplomatic Automobile Trading office"
@@ -156,11 +156,11 @@
     "titulo": "About Us",
     "intro": "We are an Ecuadorian company with more than 30 years of experience providing specialized solutions and advice to national and international clients. Our commitment is built on trust, personalized attention and a thorough command of every process, delivering professional service from start to finish.",
     "historiaTitulo": "A track record built on trust",
-    "historiaTexto": "For more than three decades we have supported our clients at every stage of the process, adapting to their needs and expanding our services to offer increasingly complete solutions. Our experience shows not only in what we do, but in the relationships we have built and kept over the years. Today that track record is the foundation of a service designed to respond with assurance, closeness and professionalism.",
+    "historiaTexto": "That track record is not measured in years alone, but in relationships that hold up over time: clients who return, who refer us, and who trust us with increasingly complex matters. That continuity, more than any figure, is what backs every service we offer today.",
     "razones": {
       "experiencia": {
         "titulo": "Experience",
-        "texto": "More than 30 years in the business let us understand every process and advise from real, first-hand experience."
+        "texto": "We know every procedure, every regulation and every complication inside out — the kind of knowledge that only comes from solving real cases, not reading manuals."
       },
       "atencion": {
         "titulo": "Personalized attention",
@@ -176,7 +176,7 @@
       }
     },
     "experienciaTitulo": "Experience backed by major clients",
-    "experienciaTexto": "We have worked alongside embassies, international organizations, diplomatic officials and technical assistance professionals in Ecuador, with specialized advice on every process involving their vehicle and on the services that go with it.",
+    "experienciaTexto": "Embassies, international organizations, and officials on diplomatic or technical assistance postings in Ecuador choose us to handle everything related to their vehicle, from importation to the complementary services around it.",
     "marcasTitulo": "Alliances that strengthen our service",
     "fotoAlt": "Diplomatic Automobile Trading office",
     "historiaFotoAlt": "Aged documents tied with cord on a wooden desk, lit by a lamp",

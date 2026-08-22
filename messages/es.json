@@ -29,7 +29,7 @@
     "confianza": "Más de 30 años asesorando a embajadas, organismos internacionales, funcionarios diplomáticos y de asistencia técnica en la compra y venta de vehículos exonerados en Ecuador."
   },
   "oficinaTrust": {
-    "titulo": "Una experiencia de más de 30 años",
+    "titulo": "Un trato directo, sin intermediarios",
     "texto": "Le acompañamos durante todo el proceso, desde la elección de su vehículo hasta la gestión de documentos y la entrega. Nuestro equipo está a su disposición para brindarle una atención cercana, transparente y personalizada, haciendo que cada paso sea más sencillo y seguro.",
     "cta": "Conocer la empresa",
     "fotoAlt": "Oficina de Diplomatic Automobile Trading"
@@ -156,11 +156,11 @@
     "titulo": "Sobre Nosotros",
     "intro": "Somos una empresa ecuatoriana con más de 30 años de experiencia brindando soluciones y asesoría especializada a clientes nacionales e internacionales. Nuestro compromiso se basa en la confianza, la atención personalizada y el conocimiento de cada proceso, ofreciendo un servicio profesional de principio a fin.",
     "historiaTitulo": "Una trayectoria construida con confianza",
-    "historiaTexto": "Durante más de tres décadas hemos acompañado a nuestros clientes en cada etapa del proceso, adaptándonos a sus necesidades y ampliando nuestros servicios para ofrecer soluciones cada vez más completas. Nuestra experiencia no solo se refleja en lo que hacemos, sino en las relaciones que hemos construido y mantenido a lo largo de los años. Hoy, esa trayectoria es la base de un servicio pensado para responder con seguridad, cercanía y profesionalismo.",
+    "historiaTexto": "Esa trayectoria no se mide sólo en años, sino en las relaciones que se sostienen en el tiempo: clientes que vuelven, que recomiendan y que confían en nosotros para gestiones cada vez más complejas. Es esa continuidad, más que cualquier cifra, la que respalda cada servicio que ofrecemos hoy.",
     "razones": {
       "experiencia": {
         "titulo": "Experiencia",
-        "texto": "Más de 30 años de trayectoria nos permiten conocer cada proceso y brindar una asesoría basada en experiencia real."
+        "texto": "Conocemos a fondo cada trámite, cada normativa y cada eventualidad — el tipo de conocimiento que sólo se adquiere resolviendo casos reales, no leyendo manuales."
       },
       "atencion": {
         "titulo": "Atención personalizada",
@@ -176,7 +176,7 @@
       }
     },
     "experienciaTitulo": "Una experiencia respaldada por grandes clientes",
-    "experienciaTexto": "Hemos acompañado a embajadas, organismos internacionales, funcionarios diplomáticos y profesionales de asistencia técnica en Ecuador, con asesoría especializada en cada proceso relacionado con su vehículo y en los servicios que lo acompañan.",
+    "experienciaTexto": "Embajadas, organismos internacionales y funcionarios en misión diplomática o de asistencia técnica en Ecuador nos eligen para gestionar todo lo relacionado con su vehículo, desde la importación hasta los servicios complementarios que lo rodean.",
     "marcasTitulo": "Alianzas que fortalecen nuestro servicio",
     "fotoAlt": "Oficina de Diplomatic Automobile Trading",
     "historiaFotoAlt": "Documentos antiguos atados con cordel sobre un escritorio de madera, iluminados por una lámpara",

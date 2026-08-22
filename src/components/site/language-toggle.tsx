@@ -35,24 +35,22 @@ export function LanguageToggle() {
   // idioma sigue existiendo como aria-label (accesible), la bandera sola no
   // es una etiqueta suficiente por su cuenta.
   //
-  // Tres decisiones para que no desentonen con el resto del sitio, donde
-  // todo es marfil, dorado y negro cálido:
+  // Dos decisiones para que no desentonen con el resto del sitio, donde todo
+  // es marfil, dorado y negro cálido:
   //
-  // 1. Sólo la bandera del idioma ACTIVO tiene color; la otra va en gris.
-  //    Antes las dos iban a todo color y la inactiva sólo bajaba de
-  //    opacidad, así que el rincón del header tenía cuatro colores
-  //    saturados compitiendo con el logo. Con una sola en color, además,
-  //    el estado se lee de un vistazo en vez de por una diferencia de
-  //    opacidad que hay que buscar.
-  // 2. Más chicas (20px de alto contra 28px): un selector de idioma es un
+  // 1. Más chicas (20px de alto contra 28px): un selector de idioma es un
   //    control de servicio, no un elemento de marca. Antes pesaban más que
   //    los links del nav.
-  // 3. El aro pasa de blanco frío al hairline cálido del tema, y se le suma
+  // 2. El aro pasa de blanco frío al hairline cálido del tema, y se le suma
   //    un borde interior oscuro: la bandera queda embutida en la página en
   //    vez de pegada encima.
   //
-  // El subrayado dorado se queda aunque el color ya distinga el activo: el
-  // color por sí solo no puede ser el único indicador de estado.
+  // Las dos banderas van siempre a todo color — se probó apagar la inactiva
+  // a gris (`opacity-45 grayscale`) y el cliente lo vio como "una bandera
+  // oscura", no como un estado apagado legible. El subrayado dorado ya
+  // marca cuál está activa sin necesidad de tocar el color de la bandera en
+  // sí; `saturate(.85)` en las dos por igual las mete en la misma familia
+  // tonal que el resto del sitio sin que ninguna se lea "apagada".
   const opcion = (value: Locale) => {
     const activo = locale === value;
     const Bandera = BANDERAS[value];
@@ -67,15 +65,7 @@ export function LanguageToggle() {
         className="group relative cursor-pointer p-1 pb-2 outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background disabled:cursor-wait"
       >
         <Bandera
-          className={cn(
-            "h-[1.125rem] w-[1.6875rem] rounded-[1px] shadow-[0_0_0_1px_var(--hairline-strong),inset_0_0_0_1px_rgba(0,0,0,0.3)] transition-all duration-300 ease-out sm:h-5 sm:w-[1.875rem]",
-            activo
-              // `saturate(.85)`: los colores oficiales de bandera son de una
-              // viveza que ninguna otra cosa del sitio tiene. Bajarlos un
-              // punto los mete en la misma familia sin volverlos otro color.
-              ? "[filter:saturate(.85)]"
-              : "opacity-45 [filter:grayscale(1)] group-hover:opacity-80 group-hover:[filter:grayscale(.4)_saturate(.85)]",
-          )}
+          className="h-[1.125rem] w-[1.6875rem] rounded-[1px] shadow-[0_0_0_1px_var(--hairline-strong),inset_0_0_0_1px_rgba(0,0,0,0.3)] transition-all duration-300 ease-out sm:h-5 sm:w-[1.875rem] [filter:saturate(.85)]"
         />
         <span
           aria-hidden

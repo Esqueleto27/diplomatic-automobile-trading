@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { ArrowRight } from "lucide-react";
 import type { Servicio } from "@/lib/site";
+import { ImageSettle } from "@/components/site/image-settle";
 
 /**
  * Tarjeta de descubrimiento — vive en la home, en /servicios (grilla) y como
@@ -34,13 +35,15 @@ export function ServiceCard({ servicio, delay = 0 }: { servicio: Servicio; delay
     >
       {imagen ? (
         <>
-          <Image
-            src={imagen}
-            alt=""
-            fill
-            sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
-            className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06]"
-          />
+          <ImageSettle className="absolute inset-0">
+            <Image
+              src={imagen}
+              alt=""
+              fill
+              sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+              className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06]"
+            />
+          </ImageSettle>
           {/* Antes se disolvía a 0.25 de opacidad ya a mitad de la card
               (`via-black/25 via-55%`) — insuficiente contraste contra fotos
               claras (contenedores, capó, ventana de aeropuerto): el título

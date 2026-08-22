@@ -2,6 +2,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import type { AutoPublico } from "@/lib/cars";
 import { Watermark } from "@/components/site/watermark";
+import { ImageSettle } from "@/components/site/image-settle";
 
 /**
  * Foto de portada del auto. Cuando todavía no se cargó ninguna foto muestra
@@ -26,7 +27,7 @@ export function CarMedia({
       className={cn("relative overflow-hidden bg-surface-2", className)}
     >
       {portada ? (
-        <>
+        <ImageSettle className="absolute inset-0">
           <Image
             src={portada}
             alt={auto.nombre}
@@ -37,7 +38,7 @@ export function CarMedia({
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
           />
           <Watermark size="sm" />
-        </>
+        </ImageSettle>
       ) : (
         <div
           aria-hidden
