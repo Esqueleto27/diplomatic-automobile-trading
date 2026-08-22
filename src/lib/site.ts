@@ -52,21 +52,23 @@ export const oficinaImageUrl = `${ASSETS_BASE_URL}/empresa/oficina.png`;
 export const edificioImageUrl = `${ASSETS_BASE_URL}/empresa/edificio.png`;
 // Fondo del CTA de cierre de la home, ver ContactCta.
 //
-// Reemplaza a `contacto-cta.jpg` (una foto real de una fila de superautos
-// Pagani), que se descartó por tres motivos acumulados: eran hiperdeportivos
-// que el negocio no vende —promesa que no se puede cumplir—; el tratamiento
-// necesario para que el texto se leyera encima la oscurecía tanto que no se
-// distinguía nada, o sea que la foto no aportaba y sólo ensuciaba; y el
-// cliente ya había rechazado exactamente este recurso en /contacto por
-// "feo"/competir con el contenido.
+// Tercera foto en esta franja. La primera (`contacto-cta.jpg`, una fila de
+// superautos Pagani) se descartó por autos que el negocio no vende y por un
+// tratamiento tan oscuro que no se distinguía nada. La segunda
+// (`contacto-cta-columnata.webp`, una columnata institucional sin autos) el
+// cliente tampoco la quiso — pidió volver a algo "con un auto (genérico)".
 //
-// La reemplazante es generada (Higgsfield, z_image) y a propósito NO tiene
-// autos: una columnata institucional iluminada de noche habla del público
-// real del negocio (embajadas, organismos) mejor que un auto de lujo
-// genérico, no promete un inventario que no existe y no arrastra ninguna
-// marca registrada. Además es simétrica y con la mitad inferior calma, que
-// es donde cae el texto centrado. El archivo viejo sigue en R2 sin usarse.
-export const contactoCtaImageUrl = `${ASSETS_BASE_URL}/contacto-cta-columnata.webp`;
+// Esta es un plano de detalle (guardabarros/parabrisas trasero, sin la
+// parrilla ni los faros delanteros en cuadro) de un sedán sin marca en una
+// calle mojada a la hora azul — mismo criterio de siempre: generado con
+// Higgsfield/nano_banana_pro. El plano completo del auto (3 intentos, y
+// otros 3 con la cámara más cerca del lado del conductor) salió Mercedes-
+// Benz Clase S reconocible las seis veces pese al prompt pidiendo "sin
+// marca" — la parrilla y el faro son las piezas que el modelo copia de un
+// diseño real, así que sacarlas del cuadro fue lo que finalmente funcionó
+// (mismo hallazgo que con `importacion-vehiculos.webp` en /servicios). Los
+// dos archivos viejos siguen en R2 sin usarse, por si hace falta volver.
+export const contactoCtaImageUrl = `${ASSETS_BASE_URL}/contacto-cta-nocturna.webp`;
 
 // Las tres de /empresa sí son generadas (no fotos del negocio), con el mismo
 // criterio que los fondos de servicios: sin logos, sin texto legible y sin
