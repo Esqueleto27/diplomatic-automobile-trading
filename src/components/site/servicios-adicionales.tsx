@@ -23,7 +23,7 @@ export function ServiciosAdicionales() {
   const t = useTranslations("servicios");
 
   return (
-    <section className="section-py" aria-labelledby="servicios">
+    <section className="surface-lit section-py" aria-labelledby="servicios">
       <div className="mx-auto max-w-site px-5 sm:px-8">
         <SectionHeading>
           <span id="servicios">{t("tituloSeccion")}</span>

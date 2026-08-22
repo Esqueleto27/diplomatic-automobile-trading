@@ -36,7 +36,7 @@ export function ContactCta() {
 
       <div className="mx-auto flex max-w-site flex-col items-center px-5 text-center sm:px-8">
         <Reveal className="flex flex-col items-center">
-          <span aria-hidden className="mb-5 h-px w-12 bg-gold/70" />
+          <span aria-hidden className="mb-6 h-px w-20 [background-image:linear-gradient(90deg,transparent,var(--gold),transparent)]" />
           <h2
             id="contacto-cta"
             className="font-display text-[clamp(1.75rem,3.6vw,2.75rem)] font-light leading-[1.1] tracking-wide"

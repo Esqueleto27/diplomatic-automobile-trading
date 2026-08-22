@@ -116,7 +116,7 @@ export default async function ContactoPage() {
                 los bordes) entre 640px y 1023px, o sea toda la franja de
                 tablet: la foto simplemente no se veía. Mismo caso en
                 /empresa y en OficinaTrust. */}
-            <div className="relative aspect-[3/4] w-full overflow-hidden border border-white/[0.07] shadow-lift sm:mx-auto sm:max-w-sm lg:mx-0 lg:max-w-none">
+            <div className="relative aspect-[3/4] w-full overflow-hidden border border-hairline shadow-lift sm:mx-auto sm:max-w-sm lg:mx-0 lg:max-w-none">
               <Image
                 src={edificioImageUrl}
                 alt={t("fotoAlt")}
@@ -143,7 +143,7 @@ export default async function ContactoPage() {
               (`self-stretch` + `h-full` en el iframe) en vez de quedar con
               su propio alto fijo más chico. */}
           <div className="mt-10 grid gap-8 lg:grid-cols-2 lg:items-stretch lg:gap-10">
-            <div className="border border-white/[0.07] bg-background p-6 sm:p-10">
+            <div className="border border-hairline bg-background p-6 sm:p-10">
               <ContactForm />
             </div>
 

@@ -39,7 +39,7 @@ export function OficinaTrust() {
           // `<Image fill>` (absolute, fuera del flujo). Sin esto la caja
           // colapsaba a 2px entre 640px y 1023px y la foto desaparecía en
           // toda la franja de tablet. Ver la misma nota en /contacto.
-          className="relative aspect-[4/3] w-full overflow-hidden border border-white/[0.07] shadow-lift sm:mx-auto sm:aspect-[3/4] sm:max-w-sm lg:mx-0 lg:order-1 lg:max-w-none"
+          className="relative aspect-[4/3] w-full overflow-hidden border border-hairline shadow-lift sm:mx-auto sm:aspect-[3/4] sm:max-w-sm lg:mx-0 lg:order-1 lg:max-w-none"
           direction="left"
         >
           {/* La foto tira a frío (azul-cian) — un filtro cálido la acerca a

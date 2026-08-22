@@ -30,7 +30,7 @@ export function ServiceCard({ servicio, delay = 0 }: { servicio: Servicio; delay
     <Link
       href={`/servicios#${slug}`}
       style={{ animationDelay: `${delay}s` }}
-      className="group relative flex aspect-[4/3] flex-col justify-end overflow-hidden border border-white/[0.07] bg-surface p-5 outline-none sm:p-6 transition-all duration-300 ease-out hover:-translate-y-1 hover:border-gold/50 hover:shadow-[0_24px_44px_-18px_rgba(0,0,0,0.6),0_0_0_1px_rgba(199,163,84,0.12)] focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+      className="sheen sheen-soft group relative flex aspect-[4/3] flex-col justify-end overflow-hidden border border-hairline bg-surface p-5 shadow-plate outline-none sm:p-6 transition-all duration-500 ease-out hover:-translate-y-1.5 hover:border-gold/50 hover:shadow-lift focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background"
     >
       {imagen ? (
         <>
@@ -39,7 +39,7 @@ export function ServiceCard({ servicio, delay = 0 }: { servicio: Servicio; delay
             alt=""
             fill
             sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06]"
           />
           {/* Antes se disolvía a 0.25 de opacidad ya a mitad de la card
               (`via-black/25 via-55%`) — insuficiente contraste contra fotos
@@ -60,7 +60,7 @@ export function ServiceCard({ servicio, delay = 0 }: { servicio: Servicio; delay
       <div className="relative">
         <span
           aria-hidden
-          className="mb-4 block h-px w-10 bg-gold/70 transition-all duration-500 group-hover:w-16"
+          className="rule-gold mb-4 block h-px w-12 transition-all duration-700 ease-out group-hover:w-24"
         />
         {/* El ícono va pegado al título, no flotando arriba a la derecha de
             la foto: así queda leído como parte del bloque de texto en vez de
@@ -74,7 +74,7 @@ export function ServiceCard({ servicio, delay = 0 }: { servicio: Servicio; delay
         <div className="flex min-h-[3.4375rem] items-end gap-3">
           <span
             aria-hidden
-            className="grid size-9 shrink-0 place-items-center rounded-full border border-white/15 bg-black/30 backdrop-blur-sm transition-colors duration-300 group-hover:border-gold/60"
+            className="grid size-9 shrink-0 place-items-center rounded-full border border-hairline-strong bg-black/30 backdrop-blur-sm transition-colors duration-300 group-hover:border-gold/60"
           >
             <Icono className="size-4 text-gold transition-transform duration-300 group-hover:scale-110" />
           </span>

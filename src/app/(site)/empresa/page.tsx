@@ -67,7 +67,7 @@ export default async function EmpresaPage() {
               texto flotando en medio de un vacío enorme. En `lg:` la foto
               pasa a 3/2 (apaisada), que es lo más cerca que llega del alto
               del título + párrafo sin recortarle el encuadre a la oficina. */}
-          <div className="relative aspect-[3/4] w-full overflow-hidden border border-white/[0.07] shadow-lift sm:mx-auto sm:max-w-sm lg:mx-0 lg:aspect-[3/2] lg:max-w-none">
+          <div className="relative aspect-[3/4] w-full overflow-hidden border border-hairline shadow-lift sm:mx-auto sm:max-w-sm lg:mx-0 lg:aspect-[3/2] lg:max-w-none">
             <Image
               src={oficinaImageUrl}
               alt={t("fotoAlt")}
@@ -86,7 +86,7 @@ export default async function EmpresaPage() {
         <div className="mx-auto grid max-w-site gap-10 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-2 lg:items-center lg:gap-16">
           <Reveal
             direction="left"
-            className="relative aspect-[3/2] w-full overflow-hidden border border-white/[0.07] shadow-lift"
+            className="relative aspect-[3/2] w-full overflow-hidden border border-hairline shadow-lift"
           >
             <Image
               src={trayectoriaImageUrl}
@@ -117,7 +117,7 @@ export default async function EmpresaPage() {
           {razonesConfianza.map(({ slug, icono: Icono }, i) => (
             <li key={slug}>
               <Reveal delay={i * 0.06} className="h-full">
-                <article className="flex h-full flex-col border border-white/[0.07] bg-surface p-7 transition-colors duration-200 hover:border-gold/50">
+                <article className="flex h-full flex-col border border-hairline bg-surface p-7 transition-colors duration-200 hover:border-gold/50">
                   <Icono className="size-7 text-gold" aria-hidden />
                   <h3 className="mt-5 font-display text-xl tracking-wide">
                     {t(`razones.${slug}.titulo`)}
@@ -139,7 +139,7 @@ export default async function EmpresaPage() {
         <div className="mx-auto grid max-w-site gap-10 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-2 lg:items-center lg:gap-16">
           <Reveal
             direction="left"
-            className="relative aspect-[3/2] w-full overflow-hidden border border-white/[0.07] shadow-lift"
+            className="relative aspect-[3/2] w-full overflow-hidden border border-hairline shadow-lift"
           >
             <Image
               src={experienciaImageUrl}

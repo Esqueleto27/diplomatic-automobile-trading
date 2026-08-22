@@ -62,7 +62,7 @@ export default async function ServiciosPage() {
           >
             <div className="mx-auto grid max-w-site scroll-mt-28 items-center gap-7 px-5 py-12 sm:gap-8 sm:px-8 sm:py-20 lg:grid-cols-2 lg:gap-16">
               <div className={i % 2 === 0 ? "lg:order-1" : "lg:order-2"}>
-                <div className="group relative aspect-[4/3] overflow-hidden border border-white/[0.07] bg-surface-2">
+                <div className="group relative aspect-[4/3] overflow-hidden border border-hairline bg-surface-2">
                   {imagen ? (
                     <Image
                       src={imagen}

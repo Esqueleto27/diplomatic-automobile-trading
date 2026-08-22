@@ -81,10 +81,16 @@ export async function CarCardDetalle({ auto }: { auto: AutoPublico }) {
   return (
     <article
       className={cn(
-        "group flex h-full flex-col border bg-surface transition-all duration-300 ease-out",
+        // El borde dorado sin el lado superior es pedido explícito del
+        // cliente y se mantiene tal cual. Lo que se suma es `shadow-plate`
+        // en reposo: una tarjeta que sólo tiene sombra cuando la tocás
+        // flota la mitad del tiempo — con una elevación mínima siempre
+        // encendida, la grilla se lee como objetos apoyados sobre la página
+        // en vez de recortes pegados sobre el fondo.
+        "group flex h-full flex-col border bg-surface shadow-plate transition-all duration-500 ease-out",
         vendido
-          ? "border-white/[0.07]"
-          : "border-gold/25 hover:-translate-y-1 hover:border-gold/60 hover:shadow-lift",
+          ? "border-hairline"
+          : "border-gold/25 hover:-translate-y-1.5 hover:border-gold/60 hover:shadow-lift",
       )}
     >
       <Link
@@ -95,9 +101,20 @@ export async function CarCardDetalle({ auto }: { auto: AutoPublico }) {
           auto={auto}
           sizes="(max-width: 640px) 85vw, (max-width: 1024px) 45vw, 30vw"
           className={cn(
-            "aspect-video sm:aspect-[16/10]",
+            // `sheen sheen-soft`: un reflejo cálido cruza la foto una sola
+            // vez al pasar el mouse. Va en la variante tenue y no en la
+            // blanca del botón — sobre una fotografía, un destello al 30%
+            // se lee como un error de render, no como luz.
+            "aspect-video sheen sheen-soft sm:aspect-[16/10]",
             vendido && "grayscale",
           )}
+        />
+        {/* Pie de sombra sobre la foto: funde el borde inferior de la
+            imagen con el cuerpo de la tarjeta en vez de dejar el corte
+            recto entre foto y fondo. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent"
         />
         {vendido && <div aria-hidden className="absolute inset-0 bg-black/35" />}
         {estado && (
@@ -121,18 +138,32 @@ export async function CarCardDetalle({ auto }: { auto: AutoPublico }) {
           </Link>
         </h3>
 
-        <p className="mt-3 text-sm tracking-wide text-muted-foreground">
+        {/* Versalitas espaciadas para la ficha corta: el mismo dato leído
+            como etiqueta de catálogo y no como una línea de texto suelta.
+            Es la diferencia tipográfica que separa la jerarquía (nombre →
+            specs → precio) sin necesitar más color ni más tamaño. */}
+        <p className="mt-3 text-[0.78rem] uppercase tracking-[0.14em] text-muted-foreground/85">
           {especificaciones(auto, locale, t)}
         </p>
 
         {/* mt-auto ancla precio + CTA al fondo de la card: sin esto, un
             título de 2 líneas en una tarjeta y de 1 en la de al lado
             desalinea dónde caen el precio y el botón entre columnas. */}
-        <div className="mt-auto pt-3">
+        <div className="mt-auto pt-4">
+          {/* Hairline sobre el precio: lo separa de la ficha técnica y lo
+              convierte en el remate de la tarjeta. Sin la línea, precio y
+              specs se leen como parte del mismo párrafo. */}
+          <span aria-hidden className="mb-4 block h-px w-full bg-hairline" />
           <p
             className={cn(
-              "font-semibold tracking-wide text-gold",
-              sinPrecio ? "text-base" : "text-[1.375rem]",
+              "font-semibold tracking-wide",
+              // `text-metal` (degradado recortado al glifo) sólo con precio
+              // real: abajo de ~18px el degradado no llega a desarrollarse
+              // y únicamente baja el contraste, así que "precio bajo
+              // consulta" —más chico— se queda con el dorado plano.
+              sinPrecio
+                ? "text-base text-gold"
+                : "text-metal text-[1.5rem] leading-none",
             )}
           >
             {precio}

@@ -12,7 +12,7 @@ export function Hero() {
     // y encogía durante el scroll, empujando todo lo de abajo — se lee como
     // que la página "salta" justo al empezar a bajar. `svh` es la altura con
     // la barra visible: no cambia nunca, así que nada se mueve.
-    <section className="relative isolate -mt-24 min-h-[100svh] overflow-hidden sm:min-h-[clamp(34rem,84vh,52rem)]">
+    <section className="relative isolate -mt-24 min-h-[100svh] overflow-hidden sm:min-h-[clamp(38rem,92vh,58rem)]">
       {/* -mt-24 cancela el `pt-24` que el layout del sitio agrega para
           compensar el header `fixed` (ver SiteLayout): así la foto arranca
           en el borde superior real de la ventana, debajo del header
@@ -25,6 +25,24 @@ export function Hero() {
           depende de que esta foto en particular ya sea oscura de por sí. Si
           en el futuro se cambia la foto del hero por una más clara, revisar
           la legibilidad del título/tagline sobre ella. */}
+
+      {/* Viñeta: NO es el velo que se sacó. Un velo es una capa pareja sobre
+          toda la foto (baja el auto entero); esto oscurece únicamente los
+          cuatro bordes y deja el centro exactamente como está — es el
+          encuadre que hace cualquier lente, y es lo que separa una foto de
+          catálogo de una foto de campaña. Aun así toca el pedido del
+          cliente de cerca: si no le gusta, se borra este div y nada más. */}
+      <div aria-hidden className="hero-vignette absolute inset-0 -z-10" />
+
+      {/* Telón de entrada: la primera pantalla arranca en negro y se levanta
+          en 1,5s. Cuesta medio segundo de espera percibida y es lo que hace
+          que la home se sienta presentada en vez de simplemente cargada.
+          `pointer-events-none` para que los botones respondan aunque el
+          telón todavía esté disolviéndose. */}
+      <div
+        aria-hidden
+        className="animate-veil-lift pointer-events-none absolute inset-0 -z-10 bg-background"
+      />
 
       {/* Fade en el borde inferior para fundir con la página — no es para
           contraste de texto, es para que el corte de la foto no quede una
@@ -42,7 +60,7 @@ export function Hero() {
           el tagline vuelve con el título, y sólo los botones quedan del
           otro lado. En móvil todo se apila igual que siempre, sin columnas
           (no hay ancho para dos). */}
-      <div className="mx-auto flex min-h-[100svh] max-w-site items-end px-5 pb-14 pt-24 sm:min-h-[clamp(34rem,84vh,52rem)] sm:pb-16 sm:px-8 sm:pt-24">
+      <div className="mx-auto flex min-h-[100svh] max-w-site items-end px-5 pb-14 pt-24 sm:min-h-[clamp(38rem,92vh,58rem)] sm:pb-16 sm:px-8 sm:pt-24">
         <div className="flex w-full flex-col gap-8 sm:flex-row sm:items-end sm:justify-between sm:gap-12">
           <div className="max-w-xl">
             {/* Breakpoint móvil propio, no el mismo clamp que desktop: en
@@ -51,7 +69,7 @@ export function Hero() {
                 iPhone SE) — acá el tamaño/interlineado bajan de forma fija,
                 desde sm: se recupera el clamp original sin tocar nada de
                 tablet/desktop para arriba. */}
-            <h1 className="animate-fade-up-in font-display text-[2.35rem] font-light uppercase leading-[1.15] tracking-[0.01em] sm:text-[clamp(2.2rem,5.5vw,4rem)] sm:leading-[0.88] sm:tracking-[0.02em]">
+            <h1 className="animate-fade-up-in font-display text-[2.35rem] font-light uppercase leading-[1.15] tracking-[0.01em] [text-shadow:0_2px_28px_rgba(0,0,0,0.5)] sm:text-[clamp(2.4rem,6.2vw,5rem)] sm:leading-[0.86] sm:tracking-[0.015em]">
               Diplomatic
               <br />
               Automobile
@@ -64,7 +82,7 @@ export function Hero() {
                 traducción, es la frase elegida tal cual para ambos idiomas. */}
             <p
               style={{ animationDelay: "0.1s" }}
-              className="animate-fade-up-in mt-5 max-w-[22rem] text-[1.0625rem] leading-[1.55] tracking-wide text-foreground sm:mt-6 sm:max-w-md sm:text-[1.375rem] sm:leading-relaxed"
+              className="animate-fade-up-in mt-5 max-w-[22rem] text-[1.0625rem] leading-[1.55] tracking-wide text-foreground [text-shadow:0_1px_16px_rgba(0,0,0,0.55)] sm:mt-7 sm:max-w-md sm:text-[1.375rem] sm:leading-relaxed"
             >
               {t("tagline")}
             </p>
@@ -100,6 +118,20 @@ export function Hero() {
             </SiteButton>
           </div>
         </div>
+      </div>
+
+      {/* Riel de scroll: una línea de luz que baja por un hilo vertical.
+          Sin flecha ni la palabra "scroll" — una flecha rebotando es el
+          recurso de landing genérica, y además habría que traducirla. Sólo
+          desde sm: en un teléfono el hero ya ocupa la pantalla justa y este
+          detalle competía con los botones. */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-7 hidden justify-center sm:flex"
+      >
+        <span className="relative block h-12 w-px overflow-hidden bg-foreground/15">
+          <span className="animate-scroll-cue absolute inset-0 block bg-gradient-to-b from-transparent via-gold to-transparent" />
+        </span>
       </div>
     </section>
   );

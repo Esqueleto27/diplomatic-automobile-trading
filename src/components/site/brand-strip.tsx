@@ -24,10 +24,10 @@ export function BrandStrip() {
   return (
     <section
       aria-label={t("aria")}
-      className="border-y border-border bg-surface"
+      className="surface-lit border-y border-border bg-surface"
     >
       <div className="mx-auto flex max-w-site flex-col items-center px-5 pt-10 sm:px-8 sm:pt-12">
-        <span aria-hidden className="mb-4 h-px w-10 bg-gold/70" />
+        <span aria-hidden className="mb-4 h-px w-16 [background-image:linear-gradient(90deg,transparent,var(--gold),transparent)]" />
         {/* Un poco más grande en móvil (antes text-sm/14px, se leía chico
             para un dato que la empresa considera importante — los +30
             años) y con más ancho/interlineado para que respire en vez de

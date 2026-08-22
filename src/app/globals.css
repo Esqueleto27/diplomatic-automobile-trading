@@ -13,7 +13,10 @@
   --font-display: var(--font-display);
   --color-gold: var(--gold);
   --color-gold-strong: var(--gold-strong);
+  --color-gold-deep: var(--gold-deep);
   --color-gold-foreground: var(--gold-foreground);
+  --color-hairline: var(--hairline);
+  --color-hairline-strong: var(--hairline-strong);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -46,13 +49,26 @@
   --container-site: 1280px;
   /* Sombras compartidas del sitio (tarjetas + botones) — un solo lugar para
      que toda elevación siga el mismo lenguaje. */
-  --shadow-lift: 0 24px 44px -18px rgba(0, 0, 0, 0.6);
+  --shadow-lift: 0 28px 56px -22px rgba(0, 0, 0, 0.85);
+  /* Elevación en reposo de las tarjetas. Antes no existía: una tarjeta sin
+     sombra alguna hasta que la tocás flota sólo la mitad del tiempo. Ésta
+     es apenas perceptible sola, pero es lo que hace que la grilla se lea
+     como objetos apoyados sobre la página en vez de recortes pegados. */
+  --shadow-plate: 0 10px 30px -20px rgba(0, 0, 0, 0.9);
   /* Antes un halo dorado difuso y grande (rgba(199,163,84,...) con blur de
      28-34px) — se leía a plantilla genérica. Ahora es una sombra dura y
      chica, neutra (no coloreada), mismo lenguaje que --shadow-lift pero a
      escala de botón en vez de tarjeta. */
-  --shadow-glow: 0 4px 12px -2px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow-glow-hover: 0 6px 16px -2px rgba(0, 0, 0, 0.45), 0 2px 5px rgba(0, 0, 0, 0.35);
+  --shadow-glow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.22),
+    0 6px 18px -6px rgba(0, 0, 0, 0.55),
+    0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-glow-hover:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.22),
+    0 14px 30px -10px rgba(0, 0, 0, 0.65),
+    0 2px 6px rgba(0, 0, 0, 0.45);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
   --color-popover-foreground: var(--popover-foreground);
@@ -141,17 +157,25 @@
    ───────────────────────────────────────────────────────────── */
 .site-theme {
   /* Paleta base */
-  --brand-ink: #f2efe9;
+  --brand-ink: #f4f1ea;
   --brand-gold: #c7a354;
 
   /* Tres negros distintos según el contexto, no uno solo repetido: es lo
      que le da profundidad a la página en vez de leerse como una sola masa
      oscura. De más oscuro a menos oscuro: cuerpo > tarjetas > su contenido
      interior (galería, placeholders). El velo del hero es aparte, directo
-     en HeroImage/Hero — no vive en estos tokens. */
-  --background: #111111;
-  --surface: #171717;
-  --surface-2: #1e1e1e;
+     en HeroImage/Hero — no vive en estos tokens.
+
+     Los tres son negros CÁLIDOS, no grises neutros (antes #111/#171717/
+     #1e1e1e, achromáticos). Un negro puro es el default de cualquier dark
+     mode y se lee como plantilla; correrlo unos grados hacia el marrón lo
+     emparenta con el marfil y el dorado de la marca, y hace que toda la
+     página se sienta teñida en vez de apagada. La diferencia por par sigue
+     siendo la misma (~5 puntos de luminancia) para que las tarjetas se
+     despeguen del fondo igual que antes. */
+  --background: #0c0b09;
+  --surface: #14120f;
+  --surface-2: #1c1915;
 
   /* Texto */
   --foreground: var(--brand-ink);
@@ -160,14 +184,34 @@
      más clara. */
   --muted-foreground: #c9c4b8;
 
-  /* Acento (botones, detalles) */
+  /* Acento (botones, detalles).
+     Tres valores, no uno: el dorado plano de un solo hex se lee amarillo,
+     no metal. Un metal real tiene un rango — luz (champán), cuerpo y
+     sombra (oro viejo) — y es la diferencia entre esos tres lo que el ojo
+     interpreta como reflejo. `--gold-gradient` es ese barrido y se usa en
+     el botón principal; `--gold` suelto sigue existiendo para texto,
+     bordes y hairlines, donde un degradado no aporta nada. */
   --gold: var(--brand-gold);
-  --gold-strong: #d9b878;
+  --gold-strong: #e6cf96;
+  --gold-deep: #8a6a2c;
   --gold-foreground: #14120c;
+  --gold-gradient: linear-gradient(
+    145deg,
+    #d9bd77 0%,
+    var(--brand-gold) 38%,
+    #b28f43 68%,
+    #d3b471 100%
+  );
 
-  /* Líneas y bordes */
-  --border: #ffffff14;
-  --input: #ffffff26;
+  /* Líneas y bordes.
+     Marfil translúcido, no blanco puro: sobre un fondo cálido un hairline
+     blanco tira a azul y delata el borde. Este hereda la temperatura del
+     fondo, así que la línea se lee como un canto de material y no como un
+     borde dibujado encima. */
+  --hairline: rgba(244, 241, 234, 0.09);
+  --hairline-strong: rgba(244, 241, 234, 0.16);
+  --border: var(--hairline);
+  --input: rgba(244, 241, 234, 0.18);
   --ring: var(--brand-gold);
 
   /* Mapeo de los tokens de shadcn al tema de marca */
@@ -293,4 +337,209 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   MATERIAL: GRANO, VIÑETA, METAL
+   Tres capas casi invisibles de a una, decisivas juntas. El negro
+   sólido de una pantalla es perfectamente uniforme — no existe
+   ninguna superficie real así, y por eso una página oscura plana
+   se lee "digital" en vez de "cara". Estas tres le devuelven
+   irregularidad: ruido en la superficie, caída de luz en los
+   bordes y rango tonal en el dorado.
+   ───────────────────────────────────────────────────────────── */
+
+/* Grano de película sobre TODO el sitio público. Va en un pseudo
+   `fixed` del contenedor del tema (no en cada sección) para que la
+   textura quede quieta mientras la página scrollea, como si el
+   grano estuviera en el vidrio y no en el contenido — si scrollea
+   con la página se nota que es una imagen repetida.
+
+   z-index alto y `pointer-events: none`: pasa por encima del
+   header y del menú móvil (correcto, es una capa de lente) sin
+   interceptar un solo clic. La opacidad es 0.04: por encima de
+   ~0.06 deja de leerse como textura y empieza a ensuciar las
+   fotos. El SVG va inline como data URI — la CSP del sitio
+   permite `data:` en img-src (ver src/middleware.ts). */
+.site-theme::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@layer utilities {
+  /* Viñeta del hero: oscurece SÓLO los bordes y deja el centro
+     intacto. No contradice el pedido de "no opacar la imagen" —
+     no hay velo sobre el auto; lo que hace es encuadrarlo, que es
+     lo que hace un lente real y lo que separa una foto de catálogo
+     de una foto de campaña. Si aun así se quiere sacar, es borrar
+     el div que la usa en hero.tsx. */
+  .hero-vignette {
+    background:
+      radial-gradient(
+        125% 105% at 50% 42%,
+        transparent 40%,
+        rgba(0, 0, 0, 0.3) 76%,
+        rgba(0, 0, 0, 0.6) 100%
+      );
+  }
+
+  /* Dorado con rango tonal para texto (precios, cifras). Un hex
+     plano se lee amarillo; el degradado recortado al glifo se lee
+     metal. Sólo para texto grande y con peso — abajo de ~18px el
+     degradado no alcanza a desarrollarse y sólo baja el contraste,
+     así que el precio "bajo consulta" (más chico) no lo usa. */
+  .text-metal {
+    background-image: linear-gradient(
+      100deg,
+      #e6cf96 0%,
+      #c7a354 40%,
+      #f2e4bd 52%,
+      #b28f43 70%,
+      #dcc083 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Superficie metálica del botón principal. Se usa junto con
+     `.sheen` (abajo) para el reflejo que barre al pasar el mouse. */
+  .bg-gold-metal {
+    background-image: var(--gold-gradient);
+  }
+
+  /* Superficie con luz cenital: un halo dorado altísimo y muy diluido
+     que cae desde el borde superior de la sección. Un fondo plano no
+     tiene fuente de luz, y por eso una página oscura de secciones
+     apiladas se lee como bloques de pintura; con esto cada sección
+     parece iluminada desde arriba, que es como se fotografía un auto en
+     un showroom. Al 4,5% de opacidad no se percibe como color — se
+     percibe como que la sección tiene volumen. */
+  .surface-lit {
+    background-image: radial-gradient(
+      130% 75% at 50% 0%,
+      rgba(199, 163, 84, 0.05),
+      transparent 62%
+    );
+  }
+
+  /* Hairline que arranca dorado y se disuelve. Reemplaza a la
+     rayita de color plano de los títulos: una línea que se apaga
+     sugiere que sigue, una línea que corta seco se lee como un
+     borde. */
+  .rule-gold {
+    background-image: linear-gradient(
+      90deg,
+      var(--gold) 0%,
+      rgba(199, 163, 84, 0.35) 55%,
+      transparent 100%
+    );
+  }
+}
+
+/* Reflejo que barre una superficie al pasar el mouse. Es EL gesto
+   que lee a metal/vidrio pulido y no cuesta nada: un rectángulo
+   inclinado con un degradado de luz que cruza una vez y se va.
+   Duración corta a propósito (0.9s) — si es lento parece un
+   loader; si se repite en loop, parece un banner de publicidad. */
+@keyframes sheen {
+  from {
+    transform: translateX(-160%) skewX(-18deg);
+  }
+  to {
+    transform: translateX(260%) skewX(-18deg);
+  }
+}
+.sheen {
+  position: relative;
+  overflow: hidden;
+}
+.sheen::after {
+  content: "";
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: 0;
+  width: 40%;
+  pointer-events: none;
+  transform: translateX(-160%) skewX(-18deg);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+}
+.sheen:hover::after,
+.group:hover .sheen::after {
+  animation: sheen 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* Variante para fotos: la misma pasada pero cálida y a la mitad de
+   intensidad — sobre una imagen, un destello blanco al 30% se ve
+   como un glitch de render, no como luz. */
+.sheen-soft::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(230, 207, 150, 0.14),
+    transparent
+  );
+}
+
+/* Telón: la página arranca en negro y se levanta. Es medio segundo
+   de nada antes del hero, y es exactamente lo que hace que la
+   primera impresión se sienta presentada en vez de cargada. Va
+   sobre la foto del hero, con `pointer-events: none` para no
+   bloquear los botones durante la animación. */
+@keyframes veil-lift {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.animate-veil-lift {
+  animation: veil-lift 1.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Indicador de scroll del hero: una línea de luz que recorre un
+   riel vertical, sin texto ni flecha (una flecha animada es el
+   recurso de landing genérica). Loop lento; se detiene solo si el
+   sistema pide menos movimiento. */
+@keyframes scroll-cue {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  51% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  90% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+    opacity: 0;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+    opacity: 0;
+  }
+}
+.animate-scroll-cue {
+  animation: scroll-cue 2.8s ease-in-out infinite;
 }

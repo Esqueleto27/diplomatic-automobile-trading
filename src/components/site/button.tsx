@@ -7,13 +7,23 @@ import type {
 import { cn } from "@/lib/utils";
 
 const variantes = {
-  gold: "bg-gold text-gold-foreground shadow-glow hover:bg-gold-strong hover:shadow-glow-hover",
+  // El relleno es un degradado (`--gold-gradient`), no el hex plano: un
+  // dorado de un solo tono se lee amarillo, y lo que el ojo interpreta como
+  // metal es el rango entre la luz y la sombra dentro de la misma pieza. A
+  // eso se suman los dos `inset` de --shadow-glow (canto superior claro,
+  // canto inferior oscuro), que le dan espesor, y el reflejo de `.sheen`,
+  // que barre una vez al pasar el mouse. Los tres juntos son la diferencia
+  // entre un rectángulo amarillo y un botón troquelado en bronce.
+  gold: "sheen bg-gold-metal text-gold-foreground shadow-glow hover:shadow-glow-hover hover:brightness-[1.07]",
   // Hover reforzado (antes `bg-gold/10` a secas): como variante secundaria
   // el borde dorado sobre negro ya es sutil en reposo — si además el hover
-  // apenas se nota, el botón no se lee como accionable. El relleno al 20%
-  // más la sombra dorada lo confirman sin llegar al peso del botón lleno.
+  // apenas se nota, el botón no se lee como accionable. El relleno al 18%
+  // más el reflejo tenue lo confirman sin llegar al peso del botón lleno.
+  // La sombra dorada difusa que tenía antes se cambió por la sombra neutra
+  // del sistema: el halo de color era justo el recurso que hacía ver el
+  // conjunto a plantilla.
   outline:
-    "border border-gold/60 bg-transparent text-gold hover:border-gold hover:bg-gold/20 hover:shadow-[0_10px_28px_-14px_rgba(199,163,84,0.55)]",
+    "sheen sheen-soft border border-gold/50 bg-transparent text-gold hover:border-gold hover:bg-gold/[0.18] hover:text-gold-strong hover:shadow-glow",
 };
 
 // Tracking bajado de ~0.12–0.2em a un rango 0.08–0.1em: al tamaño de texto
@@ -29,7 +39,7 @@ const tamanos = {
 // Máximo 200ms, elevación + sombra + cambio del dorado en hover, cursor
 // consistente. Único lugar donde se define el look de un botón del sitio.
 const base =
-  "inline-flex cursor-pointer select-none items-center justify-center font-medium uppercase outline-none transition-all duration-200 ease-out hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-60";
+  "inline-flex cursor-pointer select-none items-center justify-center font-medium uppercase outline-none transition-all duration-300 ease-out hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-60";
 
 type SiteButtonProps = {
   children: ReactNode;

@@ -8,6 +8,7 @@ import { esVendido, getAutoPorSlug } from "@/lib/cars";
 import { CarGallery } from "@/components/site/car-gallery";
 import { SiteButton } from "@/components/site/button";
 import { precioLegible, valorDeCatalogo } from "@/components/site/car-card";
+import { cn } from "@/lib/utils";
 import { mensajeTestDrive, whatsappHref } from "@/lib/whatsapp";
 import { numeroDe } from "@/lib/format";
 import { jsonLd } from "@/lib/json-ld";
@@ -166,7 +167,19 @@ export default async function AutoDetallePage({
             </p>
           )}
 
-          <p className="mt-8 font-display text-2xl font-semibold text-gold">
+          {/* Mismo criterio que la tarjeta de inventario: el precio real va
+              con el dorado degradado (`text-metal`), el "bajo consulta" con
+              el dorado plano — a ese tamaño el degradado todavía se
+              desarrolla, pero es una frase, no una cifra, y no debe pesar
+              como si lo fuera. */}
+          <p
+            className={cn(
+              "mt-8 font-display font-semibold",
+              auto.precio == null
+                ? "text-2xl text-gold"
+                : "text-metal text-[2.25rem] leading-none",
+            )}
+          >
             {await precioLegible(auto)}
           </p>
 

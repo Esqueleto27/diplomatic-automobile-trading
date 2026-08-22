@@ -15,7 +15,7 @@ export function VehiculosUsados({ autos }: { autos: AutoPublico[] }) {
 
   return (
     <section
-      className="section-py border-y border-border bg-surface"
+      className="surface-lit section-py border-y border-border bg-surface"
       aria-labelledby="vehiculos-usados"
     >
       <div className="mx-auto max-w-site px-5 sm:px-8">

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { motion, useScroll } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { navLinks } from "@/lib/site";
@@ -17,6 +18,12 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const toggleRef = useRef<HTMLButtonElement>(null);
+  // Progreso de lectura de la página, para el hilo dorado del borde inferior
+  // del header (ver más abajo). `useScroll` sin target mide el documento
+  // entero; `scaleX` sobre una barra de 1px es de las poquísimas animaciones
+  // que el navegador resuelve en la GPU sin recalcular layout, así que puede
+  // seguir al scroll cuadro a cuadro sin costo.
+  const { scrollYProgress } = useScroll();
 
   useEffect(() => {
     // Histéresis a propósito: el header cambia de alto (h-20 → h-16, 16px)
@@ -103,6 +110,19 @@ export function SiteHeader() {
             abierto ? "bg-background" : "bg-background/85",
           )}
         />
+        {/* Hilo dorado de progreso pegado al canto inferior del header.
+            Aparece sólo cuando el header ya está sólido (arriba del todo el
+            progreso es cero y sería una línea invisible de todas formas).
+            Es el único elemento del sitio que reacciona al scroll de forma
+            continua: da la sensación de instrumento, no de página. */}
+        <motion.span
+          aria-hidden
+          style={{ scaleX: scrollYProgress }}
+          className={cn(
+            "absolute inset-x-0 bottom-0 -z-10 h-px origin-left bg-gradient-to-r from-gold via-gold-strong to-gold transition-opacity duration-300",
+            scrolled ? "opacity-100" : "opacity-0",
+          )}
+        />
         {/* Dos columnas en móvil, tres desde lg. El nav del medio es
             `hidden lg:flex`, o sea `display:none` en móvil — y un ítem con
             display:none desaparece del grid por completo. Con tres columnas
@@ -140,7 +160,7 @@ export function SiteHeader() {
                   href={link.href}
                   aria-current={activo ? "page" : undefined}
                   className={cn(
-                    "relative py-1 text-base font-medium uppercase tracking-[0.08em] outline-none transition-colors",
+                    "group/nav relative py-1 text-base font-medium uppercase tracking-[0.08em] outline-none transition-colors duration-300",
                     "focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-4 focus-visible:ring-offset-background",
                     activo
                       ? "text-foreground"
@@ -148,12 +168,22 @@ export function SiteHeader() {
                   )}
                 >
                   {tNav(link.key)}
-                  {activo && (
-                    <span
-                      aria-hidden
-                      className="absolute -bottom-2 left-1/2 size-1 -translate-x-1/2 rounded-full bg-gold"
-                    />
-                  )}
+                  {/* Subrayado que crece desde la izquierda, en vez del
+                      puntito que marcaba la página activa. Un punto no
+                      responde al mouse: el link no daba ninguna señal hasta
+                      que cambiaba de color. Acá el mismo trazo sirve para
+                      las dos cosas — fijo si estás en esa página, dibujado
+                      al pasar por encima si no. Se anima `scale-x` y no
+                      `width` porque scale no recalcula layout. */}
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "absolute -bottom-1.5 left-0 h-px w-full origin-left bg-gold transition-transform duration-500 ease-out",
+                      activo
+                        ? "scale-x-100"
+                        : "scale-x-0 group-hover/nav:scale-x-100",
+                    )}
+                  />
                 </Link>
               );
             })}

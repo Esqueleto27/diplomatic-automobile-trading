@@ -13,7 +13,16 @@ export function SiteFooter() {
   const tNav = useTranslations("nav");
 
   return (
-    <footer className="border-t border-border bg-surface">
+    <footer className="relative border-t border-border bg-surface">
+      {/* Filete dorado sobre el canto del pie: encendido en el centro y
+          disuelto hacia los bordes, a todo el ancho de la ventana. Cierra la
+          página con una línea de metal en vez de con el mismo hairline gris
+          que separa cualquier otra sección — es el remate que uno espera al
+          final de un catálogo impreso. */}
+      <span
+        aria-hidden
+        className="absolute inset-x-0 -top-px h-px [background-image:linear-gradient(90deg,transparent,rgba(199,163,84,0.55),transparent)]"
+      />
       {/* `pb-24` en móvil: el botón flotante de WhatsApp (QuickContact, fijo
           abajo a la derecha) se apoyaba justo encima de la línea de copyright
           al llegar al final del scroll. En sm+ el botón queda a la derecha del

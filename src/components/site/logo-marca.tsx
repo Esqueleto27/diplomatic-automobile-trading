@@ -50,7 +50,7 @@ export function LogoMarca({
       style={{
         height: `calc(clamp(1.6rem, 5.5vw, 2.76rem) * ${marca.escala ?? 1})`,
       }}
-      className={`w-auto opacity-75 transition-opacity duration-300 ${hover === "group" ? "group-hover:opacity-100" : "hover:opacity-100"}`}
+      className={`w-auto opacity-75 transition-all duration-500 ease-out ${hover === "group" ? "group-hover:scale-110 group-hover:opacity-100" : "hover:scale-110 hover:opacity-100"}`}
     />
   );
 }
